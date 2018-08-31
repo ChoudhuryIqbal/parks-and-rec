@@ -4,28 +4,30 @@ import edu.psu.sweng894.group7.controller.model.TestModel;
 import edu.psu.sweng894.group7.service.ParksRecService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping ("/services/v1")
 public class ParksRecServiceImpl  implements ParksRecService{
 
     @Override
-    public String sayHello() throws Exception {
-        return "Hello Group 7!";
+    public String get() throws Exception {
+        return "Example of get call";
     }
 
     @Override
-    public String sayHello(String id, String group, TestModel model) throws Exception {
-        System.out.println(id);
-        return "Hello Group 7";
+    public TestModel put (@PathVariable("id") String id, @RequestParam(value="name", required=false) String name,  @RequestBody TestModel model ) throws Exception{
+        return  model;
     }
 
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name)
-    {
-        return("greeting");
+    @Override
+    public String delete(@RequestParam(name="name", required=false, defaultValue="Have a nice Day") String name){
+        return "deleted";
+    }
+
+    @Override
+    public TestModel post(@PathVariable("id") String id,@RequestBody TestModel model ) {
+       return model;
+
     }
 }

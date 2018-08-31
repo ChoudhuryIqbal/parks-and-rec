@@ -8,25 +8,29 @@ import org.springframework.http.MediaType;
 
 public interface ParksRecService {
 
+    //Example services
 
-    @RequestMapping(value="/hello", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    /*
+     *
+     * These services are examples to follow.
+     *
+     */
+    @RequestMapping(path="/get", method=RequestMethod.GET, produces=MediaType.TEXT_HTML_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String sayHello() throws Exception;
+    public String get() throws Exception;
 
-
-    @RequestMapping(value="/hello/{id}", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE,
-            produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path="/put/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String sayHello(
-            @PathVariable("id") String id,
-            @RequestParam(value="Hello Group7", required=false) String group,
-            @RequestBody TestModel model
-    ) throws Exception;
+    public TestModel put(@PathVariable("id") String id, @RequestParam(value="name", required=false) String name,  @RequestBody TestModel model ) throws Exception;
 
-
-    @RequestMapping(value="/greeting", method=RequestMethod.GET,   produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path="/delete", method=RequestMethod.DELETE,   produces=MediaType.TEXT_HTML_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name);
+    public String delete(@RequestParam(name="name", required=false, defaultValue="have a nice Day") String name);
+
+    @RequestMapping(path="post/{id}", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public TestModel post(@PathVariable("id") String name ,@RequestBody TestModel model);
+    //End of Example services
+
 
 
 }
