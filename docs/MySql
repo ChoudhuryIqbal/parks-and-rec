@@ -1,0 +1,7 @@
+#user creation
+SELECT user FROM mysql.user;
+
+CREATE USER 'parksuser'@'localhost' IDENTIFIED BY 'parksuser';
+GRANT ALL PRIVILEGES ON *.* TO 'parksuser'@'%';
+SHOW GRANTS FOR 'parksuser'@'%';
+SELECT database(); #shows the database

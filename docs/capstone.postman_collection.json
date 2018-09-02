@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8070/parksrec/services/v1/hello",
+					"raw": "http://localhost:8070/parksrec/services/v1/get",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -22,7 +22,36 @@
 						"parksrec",
 						"services",
 						"v1",
-						"hello"
+						"get"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8070/parksrec/services/v1/getUser?userName=Sridhar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8070",
+					"path": [
+						"parksrec",
+						"services",
+						"v1",
+						"getUser"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "Sridhar"
+						}
 					]
 				}
 			},
@@ -122,6 +151,37 @@
 						"v1",
 						"post",
 						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addUser",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": null,\n    \"username\": \"TestUser\",\n    \"password\": null,\n     \"roles\": [\n        {\n            \"rolename\": \"Admin\",\n            \"description\": \"Admin role\"\n        },\n        {\n            \"rolename\": \"User\",\n            \"description\": \"user role\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8070/parksrec/services/v1/addUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8070",
+					"path": [
+						"parksrec",
+						"services",
+						"v1",
+						"addUser"
 					]
 				}
 			},

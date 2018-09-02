@@ -2,6 +2,8 @@ package edu.psu.sweng894.group7.service;
 
 
 import edu.psu.sweng894.group7.controller.model.TestModel;
+import edu.psu.sweng894.group7.controller.model.UserModel;
+import edu.psu.sweng894.group7.datastore.entity.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
@@ -32,6 +34,20 @@ public interface ParksRecService {
     //End of Example services
 
 
+    //Project services
+
+    /**
+     * This api gets the registered user
+     * @param userName
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(path="/getUser", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public UserModel getUser(@RequestParam(name="userName", required=true) String userName) throws Exception;
+
+    @RequestMapping(path="addUser", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public UserModel addUser(@RequestBody UserModel user) throws Exception;
 
 }
 

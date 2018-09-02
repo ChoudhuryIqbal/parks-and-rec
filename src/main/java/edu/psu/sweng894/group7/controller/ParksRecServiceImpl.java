@@ -1,15 +1,27 @@
 package edu.psu.sweng894.group7.controller;
 
 import edu.psu.sweng894.group7.controller.model.TestModel;
+import edu.psu.sweng894.group7.controller.model.UserModel;
+import edu.psu.sweng894.group7.datastore.entity.Role;
+import edu.psu.sweng894.group7.datastore.entity.User;
+import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.service.ParksRecService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping ("/services/v1")
 public class ParksRecServiceImpl  implements ParksRecService{
 
+
+    @Autowired
+    private UserService userService;
+
+    //start of example services
     @Override
     public String get() throws Exception {
         return "Example of get call";
@@ -30,4 +42,42 @@ public class ParksRecServiceImpl  implements ParksRecService{
        return model;
 
     }
+    //End of example services
+
+
+    @Override
+    public UserModel getUser(String userName) throws Exception {
+        UserModel user=null;
+        try {
+            List<User> users=userService.findAll();
+            for(User tempuser: users){
+                if(tempuser.getName().equalsIgnoreCase(userName)){
+                    user= new UserModel();
+                    user.setId(tempuser.getId());
+                    user.setUsername(tempuser.getName());
+                    String roleNames="";
+                    user.setRoles(tempuser.getRoles());
+                    break;
+                }
+            }
+             System.out.println("Found user"+ user);
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return user;
+    }
+
+    @RequestMapping(path="addUser", method=RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public UserModel addUser(@RequestBody UserModel userModel) throws Exception{
+        User user = new User();
+        user.setPassword(userModel.getPassword());
+        user.setRoles(userModel.getRoles());
+        user.setUsername(userModel.getUsername());
+        userService.insert(user);
+        return getUser(userModel.getUsername());
+
+    }
+   //start of project services
+
+
 }
