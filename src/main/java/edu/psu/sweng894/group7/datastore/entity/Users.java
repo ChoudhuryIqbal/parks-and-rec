@@ -6,8 +6,8 @@ import java.util.List;
  *  Enity to manage user accounts
  */
 @Entity
-@NamedQuery(query = "select u from User u", name = "query_find_all_users")
-public class User {
+@NamedQuery(query = "select u from Users u", name = "query_find_all_users")
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -16,13 +16,13 @@ public class User {
 
 
     @OneToMany(cascade = {CascadeType.ALL})
-    private List<Role> roles;
+    private List<Roles> roles;
 
-    public List<Role> getRoles() {
+    public List<Roles> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<Roles> roles) {
         this.roles = roles;
     }
     public String getUsername() {
@@ -42,7 +42,7 @@ public class User {
         this.password = password;
     }
 
-    public User() {
+    public Users() {
     }
 
     public Long getId() {
@@ -56,11 +56,11 @@ public class User {
     @Override
     public String toString() {
         String roleNames="";
-        for(Role role: roles)
+        for(Roles role: roles)
             roleNames=roleNames+","+role.getRolename();
 
         roleNames=roleNames.substring(0,roleNames.length());
-        return String.format("User [id=%s, name=%s, role=%s]", id, username, roleNames);
+        return String.format("Users [id=%s, name=%s, role=%s]", id, username, roleNames);
     }
 
 }

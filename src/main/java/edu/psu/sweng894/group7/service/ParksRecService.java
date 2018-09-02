@@ -3,7 +3,6 @@ package edu.psu.sweng894.group7.service;
 
 import edu.psu.sweng894.group7.controller.model.TestModel;
 import edu.psu.sweng894.group7.controller.model.UserModel;
-import edu.psu.sweng894.group7.datastore.entity.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;

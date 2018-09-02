@@ -2,15 +2,13 @@ package edu.psu.sweng894.group7.controller;
 
 import edu.psu.sweng894.group7.controller.model.TestModel;
 import edu.psu.sweng894.group7.controller.model.UserModel;
-import edu.psu.sweng894.group7.datastore.entity.Role;
-import edu.psu.sweng894.group7.datastore.entity.User;
+import edu.psu.sweng894.group7.datastore.entity.Users;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.service.ParksRecService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -49,8 +47,8 @@ public class ParksRecServiceImpl  implements ParksRecService{
     public UserModel getUser(String userName) throws Exception {
         UserModel user=null;
         try {
-            List<User> users=userService.findAll();
-            for(User tempuser: users){
+            List<Users> users=userService.findAll();
+            for(Users tempuser: users){
                 if(tempuser.getName().equalsIgnoreCase(userName)){
                     user= new UserModel();
                     user.setId(tempuser.getId());
@@ -69,7 +67,7 @@ public class ParksRecServiceImpl  implements ParksRecService{
 
     @RequestMapping(path="addUser", method=RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public UserModel addUser(@RequestBody UserModel userModel) throws Exception{
-        User user = new User();
+        Users user = new Users();
         user.setPassword(userModel.getPassword());
         user.setRoles(userModel.getRoles());
         user.setUsername(userModel.getUsername());

@@ -3,8 +3,8 @@ package edu.psu.sweng894.group7.datastore.entity;
 import javax.persistence.*;
 
 @Entity
-@NamedQuery(query = "select r from Role r", name = "query_find_all_roles")
-public class Role {
+@NamedQuery(query = "select r from Roles r", name = "query_find_all_roles")
+public class Roles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
