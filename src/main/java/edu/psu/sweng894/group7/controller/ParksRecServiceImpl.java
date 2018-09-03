@@ -2,7 +2,7 @@ package edu.psu.sweng894.group7.controller;
 
 import edu.psu.sweng894.group7.controller.model.TestModel;
 import edu.psu.sweng894.group7.controller.model.UserModel;
-import edu.psu.sweng894.group7.datastore.entity.Users;
+import edu.psu.sweng894.group7.datastore.entity.AppUsers;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.service.ParksRecService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +47,8 @@ public class ParksRecServiceImpl  implements ParksRecService{
     public UserModel getUser(String userName) throws Exception {
         UserModel user=null;
         try {
-            List<Users> users=userService.findAll();
-            for(Users tempuser: users){
+            List<AppUsers> users=userService.findAll();
+            for(AppUsers tempuser: users){
                 if(tempuser.getName().equalsIgnoreCase(userName)){
                     user= new UserModel();
                     user.setId(tempuser.getId());
@@ -67,7 +67,7 @@ public class ParksRecServiceImpl  implements ParksRecService{
 
     @RequestMapping(path="addUser", method=RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public UserModel addUser(@RequestBody UserModel userModel) throws Exception{
-        Users user = new Users();
+        AppUsers user = new AppUsers();
         user.setPassword(userModel.getPassword());
         user.setRoles(userModel.getRoles());
         user.setUsername(userModel.getUsername());
