@@ -1,6 +1,6 @@
-package edu.psu.sweng894.group7.datastore.service.controller.model;
+package edu.psu.sweng894.group7.service.controller.model;
 
-import edu.psu.sweng894.group7.datastore.service.datastore.entity.UserRole;
+import edu.psu.sweng894.group7.datastore.entity.UserRole;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

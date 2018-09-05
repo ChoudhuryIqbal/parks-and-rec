@@ -1,9 +1,7 @@
 package edu.psu.sweng894.group7.datastore.service;
 
-import edu.psu.sweng894.group7.datastore.service.datastore.entity.AppUser;
-import edu.psu.sweng894.group7.datastore.service.datastore.entity.UserRole;
-import edu.psu.sweng894.group7.datastore.service.datastore.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.psu.sweng894.group7.datastore.entity.AppUser;
+import edu.psu.sweng894.group7.datastore.entity.UserRole;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 

@@ -1,4 +1,4 @@
-package edu.psu.sweng894.group7.datastore.service.datastore.entity;
+package edu.psu.sweng894.group7.datastore.entity;
 import javax.persistence.*;
 import java.util.List;
 

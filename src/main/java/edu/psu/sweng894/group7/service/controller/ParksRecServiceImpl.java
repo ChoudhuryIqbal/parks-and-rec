@@ -1,10 +1,10 @@
-package edu.psu.sweng894.group7.datastore.service.controller;
+package edu.psu.sweng894.group7.service.controller;
 
-import edu.psu.sweng894.group7.datastore.service.controller.model.TestModel;
-import edu.psu.sweng894.group7.datastore.service.controller.model.UserModel;
-import edu.psu.sweng894.group7.datastore.service.datastore.entity.AppUser;
-import edu.psu.sweng894.group7.datastore.service.datastore.service.UserService;
-import edu.psu.sweng894.group7.datastore.service.service.ParksRecService;
+import edu.psu.sweng894.group7.service.controller.model.TestModel;
+import edu.psu.sweng894.group7.service.controller.model.UserModel;
+import edu.psu.sweng894.group7.datastore.entity.AppUser;
+import edu.psu.sweng894.group7.datastore.service.UserService;
+import edu.psu.sweng894.group7.service.ParksRecService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

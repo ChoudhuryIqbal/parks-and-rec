@@ -1,8 +1,8 @@
-package edu.psu.sweng894.group7.datastore.service.service;
+package edu.psu.sweng894.group7.service;
 
 
-import edu.psu.sweng894.group7.datastore.service.controller.model.TestModel;
-import edu.psu.sweng894.group7.datastore.service.controller.model.UserModel;
+import edu.psu.sweng894.group7.service.controller.model.TestModel;
+import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;

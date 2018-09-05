@@ -1,4 +1,4 @@
-package edu.psu.sweng894.group7.datastore.service.datastore.service;
+package edu.psu.sweng894.group7.datastore.service;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import edu.psu.sweng894.group7.datastore.service.datastore.entity.AppUser;
+import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import org.springframework.stereotype.Repository;
 
 @Repository
