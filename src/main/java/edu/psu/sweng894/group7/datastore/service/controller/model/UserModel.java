@@ -1,6 +1,6 @@
-package edu.psu.sweng894.group7.controller.model;
+package edu.psu.sweng894.group7.datastore.service.controller.model;
 
-import edu.psu.sweng894.group7.datastore.entity.UserRoles;
+import edu.psu.sweng894.group7.datastore.service.datastore.entity.UserRole;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,13 +12,13 @@ public class UserModel {
     private Long id;
     private String username;
     private String password;
-    private List<UserRoles> roles;
+    private List<UserRole> roles;
 
-    public List<UserRoles> getRoles() {
+    public List<UserRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<UserRoles> roles) {
+    public void setRoles(List<UserRole> roles) {
         this.roles = roles;
     }
 
@@ -51,9 +51,9 @@ public class UserModel {
     @Override
     public String toString() {
         String roleNames="";
-        for(UserRoles role: roles)
+        for(UserRole role: roles)
             roleNames=roleNames+","+role.getRolename();
         roleNames=roleNames.substring(0,roleNames.length());
-        return String.format("AppUsers [name=%s, role=%s]", username, roleNames);
+        return String.format("AppUser [name=%s, role=%s]", username, roleNames);
     }
 }

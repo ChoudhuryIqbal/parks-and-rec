@@ -1,4 +1,4 @@
-package edu.psu.sweng894.group7.datastore.entity;
+package edu.psu.sweng894.group7.datastore.service.datastore.entity;
 import javax.persistence.*;
 import java.util.List;
 
@@ -6,8 +6,9 @@ import java.util.List;
  *  Enity to manage user accounts
  */
 @Entity
-@NamedQuery(query = "select u from AppUsers u", name = "query_find_all_users")
-public class AppUsers {
+@NamedQuery(query = "select u from AppUser u", name = "query_find_all_users")
+public class AppUser {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -16,13 +17,13 @@ public class AppUsers {
 
 
     @OneToMany(cascade = {CascadeType.ALL})
-    private List<UserRoles> roles;
+    private List<UserRole> roles;
 
-    public List<UserRoles> getRoles() {
+    public List<UserRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<UserRoles> roles) {
+    public void setRoles(List<UserRole> roles) {
         this.roles = roles;
     }
     public String getUsername() {
@@ -42,8 +43,13 @@ public class AppUsers {
         this.password = password;
     }
 
-    public AppUsers() {
+    public AppUser() {
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
     public Long getId() {
         return id;
@@ -56,11 +62,11 @@ public class AppUsers {
     @Override
     public String toString() {
         String roleNames="";
-        for(UserRoles role: roles)
+        for(UserRole role: roles)
             roleNames=roleNames+","+role.getRolename();
 
         roleNames=roleNames.substring(0,roleNames.length());
-        return String.format("AppUsers [id=%s, name=%s, role=%s]", id, username, roleNames);
+        return String.format("AppUser [id=%s, name=%s, role=%s]", id, username, roleNames);
     }
 
 }

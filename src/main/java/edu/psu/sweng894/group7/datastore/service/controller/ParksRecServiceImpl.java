@@ -1,10 +1,10 @@
-package edu.psu.sweng894.group7.controller;
+package edu.psu.sweng894.group7.datastore.service.controller;
 
-import edu.psu.sweng894.group7.controller.model.TestModel;
-import edu.psu.sweng894.group7.controller.model.UserModel;
-import edu.psu.sweng894.group7.datastore.entity.AppUsers;
-import edu.psu.sweng894.group7.datastore.service.UserService;
-import edu.psu.sweng894.group7.service.ParksRecService;
+import edu.psu.sweng894.group7.datastore.service.controller.model.TestModel;
+import edu.psu.sweng894.group7.datastore.service.controller.model.UserModel;
+import edu.psu.sweng894.group7.datastore.service.datastore.entity.AppUser;
+import edu.psu.sweng894.group7.datastore.service.datastore.service.UserService;
+import edu.psu.sweng894.group7.datastore.service.service.ParksRecService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public class ParksRecServiceImpl  implements ParksRecService{
     }
 
     @Override
-    public TestModel put (@PathVariable("id") String id, @RequestParam(value="name", required=false) String name,  @RequestBody TestModel model ) throws Exception{
+    public TestModel put (@PathVariable("id") String id, @RequestParam(value="name", required=false) String name, @RequestBody TestModel model ) throws Exception{
         return  model;
     }
 
@@ -47,8 +47,8 @@ public class ParksRecServiceImpl  implements ParksRecService{
     public UserModel getUser(String userName) throws Exception {
         UserModel user=null;
         try {
-            List<AppUsers> users=userService.findAll();
-            for(AppUsers tempuser: users){
+            List<AppUser> users=userService.findAll();
+            for(AppUser tempuser: users){
                 if(tempuser.getName().equalsIgnoreCase(userName)){
                     user= new UserModel();
                     user.setId(tempuser.getId());
@@ -67,7 +67,7 @@ public class ParksRecServiceImpl  implements ParksRecService{
 
     @RequestMapping(path="addUser", method=RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public UserModel addUser(@RequestBody UserModel userModel) throws Exception{
-        AppUsers user = new AppUsers();
+        AppUser user = new AppUser();
         user.setPassword(userModel.getPassword());
         user.setRoles(userModel.getRoles());
         user.setUsername(userModel.getUsername());

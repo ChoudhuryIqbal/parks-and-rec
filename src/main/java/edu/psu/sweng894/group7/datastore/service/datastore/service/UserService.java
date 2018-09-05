@@ -1,4 +1,4 @@
-package edu.psu.sweng894.group7.datastore.service;
+package edu.psu.sweng894.group7.datastore.service.datastore.service;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import edu.psu.sweng894.group7.datastore.entity.AppUsers;
+import edu.psu.sweng894.group7.datastore.service.datastore.entity.AppUser;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -17,19 +17,18 @@ public class UserService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public long insert(AppUsers user) {
+    public long insert(AppUser user) {
         entityManager.persist(user);
-
         entityManager.flush();
         return user.getId();
     }
 
-    public AppUsers find(long id) {
-        return entityManager.find(AppUsers.class, id);
+    public AppUser find(long id) {
+        return entityManager.find(AppUser.class, id);
     }
 
-    public List<AppUsers> findAll() {
-        Query query = entityManager.createNamedQuery("query_find_all_users", AppUsers.class);
+    public List<AppUser> findAll() {
+        Query query = entityManager.createNamedQuery("query_find_all_users", AppUser.class);
         return query.getResultList();
     }
 }

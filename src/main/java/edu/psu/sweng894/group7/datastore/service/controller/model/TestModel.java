@@ -1,4 +1,4 @@
-package edu.psu.sweng894.group7.controller.model;
+package edu.psu.sweng894.group7.datastore.service.controller.model;
 
 import org.springframework.stereotype.Component;
 

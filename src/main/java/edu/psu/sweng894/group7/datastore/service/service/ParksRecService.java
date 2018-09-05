@@ -1,8 +1,8 @@
-package edu.psu.sweng894.group7.service;
+package edu.psu.sweng894.group7.datastore.service.service;
 
 
-import edu.psu.sweng894.group7.controller.model.TestModel;
-import edu.psu.sweng894.group7.controller.model.UserModel;
+import edu.psu.sweng894.group7.datastore.service.controller.model.TestModel;
+import edu.psu.sweng894.group7.datastore.service.controller.model.UserModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
@@ -22,7 +22,7 @@ public interface ParksRecService {
 
     @RequestMapping(path="/put/{id}", method=RequestMethod.PUT, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public TestModel put(@PathVariable("id") String id, @RequestParam(value="name", required=false) String name,  @RequestBody TestModel model ) throws Exception;
+    public TestModel put(@PathVariable("id") String id, @RequestParam(value="name", required=false) String name, @RequestBody TestModel model ) throws Exception;
 
     @RequestMapping(path="/delete", method=RequestMethod.DELETE,   produces=MediaType.TEXT_HTML_VALUE)
     @ResponseStatus(HttpStatus.OK)
