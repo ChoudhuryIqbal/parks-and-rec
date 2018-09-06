@@ -77,5 +77,9 @@ public class ParksRecServiceImpl  implements ParksRecService{
     }
    //start of project services
 
-
+    //start of project services
+    @RequestMapping(path="", method=RequestMethod.GET, produces=MediaType.TEXT_HTML_VALUE)
+    public String healthCheck() {
+        return "I am alive";
+    }
 }
