@@ -1,1 +1,1 @@
-web: mvn clean jetty:run
+web: java -jar target/parksrec.jar

@@ -1,0 +1,8 @@
+edu/psu/sweng894/group7/datastore/entity/UserRole.class
+edu/psu/sweng894/group7/service/controller/model/TestModel.class
+edu/psu/sweng894/group7/service/controller/ParksRecServiceImpl.class
+edu/psu/sweng894/group7/service/ParksRecService.class
+ParksAndRecApplication.class
+edu/psu/sweng894/group7/datastore/entity/AppUser.class
+edu/psu/sweng894/group7/datastore/service/UserService.class
+edu/psu/sweng894/group7/service/controller/model/UserModel.class
