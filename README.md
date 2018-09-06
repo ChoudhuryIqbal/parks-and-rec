@@ -45,3 +45,5 @@ curl -X POST \
         }
     ]
 }'
+
+--test
