@@ -11,6 +11,4 @@ public class ParksAndRecApplication {
 		public static void main(String[] args) {
 			SpringApplication.run(ParksAndRecApplication.class, args);
 		}
-
-
 }

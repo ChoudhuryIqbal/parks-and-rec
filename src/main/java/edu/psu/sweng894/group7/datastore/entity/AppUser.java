@@ -6,15 +6,17 @@ import java.util.List;
  *  Enity to manage user accounts
  */
 @Entity
+@SequenceGenerator(name="AppUser_SEQ", sequenceName="AppUser_Seq")
 @NamedQuery(query = "select u from AppUser u", name = "query_find_all_users")
 public class AppUser {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator="AppUser_SEQ")
+    private Long userId;
+
     private String username;
     private String password;
-
 
     @OneToMany(cascade = {CascadeType.ALL})
     private List<UserRole> roles;
@@ -43,17 +45,14 @@ public class AppUser {
         this.password = password;
     }
 
-    public AppUser() {
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return username;
@@ -66,7 +65,7 @@ public class AppUser {
             roleNames=roleNames+","+role.getRolename();
 
         roleNames=roleNames.substring(0,roleNames.length());
-        return String.format("AppUser [id=%s, name=%s, role=%s]", id, username, roleNames);
+        return String.format("AppUser [id=%s, name=%s, role=%s]", userId, username, roleNames);
     }
 
 }

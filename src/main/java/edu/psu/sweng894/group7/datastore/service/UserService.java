@@ -20,7 +20,7 @@ public class UserService {
     public long insert(AppUser user) {
         entityManager.persist(user);
         entityManager.flush();
-        return user.getId();
+        return user.getUserId();
     }
 
     public AppUser find(long id) {
@@ -31,4 +31,36 @@ public class UserService {
         Query query = entityManager.createNamedQuery("query_find_all_users", AppUser.class);
         return query.getResultList();
     }
+
+    public void delete(AppUser user){
+        entityManager.remove(user);
+        flush();
+    }
+
+    /*
+     JPA provider will update the new state upon calling flush method.
+     Just update the new values to the entity in persistance context
+     */
+    public void update(AppUser user){
+        List<AppUser> appUsers = findAll();
+        for (AppUser tempuser : appUsers) {
+            if (tempuser.getName().equalsIgnoreCase(user.getUsername()) && tempuser.getPassword().equals(user.getPassword())) {
+                //user match the update
+                tempuser.setPassword(user.getPassword());
+                tempuser.setRoles(user.getRoles());
+                tempuser.setUsername(user.getUsername());
+                entityManager.merge(tempuser);
+                flush();
+                break;
+            }
+        }
+    }
+
+    public void flush(){
+        entityManager.flush();
+    }
+
+
+
+
 }

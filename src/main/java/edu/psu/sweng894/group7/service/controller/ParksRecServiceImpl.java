@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,8 @@ public class ParksRecServiceImpl  implements ParksRecService{
 
 
     @Autowired
-    private UserService userService;
+    UserService userService;
+
 
     //start of example services
     @Override
@@ -42,40 +44,74 @@ public class ParksRecServiceImpl  implements ParksRecService{
     }
     //End of example services
 
+    //start of use cases
+    @Override
+    public UserModel getUserById(long id) throws Exception {
+        AppUser appUser=userService.find(id);
+        UserModel userModel = new UserModel();
+        userModel.setId(appUser.getUserId());
+        userModel.setRoles(appUser.getRoles());
+        userModel.setUsername(appUser.getUsername());
+        return userModel;
+    }
 
     @Override
-    public UserModel getUser(String userName) throws Exception {
-        UserModel user=null;
+    public List<UserModel>  getUserByName(String userName) throws Exception {
+        List<UserModel> users= new ArrayList<>();
         try {
-            List<AppUser> users=userService.findAll();
-            for(AppUser tempuser: users){
+            List<AppUser> appUsers=userService.findAll();
+            for(AppUser tempuser: appUsers){
                 if(tempuser.getName().equalsIgnoreCase(userName)){
-                    user= new UserModel();
-                    user.setId(tempuser.getId());
+                    UserModel user= new UserModel();
+                    user.setId(tempuser.getUserId());
                     user.setUsername(tempuser.getName());
                     String roleNames="";
                     user.setRoles(tempuser.getRoles());
-                    break;
+                    users.add(user);
                 }
             }
-             System.out.println("Found user"+ user);
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        return user;
+        return users;
     }
 
-    @RequestMapping(path="addUser", method=RequestMethod.POST,consumes= MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    @Override
     public UserModel addUser(@RequestBody UserModel userModel) throws Exception{
         AppUser user = new AppUser();
         user.setPassword(userModel.getPassword());
         user.setRoles(userModel.getRoles());
         user.setUsername(userModel.getUsername());
-        userService.insert(user);
-        return getUser(userModel.getUsername());
-
+        long id=userService.insert(user);
+        return getUserById(id);
     }
-   //start of project services
+
+
+    @Override
+    public UserModel updateUser(@RequestBody UserModel userModel) throws Exception {
+        AppUser appUser = new AppUser();
+        appUser.setPassword(userModel.getPassword());
+        appUser.setRoles(userModel.getRoles());
+        appUser.setUsername(userModel.getUsername());
+        userService.update(appUser);
+        return userModel;
+    }
+
+    @Override
+    public UserModel login(@RequestBody UserModel signedUser) throws Exception{
+        try {
+            List<AppUser> appUsers=userService.findAll();
+            for(AppUser appUser: appUsers){
+                if(appUser.getName().equalsIgnoreCase(signedUser.getUsername()) && appUser.getPassword().equals(signedUser.getPassword())){
+                   return signedUser;
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+   //end  of use cases
 
     //start of project services
     @RequestMapping(path="", method=RequestMethod.GET, produces=MediaType.TEXT_HTML_VALUE)

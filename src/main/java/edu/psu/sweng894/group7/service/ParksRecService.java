@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 
+import java.util.List;
+
 public interface ParksRecService {
 
     //Example services
@@ -34,19 +36,52 @@ public interface ParksRecService {
 
 
     //Project services
+    /**
+     * This api fetches the  registered user by id from data store.
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(path="/getUserById", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public UserModel getUserById(@RequestParam(name="userId", required=true) long id) throws Exception;
+
 
     /**
-     * This api gets the registered user
+     * This api fetches the  registered user by id from data store. If more than one user found, then return a list of users
      * @param userName
      * @return
      * @throws Exception
      */
-    @RequestMapping(path="/getUser", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path="/getUserByName", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public UserModel getUser(@RequestParam(name="userName", required=true) String userName) throws Exception;
+    public List<UserModel> getUserByName(@RequestParam(name="userName", required=true) String userName) throws Exception;
 
-    @RequestMapping(path="addUser", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public UserModel addUser(@RequestBody UserModel user) throws Exception;
+
+
+    /**
+     * This create a new user in the database.
+     * @param userModel
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(path="/createUser", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public UserModel addUser(@RequestBody UserModel userModel) throws Exception;
+
+
+    /**
+     * This validates user and authenticates.
+     * @param signedUser
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(path="/login", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public UserModel login(@RequestBody UserModel signedUser) throws Exception;
+
+
+    @RequestMapping(path="/updateUser", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public UserModel updateUser(@RequestBody UserModel userModel) throws Exception;
+
 
 }
 
