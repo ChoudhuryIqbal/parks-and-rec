@@ -10,11 +10,9 @@ import java.util.List;
 @NamedQuery(query = "select u from AppUser u", name = "query_find_all_users")
 public class AppUser {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator="AppUser_SEQ")
     private Long userId;
-
     private String username;
     private String password;
 

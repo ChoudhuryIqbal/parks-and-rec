@@ -1,6 +1,7 @@
 package edu.psu.sweng894.group7.service;
 
 
+import edu.psu.sweng894.group7.service.controller.model.Roles;
 import edu.psu.sweng894.group7.service.controller.model.TestModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import org.springframework.http.HttpStatus;
@@ -81,6 +82,10 @@ public interface ParksRecService {
 
     @RequestMapping(path="/updateUser", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public UserModel updateUser(@RequestBody UserModel userModel) throws Exception;
+
+
+    @RequestMapping(path="/getRoles", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+    public  List<Roles> getRoles() throws Exception;
 
 
 }

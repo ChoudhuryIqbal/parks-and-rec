@@ -1,5 +1,6 @@
 package edu.psu.sweng894.group7.service.controller;
 
+import edu.psu.sweng894.group7.service.controller.model.Roles;
 import edu.psu.sweng894.group7.service.controller.model.TestModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
@@ -98,6 +99,20 @@ public class ParksRecServiceImpl  implements ParksRecService{
     }
 
     @Override
+    public List<Roles> getRoles() throws Exception {
+        List<edu.psu.sweng894.group7.datastore.entity.Roles> roles= userService.findAllRoles();
+        List<edu.psu.sweng894.group7.service.controller.model.Roles> userRoles= new ArrayList<>();
+        for(edu.psu.sweng894.group7.datastore.entity.Roles role : roles){
+            Roles temprole = new Roles();
+            temprole.setDescription(role.getDescription());
+            temprole.setRoleId(role.getRoleId());
+            temprole.setRolename(role.getRolename());
+            userRoles.add(temprole);
+        }
+        return userRoles;
+    }
+
+    @Override
     public UserModel login(@RequestBody UserModel signedUser) throws Exception{
         try {
             List<AppUser> appUsers=userService.findAll();
@@ -118,4 +133,6 @@ public class ParksRecServiceImpl  implements ParksRecService{
     public String healthCheck() {
         return "I am alive";
     }
+
+
 }

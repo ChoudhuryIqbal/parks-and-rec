@@ -1,0 +1,1 @@
+INSERT INTO public.roles (role_id,description,rolename) VALUES (1,'Admin role','Admin') ,(2,'user role','User');

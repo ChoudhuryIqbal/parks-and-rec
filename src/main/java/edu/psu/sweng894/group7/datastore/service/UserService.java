@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
+import edu.psu.sweng894.group7.datastore.entity.Roles;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -61,6 +62,10 @@ public class UserService {
     }
 
 
+    public List<Roles> findAllRoles() {
+        Query query = entityManager.createNamedQuery("query_find_roles", Roles.class);
+        return query.getResultList();
+    }
 
 
 }
