@@ -24,7 +24,7 @@ import static junit.framework.TestCase.assertTrue;
  */
 /*
 Test cases to test UserService. This service deals with persistance layer. we do not need the
-persistance implemenation to test the functionality, so we use mock objects.
+persistance implementation to test the functionality, so we use mock objects.
 */
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes={Config.class})

@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Setter
 
 public class TestModel {
-
     String course=null;
     String cohort=null;
 

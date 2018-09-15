@@ -6,6 +6,8 @@ import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.service.ParksRecService;
+import edu.psu.sweng894.group7.service.exception.AppUserException;
+import edu.psu.sweng894.group7.service.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +18,8 @@ import java.util.List;
 @RestController
 @RequestMapping ("/services/v1")
 public class ParksRecServiceImpl  implements ParksRecService{
-
-
     @Autowired
     UserService userService;
-
 
     //start of example services
     @Override
@@ -47,24 +46,28 @@ public class ParksRecServiceImpl  implements ParksRecService{
 
     //start of use cases
     @Override
-    public UserModel getUserById(long id) throws Exception {
-        AppUser appUser=userService.find(id);
+    public UserModel getUserById(long id)  {
         UserModel userModel = new UserModel();
-        userModel.setId(appUser.getUserId());
-        userModel.setRoles(appUser.getRoles());
-        userModel.setUsername(appUser.getUsername());
+        try {
+            AppUser appUser = userService.find(id);
+            userModel.setUserId(appUser.getUserId());
+            userModel.setRoles(appUser.getRoles());
+            userModel.setUsername(appUser.getUsername());
+        }catch(Exception ex){
+            throw new AppUserException("user not found." + ex.getMessage());
+        }
         return userModel;
     }
 
     @Override
-    public List<UserModel>  getUserByName(String userName) throws Exception {
+    public List<UserModel>  getUserByName(String userName) {
         List<UserModel> users= new ArrayList<>();
         try {
             List<AppUser> appUsers=userService.findAll();
             for(AppUser tempuser: appUsers){
                 if(tempuser.getName().equalsIgnoreCase(userName)){
                     UserModel user= new UserModel();
-                    user.setId(tempuser.getUserId());
+                    user.setUserId(tempuser.getUserId());
                     user.setUsername(tempuser.getName());
                     String roleNames="";
                     user.setRoles(tempuser.getRoles());
@@ -72,29 +75,42 @@ public class ParksRecServiceImpl  implements ParksRecService{
                 }
             }
         }catch(Exception ex){
-            ex.printStackTrace();
+            throw new AppUserException("User not found. " + ex.getMessage());
         }
         return users;
     }
 
     @Override
-    public UserModel addUser(@RequestBody UserModel userModel) throws Exception{
+    public UserModel addUser(@RequestBody UserModel userModel){
         AppUser user = new AppUser();
-        user.setPassword(userModel.getPassword());
-        user.setRoles(userModel.getRoles());
-        user.setUsername(userModel.getUsername());
-        long id=userService.insert(user);
+        long id=0l;
+        try {
+            Validator.validateUserModel(userModel);
+            user.setPassword(userModel.getPassword());
+            user.setRoles(userModel.getRoles());
+            user.setUsername(userModel.getUsername());
+            user.setUserId(userModel.getUserId());
+            id = userService.insert(user);
+        }catch(Exception ex){
+            throw new AppUserException(ex.getMessage());
+        }
         return getUserById(id);
     }
 
 
     @Override
-    public UserModel updateUser(@RequestBody UserModel userModel) throws Exception {
+    public UserModel updateUser(@RequestBody UserModel userModel)  {
         AppUser appUser = new AppUser();
-        appUser.setPassword(userModel.getPassword());
-        appUser.setRoles(userModel.getRoles());
-        appUser.setUsername(userModel.getUsername());
-        userService.update(appUser);
+        try {
+            Validator.validateUserModel(userModel);
+            appUser.setUserId(userModel.getUserId());
+            appUser.setPassword(userModel.getPassword());
+            appUser.setRoles(userModel.getRoles());
+            appUser.setUsername(userModel.getUsername());
+            userService.update(appUser);
+        }catch(Exception ex){
+            throw new AppUserException(ex.getMessage());
+        }
         return userModel;
     }
 
@@ -114,17 +130,22 @@ public class ParksRecServiceImpl  implements ParksRecService{
 
     @Override
     public UserModel login(@RequestBody UserModel signedUser) throws Exception{
+        UserModel userModel = new UserModel();
         try {
             List<AppUser> appUsers=userService.findAll();
             for(AppUser appUser: appUsers){
                 if(appUser.getName().equalsIgnoreCase(signedUser.getUsername()) && appUser.getPassword().equals(signedUser.getPassword())){
-                   return signedUser;
+
+                    userModel.setUserId(appUser.getUserId());
+                    userModel.setUsername(appUser.getUsername());
+                    userModel.setRoles(appUser.getRoles());
+                    return userModel;
                 }
             }
         }catch(Exception ex){
             ex.printStackTrace();
         }
-        return null;
+        return userModel;
     }
    //end  of use cases
 

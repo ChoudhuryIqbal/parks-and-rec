@@ -1,14 +1,18 @@
 package edu.psu.sweng894.group7.service.controller.model;
 
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
+import javax.validation.constraints.NotNull;
 
 public class Roles {
-
-
+    @NotNull
     private Long roleId;
+    @NotNull
     private String rolename;
+    @NotNull
     private String description;
 
     public Long getRoleId() {

@@ -19,9 +19,9 @@ public class UserService {
     private EntityManager entityManager;
 
     public long insert(AppUser user) {
-        entityManager.persist(user);
-        entityManager.flush();
-        return user.getUserId();
+            entityManager.persist(user);
+            entityManager.flush();
+            return user.getUserId();
     }
 
     public AppUser find(long id) {
@@ -60,7 +60,6 @@ public class UserService {
     public void flush(){
         entityManager.flush();
     }
-
 
     public List<Roles> findAllRoles() {
         Query query = entityManager.createNamedQuery("query_find_roles", Roles.class);

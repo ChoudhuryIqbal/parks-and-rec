@@ -44,14 +44,14 @@ public class ParksRecServiceImplTests {
     @Test
     public void createUser() throws Exception{
         UserModel responce= parksRecServiceImpl.addUser(userModel);
-        assertTrue(responce.getId()==userModel.getId());
+        assertTrue(responce.getUserId()==userModel.getUserId());
 
     }
 
     @Test
     public void getUserById() throws Exception{
         UserModel responce= parksRecServiceImpl.getUserById(appUser.getUserId());
-        assertTrue(responce.getId()==userModel.getId());
+        assertTrue(responce.getUserId()==userModel.getUserId());
 
     }
 

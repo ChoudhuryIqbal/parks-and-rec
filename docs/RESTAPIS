@@ -1,137 +1,67 @@
-1. Login
 
-curl -X POST \
-  http://localhost:8080/parksrec/services/v1/login \
-  -H 'Cache-Control: no-cache' \
-  -H 'Content-Type: application/json' \
-  -H 'Postman-Token: 96faa253-0085-426e-947d-736abad61063' \
-  -d '{
-    "id": null,
-    "username": "Siva",
-    "password": "Test",
-     "roles": [
-        {
-            "roleId": 1,
-            "rolename": "Admin",
-            "description": "Admin role"
-        },
-        {
-            "roleId": 2,
-            "rolename": "User",
-            "description": "user role"
-        }
-    ]
-}'
-
-If login successful then APi returns the same data passed on , otherwise null.
-
-Response:
-
-{
-    "id": null,
-    "username": "Siva",
-    "password": "Test",
-    "roles": [
-        {
-            "roleId": 1,
-            "rolename": "Admin",
-            "description": "Admin role"
-        },
-        {
-            "roleId": 2,
-            "rolename": "User",
-            "description": "user role"
-        }
-    ]
-}
-
-2. Create user
+1. Create user
 
 curl -X POST \
   http://localhost:8080/parksrec/services/v1/createUser \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
-  -H 'Postman-Token: 345301a2-ace7-4359-a512-32ab0ed05a94' \
   -d '{
     "id": null,
-    "username": "Siva",
-    "password": "Test",
+    "userId": 1,
+    "username": "TestUser",
+    "password": "TestUser",
      "roles": [
         {
-            "rolename": "Admin",
-            "description": "Admin role"
-        },
-        {
-            "rolename": "User",
-            "description": "user role"
-        }
-    ]
-}'
-
-This api creates a new user.
-
-Response:
-{
-    "id": 1,
-    "username": "Siva",
-    "password": null,
-    "roles": [
-        {
             "roleId": 1,
-            "rolename": "Admin",
-            "description": "Admin role"
+             "userId": 1
         },
         {
             "roleId": 2,
-            "rolename": "User",
-            "description": "user role"
+            "userId": 1
         }
     ]
-}
 
-3. Update user
+}'
 
+2. Update user
 curl -X POST \
   http://localhost:8080/parksrec/services/v1/updateUser \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
-  -H 'Postman-Token: 63521d74-0988-48e1-b4d5-d2fdf703f18f' \
   -d '{
-    "id": null,
-    "username": "Siva",
-    "password": "Test",
-     "roles": [
+    "userId": 1,
+    "username": "TestUser",
+    "password": "TestUser",
+    "roles": [
         {
-            "roleId": 1,
-            "rolename": "Admin",
-            "description": "Upadted Admin role"
+            "id": 1,
+            "roleId": 5,
+            "userId": 1
         },
         {
-            "roleId": 2,
-            "rolename": "User",
-            "description": "Upadted user role"
+            "id": 2,
+            "roleId": 6,
+            "userId": 1
         }
     ]
 }'
 
-Responce
+3. Login
 
-{
+curl -X POST \
+  http://localhost:8080/parksrec/services/v1/login \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -d '{
     "id": null,
-    "username": "Siva",
-    "password": "Test",
-    "roles": [
-        {
-            "roleId": 1,
-            "rolename": "Admin",
-            "description": "Upadted Admin role"
-        },
-        {
-            "roleId": 2,
-            "rolename": "User",
-            "description": "Upadted user role"
-        }
-    ]
-}
+    "username": "TestUser",
+    "password": "TestUser"
 
-4.
+}'
+
+4. Get Roles
+
+curl -X GET \
+  http://localhost:8080/parksrec/services/v1/getRoles \
+  -H 'Cache-Control: no-cache' \
+

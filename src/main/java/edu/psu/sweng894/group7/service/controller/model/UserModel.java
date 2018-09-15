@@ -1,37 +1,44 @@
 package edu.psu.sweng894.group7.service.controller.model;
 
-import edu.psu.sweng894.group7.datastore.entity.UserRole;
+import edu.psu.sweng894.group7.datastore.entity.UserRoleMap;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
-@Component
+
 public class UserModel {
 
-    private Long id;
+    @NotNull
+    private Long userId;
+    @NotNull
     private String username;
+    @NotNull
     private String password;
-    private List<UserRole> roles;
+    @NotNull
+    private List<UserRoleMap> roles;
 
-    public List<UserRole> getRoles() {
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public List<UserRoleMap> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<UserRole> roles) {
+    public void setRoles(List<UserRoleMap> roles) {
         this.roles = roles;
     }
 
     //private String role;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -44,6 +51,7 @@ public class UserModel {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -51,8 +59,8 @@ public class UserModel {
     @Override
     public String toString() {
         String roleNames="";
-        for(UserRole role: roles)
-            roleNames=roleNames+","+role.getRolename();
+        for(UserRoleMap role: roles)
+            roleNames=roleNames+","+role.getRoleId();
         roleNames=roleNames.substring(0,roleNames.length());
         return String.format("AppUser [name=%s, role=%s]", username, roleNames);
     }

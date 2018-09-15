@@ -1,8 +1,7 @@
 package edu.psu.sweng894.group7.datastore.service;
 
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
-import edu.psu.sweng894.group7.datastore.entity.UserRole;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.psu.sweng894.group7.datastore.entity.UserRoleMap;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import javax.persistence.EntityManager;
@@ -28,11 +27,11 @@ public class Config {
         appUser.setUserId(1l);
         appUser.setUsername("TestUser");
         appUser.setPassword("TestPassword");
-        List<UserRole> roles = new ArrayList<>();
-        UserRole role = new UserRole();
-        role.setDescription("Test Role Description");
+        List<UserRoleMap> roles = new ArrayList<>();
+        UserRoleMap role = new UserRoleMap();
+        //role.setDescription("Test Role Description");
         role.setRoleId(1l);
-        role.setRolename("TestRole");
+        //role.setRolename("TestRole");
         roles.add(role);
         appUser.setRoles(roles);
         return appUser;
