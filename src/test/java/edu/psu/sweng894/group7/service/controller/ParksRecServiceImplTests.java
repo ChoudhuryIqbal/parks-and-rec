@@ -1,8 +1,11 @@
 package edu.psu.sweng894.group7.service.controller;
 
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
+import edu.psu.sweng894.group7.datastore.entity.Leagues;
+import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.datastore.service.UserService;
+import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +40,15 @@ public class ParksRecServiceImplTests {
     UserService userService;
 
     @Autowired
+
+    private Leagues league;
+    @Autowired
+    LeagueModel leagueModel;
+    @Autowired
+    LeagueService leagueService;
+    @Autowired
     HttpHeaders headers;
+
 
     //mock all database calls for unit testing.
     @Before
@@ -47,10 +58,15 @@ public class ParksRecServiceImplTests {
         List<AppUser> appUserList = new ArrayList<>();
         appUserList.add(appUser);
         Mockito.when(userService.findAll()).thenReturn(appUserList);
+
+        Mockito.when(leagueService.find(0l)).thenReturn(league);
+        Mockito.when(leagueService.insert(league)).thenReturn(league.getLeagueId());
+
         java.util.List<java.lang.String> headersList = new ArrayList<>();
         headersList.add(0, "ADMIN-TOKEN");
         Mockito.when( headers.get("token")).thenReturn(headersList);
         Mockito.when( securityService.validate("ADMIN-TOKEN")).thenReturn(Boolean.TRUE);
+
     }
 
     @Test
@@ -67,5 +83,16 @@ public class ParksRecServiceImplTests {
 
     }
 
+    @Test
+    public void createLeague() throws Exception {
+        LeagueModel response = parksRecServiceImpl.addLeague(leagueModel);
+        assertTrue(response.getLeagueId()==leagueModel.getLeagueId());
+    }
+
+    @Test
+    public void getLeagueById() throws Exception {
+        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId());
+        assertTrue(response.getLeagueId()==league.getLeagueId());
+    }
 
 }
