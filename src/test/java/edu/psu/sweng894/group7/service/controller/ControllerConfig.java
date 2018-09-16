@@ -2,10 +2,12 @@ package edu.psu.sweng894.group7.service.controller;
 
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.UserRoleMap;
+import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,12 @@ public class ControllerConfig {
 
     @MockBean
     UserService userService;
+
+    @MockBean
+    SecurityServices securityService;
+
+    @MockBean
+    HttpHeaders headers;
 
     @Bean
     public ParksRecServiceImpl parksRecServiceImpl()  {

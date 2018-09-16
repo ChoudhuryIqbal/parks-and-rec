@@ -1,10 +1,25 @@
 
-1. Create user
+1. Login
+
+curl -X POST \
+  http://localhost:8080/parksrec/services/v1/login \
+  -H 'Cache-Control: no-cache' \
+  -H 'token: f88352c5-60c5-4ae1-a7a0-fc60fe93fead' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "id": null,
+    "username": "Admin",
+    "password": "Admin"
+
+}'
+
+2. Create user
 
 curl -X POST \
   http://localhost:8080/parksrec/services/v1/createUser \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
+  -H 'token: f88352c5-60c5-4ae1-a7a0-fc60fe93fead' \
   -d '{
     "id": null,
     "userId": 1,
@@ -23,10 +38,11 @@ curl -X POST \
 
 }'
 
-2. Update user
+3. Update user
 curl -X POST \
   http://localhost:8080/parksrec/services/v1/updateUser \
   -H 'Cache-Control: no-cache' \
+  -H 'token: f88352c5-60c5-4ae1-a7a0-fc60fe93fead' \
   -H 'Content-Type: application/json' \
   -d '{
     "userId": 1,
@@ -46,22 +62,11 @@ curl -X POST \
     ]
 }'
 
-3. Login
-
-curl -X POST \
-  http://localhost:8080/parksrec/services/v1/login \
-  -H 'Cache-Control: no-cache' \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "id": null,
-    "username": "TestUser",
-    "password": "TestUser"
-
-}'
 
 4. Get Roles
 
 curl -X GET \
   http://localhost:8080/parksrec/services/v1/getRoles \
+  -H 'token: f88352c5-60c5-4ae1-a7a0-fc60fe93fead' \
   -H 'Cache-Control: no-cache' \
 
