@@ -50,6 +50,7 @@ public class ParksRecServiceImplTests {
         java.util.List<java.lang.String> headersList = new ArrayList<>();
         headersList.add(0, "ADMIN-TOKEN");
         Mockito.when( headers.get("token")).thenReturn(headersList);
+        Mockito.when( securityService.validate("ADMIN-TOKEN")).thenReturn(Boolean.TRUE);
     }
 
     @Test
