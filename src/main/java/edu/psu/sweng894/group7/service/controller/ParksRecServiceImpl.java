@@ -155,6 +155,7 @@ public class ParksRecServiceImpl  implements ParksRecService{
         return userModel;
     }
 
+
     @Override
     public LeagueModel getLeagueById(long id)  {
         LeagueModel leagueModel = new LeagueModel();
@@ -169,6 +170,24 @@ public class ParksRecServiceImpl  implements ParksRecService{
         }
         return leagueModel;
     }
+
+
+    @Override
+    public LeagueModel addLeague(@RequestBody LeagueModel leagueModel){
+        Leagues league = new Leagues();
+        long id=0l;
+        try {
+            Validator.validateLeagueModel(leagueModel);
+            //league.setLeagueId(leagueModel.getLeagueId());
+            league.setLeagueName(leagueModel.getLeagueName());
+            league.setDescription(leagueModel.getDescription());
+            id = leagueService.insert(league);
+        }catch(Exception ex){
+            throw new LeagueException(ex.getMessage());
+        }
+        return getLeagueById(id);
+    }
+
    //end  of use cases
 
     //start of project services

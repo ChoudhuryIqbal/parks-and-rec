@@ -2,8 +2,10 @@
 DROP TABLE IF EXISTS public.user_role_map;
 DROP TABLE IF EXISTS public.app_user;
 DROP TABLE IF EXISTS public.roles;
+DROP TABLE IF EXISTS public.leagues;
 DROP SEQUENCE IF EXISTS public.app_user_seq;
 DROP SEQUENCE IF EXISTS public.user_role_seq;
+DROP SEQUENCE IF EXISTS public.league_seq;
 
 
 CREATE SEQUENCE public.user_role_seq
@@ -21,6 +23,12 @@ CREATE SEQUENCE public.app_user_seq
 	CACHE 1
 	NO CYCLE;
 
+CREATE SEQUENCE public.league_seq
+  INCREMENT BY 50
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+	CACHE 1
+	NO CYCLE;
 
 CREATE TABLE public.app_user (
 	id int8 NOT NULL,
@@ -51,5 +59,18 @@ CREATE TABLE public.roles (
 );
 
 
-
+CREATE TABLE public.leagues (
+  league_id int8 NOT NULL,
+  league_name varchar(255) NULL,
+  description varchar(255) NULL,
+  sport_id int8 NULL,
+  age_min int8 NULL,
+  age_max int8 NULL,
+  coed boolean NULL,
+  team_min int8 NULL,
+  team_max int8 NULL,
+  league_schedule varchar(255) NULL,
+  league_rules varchar(255) NULL,
+  CONSTRAINT league_pkey PRIMARY KEY (league_id)
+);
 

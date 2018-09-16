@@ -1,16 +1,18 @@
 package edu.psu.sweng894.group7.datastore.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import org.hibernate.annotations.Generated;
+
+import javax.persistence.*;
 
 // TODO:  Implementation not complete, need the entity for Sport to be able to map the Sports and Leagues to each other.
 
 @Entity
+@SequenceGenerator(name="League_SEQ", sequenceName="League_Seq")
 @NamedQuery(query = "select l from Leagues l", name = "query_find_leagues")
 public class Leagues {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "League_SEQ")
     private Long leagueId;
     private String leagueName;
     private String description;
