@@ -1,12 +1,17 @@
 package edu.psu.sweng894.group7.service.controller;
 
+import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.service.controller.model.Roles;
 import edu.psu.sweng894.group7.service.controller.model.TestModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
+import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
+import edu.psu.sweng894.group7.datastore.entity.Leagues;
 import edu.psu.sweng894.group7.datastore.service.UserService;
+import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.service.ParksRecService;
 import edu.psu.sweng894.group7.service.exception.AppUserException;
+import edu.psu.sweng894.group7.service.exception.LeagueException;
 import edu.psu.sweng894.group7.service.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,6 +25,8 @@ import java.util.List;
 public class ParksRecServiceImpl  implements ParksRecService{
     @Autowired
     UserService userService;
+    @Autowired
+    LeagueService leagueService;
 
     //start of example services
     @Override
@@ -146,6 +153,21 @@ public class ParksRecServiceImpl  implements ParksRecService{
             ex.printStackTrace();
         }
         return userModel;
+    }
+
+    @Override
+    public LeagueModel getLeagueById(long id)  {
+        LeagueModel leagueModel = new LeagueModel();
+        try {
+            Leagues league = leagueService.find(id);
+            leagueModel.setLeagueId(league.getLeagueId());
+            leagueModel.setLeagueName(league.getLeagueName());
+            leagueModel.setDescription(league.getDescription());
+            leagueModel.setSportId(league.getSportId());
+        }catch(Exception ex){
+            throw new LeagueException("league not found." + ex.getMessage());
+        }
+        return leagueModel;
     }
    //end  of use cases
 
