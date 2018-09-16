@@ -115,7 +115,10 @@ public class ParksRecServiceImpl implements ParksRecService {
                 user.setUserId(userModel.getUserId());
                 id = userService.insert(user);
                 userModel=getUserById(id, headers);
-            } catch (Exception ex) {
+            }catch(org.springframework.dao.DataIntegrityViolationException iex){
+                throw new AppUserException("Duplicate date");
+            }
+            catch (Exception ex) {
                 throw new AppUserException(ex.getMessage());
             }
         }else{
