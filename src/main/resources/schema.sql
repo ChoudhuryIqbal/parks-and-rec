@@ -3,10 +3,20 @@ DROP TABLE IF EXISTS public.user_role_map;
 DROP TABLE IF EXISTS public.app_user;
 DROP TABLE IF EXISTS public.roles;
 DROP TABLE IF EXISTS public.leagues;
+DROP TABLE IF EXISTS public.tokens;
 DROP SEQUENCE IF EXISTS public.app_user_seq;
 DROP SEQUENCE IF EXISTS public.user_role_seq;
 DROP SEQUENCE IF EXISTS public.league_seq;
+DROP SEQUENCE IF EXISTS public.token_seq;
 
+
+
+CREATE SEQUENCE public.token_seq
+	INCREMENT BY 50
+	MINVALUE 1
+	MAXVALUE 9223372036854775807
+	CACHE 1
+	NO CYCLE;
 
 CREATE SEQUENCE public.user_role_seq
 	INCREMENT BY 50
@@ -73,4 +83,15 @@ CREATE TABLE public.leagues (
   league_rules varchar(255) NULL,
   CONSTRAINT league_pkey PRIMARY KEY (league_id)
 );
+
+
+CREATE TABLE public.tokens (
+	id int8 NOT NULL,
+	created_time timestamp NOT NULL,
+	token varchar(255) NOT NULL,
+	CONSTRAINT tokens_pkey PRIMARY KEY (id)
+);
+
+
+
 

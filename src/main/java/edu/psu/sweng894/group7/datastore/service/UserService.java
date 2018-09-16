@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.Roles;
+import edu.psu.sweng894.group7.datastore.entity.Tokens;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,8 +30,10 @@ public class UserService {
     }
 
     public List<AppUser> findAll() {
-        Query query = entityManager.createNamedQuery("query_find_all_users", AppUser.class);
-        return query.getResultList();
+        java.util.List<AppUser> result = entityManager.createQuery("select t from AppUser t" ).getResultList();
+        return result;
+        //Query query = entityManager.createNamedQuery("query_find_all_users", AppUser.class);
+        //return query.getResultList();
     }
 
     public void delete(AppUser user){

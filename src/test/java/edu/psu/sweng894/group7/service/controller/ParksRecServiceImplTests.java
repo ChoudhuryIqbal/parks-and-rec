@@ -3,6 +3,7 @@ package edu.psu.sweng894.group7.service.controller;
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.Leagues;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
+import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
@@ -32,14 +34,21 @@ public class ParksRecServiceImplTests {
     ParksRecServiceImpl parksRecServiceImpl;
 
     @Autowired
+    SecurityServices securityService;
+
+    @Autowired
     UserService userService;
 
     @Autowired
+
     private Leagues league;
     @Autowired
     LeagueModel leagueModel;
     @Autowired
     LeagueService leagueService;
+    @Autowired
+    HttpHeaders headers;
+
 
     //mock all database calls for unit testing.
     @Before
@@ -52,18 +61,24 @@ public class ParksRecServiceImplTests {
 
         Mockito.when(leagueService.find(0l)).thenReturn(league);
         Mockito.when(leagueService.insert(league)).thenReturn(league.getLeagueId());
+
+        java.util.List<java.lang.String> headersList = new ArrayList<>();
+        headersList.add(0, "ADMIN-TOKEN");
+        Mockito.when( headers.get("token")).thenReturn(headersList);
+        Mockito.when( securityService.validate("ADMIN-TOKEN")).thenReturn(Boolean.TRUE);
+
     }
 
     @Test
     public void createUser() throws Exception{
-        UserModel responce= parksRecServiceImpl.addUser(userModel);
+        UserModel responce= parksRecServiceImpl.addUser(userModel,headers);
         assertTrue(responce.getUserId()==userModel.getUserId());
 
     }
 
     @Test
     public void getUserById() throws Exception{
-        UserModel responce= parksRecServiceImpl.getUserById(appUser.getUserId());
+        UserModel responce= parksRecServiceImpl.getUserById(appUser.getUserId(),headers);
         assertTrue(responce.getUserId()==userModel.getUserId());
 
     }
