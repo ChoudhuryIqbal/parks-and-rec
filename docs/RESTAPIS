@@ -70,3 +70,20 @@ curl -X GET \
   -H 'token: f88352c5-60c5-4ae1-a7a0-fc60fe93fead' \
   -H 'Cache-Control: no-cache' \
 
+
+
+5. Create league
+
+curl -X POST \
+  http://localhost:8080/parksrec/services/v1/createLeague \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "leagueId": 1,
+    "leagueName": "TestLeague",
+    "description": "TestLeagueDescription",
+    "sportId": 1
+
+}'
+
+

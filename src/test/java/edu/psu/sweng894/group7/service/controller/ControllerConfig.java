@@ -1,9 +1,12 @@
 package edu.psu.sweng894.group7.service.controller;
 
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
+import edu.psu.sweng894.group7.datastore.entity.Leagues;
 import edu.psu.sweng894.group7.datastore.entity.UserRoleMap;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.datastore.service.UserService;
+import edu.psu.sweng894.group7.datastore.service.LeagueService;
+import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
@@ -19,10 +22,15 @@ public class ControllerConfig {
     UserService userService;
 
     @MockBean
+
+    LeagueService leagueService;
+    
+    @MockBean
     SecurityServices securityService;
 
     @MockBean
     HttpHeaders headers;
+
 
     @Bean
     public ParksRecServiceImpl parksRecServiceImpl()  {
@@ -61,6 +69,26 @@ public class ControllerConfig {
         roles.add(role);
         appUser.setRoles(roles);
         return appUser;
+    }
+
+    @Bean
+    public LeagueModel leagueModel() {
+        LeagueModel leagueModel = new LeagueModel();
+        leagueModel.setLeagueId(0l);
+        leagueModel.setLeagueName("TestLeagueName");
+        leagueModel.setDescription("TestLeagueDescription");
+        leagueModel.setSportId(0l);
+        return leagueModel;
+    }
+
+    @Bean
+    public Leagues league() {
+        Leagues league = new Leagues();
+        league.setLeagueId(0l);
+        league.setLeagueName("TestLeagueName");
+        league.setDescription("TestLeagueDescription");
+        league.setSportId(0l);
+        return league;
     }
 
 }

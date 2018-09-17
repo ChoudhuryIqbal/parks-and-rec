@@ -1,6 +1,8 @@
 package edu.psu.sweng894.group7.service;
 
 
+
+import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
 import edu.psu.sweng894.group7.service.controller.model.Roles;
 import edu.psu.sweng894.group7.service.controller.model.TestModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
@@ -88,6 +90,13 @@ public interface ParksRecService {
     @RequestMapping(path="/getRoles", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
     public  List<Roles> getRoles( @RequestHeader HttpHeaders headers) throws Exception;
 
+
+    @RequestMapping(path="/getLeagueById", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public LeagueModel getLeagueById(@RequestParam(name="leagueId", required=true) long id) throws Exception;
+
+    @RequestMapping(path="/createLeague", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public LeagueModel addLeague(@RequestBody LeagueModel leagueModel) throws Exception;
 
 }
 

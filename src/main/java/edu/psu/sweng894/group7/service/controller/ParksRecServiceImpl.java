@@ -1,13 +1,19 @@
 package edu.psu.sweng894.group7.service.controller;
 
+
+
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.service.controller.model.Roles;
 import edu.psu.sweng894.group7.service.controller.model.TestModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
+import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
+import edu.psu.sweng894.group7.datastore.entity.Leagues;
 import edu.psu.sweng894.group7.datastore.service.UserService;
+import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.service.ParksRecService;
 import edu.psu.sweng894.group7.service.exception.AppUserException;
+import edu.psu.sweng894.group7.service.exception.LeagueException;
 import edu.psu.sweng894.group7.service.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +28,8 @@ import java.util.List;
 public class ParksRecServiceImpl implements ParksRecService {
     @Autowired
     UserService userService;
+    @Autowired
+    LeagueService leagueService;
 
     @Autowired
     SecurityServices securityService;
@@ -194,7 +202,42 @@ public class ParksRecServiceImpl implements ParksRecService {
         }
         return token;
     }
-    //end  of use cases
+
+
+    @Override
+    public LeagueModel getLeagueById(long id)  {
+        LeagueModel leagueModel = new LeagueModel();
+        try {
+            Leagues league = leagueService.find(id);
+            leagueModel.setLeagueId(league.getLeagueId());
+            leagueModel.setLeagueName(league.getLeagueName());
+            leagueModel.setDescription(league.getDescription());
+            leagueModel.setSportId(league.getSportId());
+        }catch(Exception ex){
+            throw new LeagueException("league not found." + ex.getMessage());
+        }
+        return leagueModel;
+    }
+
+
+    @Override
+    public LeagueModel addLeague(@RequestBody LeagueModel leagueModel){
+        Leagues league = new Leagues();
+        long id=0l;
+        try {
+            Validator.validateLeagueModel(leagueModel);
+            //league.setLeagueId(leagueModel.getLeagueId());
+            league.setLeagueName(leagueModel.getLeagueName());
+            league.setDescription(leagueModel.getDescription());
+            id = leagueService.insert(league);
+        }catch(Exception ex){
+            throw new LeagueException(ex.getMessage());
+        }
+        return getLeagueById(id);
+    }
+
+   //end  of use cases
+
 
     //health check
     @RequestMapping(path = "", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
