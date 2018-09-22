@@ -12,7 +12,6 @@ DROP SEQUENCE IF EXISTS public.token_seq;
 DROP SEQUENCE IF EXISTS public.sport_seq;
 
 
-
 CREATE SEQUENCE public.token_seq
 	INCREMENT BY 50
 	MINVALUE 1
@@ -97,7 +96,8 @@ CREATE TABLE public.leagues (
 CREATE TABLE public.tokens (
 	id int8 NOT NULL,
 	created_time timestamp NOT NULL,
-	token varchar(255) NOT NULL,
+	token varchar(255) UNIQUE,
+	username varchar(255) UNIQUE,
 	CONSTRAINT tokens_pkey PRIMARY KEY (id)
 );
 

@@ -50,8 +50,6 @@ public class ParksRecServiceImplTests {
     LeagueModel leagueModel;
     @Autowired
     LeagueService leagueService;
-    @Autowired
-    HttpHeaders headers;
 
     private Sport sport;
     @Autowired
@@ -61,6 +59,7 @@ public class ParksRecServiceImplTests {
 
 
 
+    String token="ADMIN-TOKEN";
     //mock all database calls for unit testing.
     @Before
     public void setUp() {
@@ -69,7 +68,6 @@ public class ParksRecServiceImplTests {
         List<AppUser> appUserList = new ArrayList<>();
         appUserList.add(appUser);
         Mockito.when(userService.findAll()).thenReturn(appUserList);
-
         Mockito.when(leagueService.find(0l)).thenReturn(league);
         Mockito.when(leagueService.insert(league)).thenReturn(league.getLeagueId());
 
@@ -77,35 +75,31 @@ public class ParksRecServiceImplTests {
         Mockito.when(sportService.insert(sport)).thenReturn(sport.getId());
 
         java.util.List<java.lang.String> headersList = new ArrayList<>();
-        headersList.add(0, "ADMIN-TOKEN");
-        Mockito.when( headers.get("token")).thenReturn(headersList);
         Mockito.when( securityService.validate("ADMIN-TOKEN")).thenReturn(Boolean.TRUE);
-
     }
 
     @Test
     public void createUser() throws Exception{
-        UserModel responce= parksRecServiceImpl.addUser(userModel,headers);
+        UserModel responce= parksRecServiceImpl.addUser(userModel,token);
         assertTrue(responce.getUserId()==userModel.getUserId());
 
     }
 
     @Test
     public void getUserById() throws Exception{
-        UserModel responce= parksRecServiceImpl.getUserById(appUser.getUserId(),headers);
+        UserModel responce= parksRecServiceImpl.getUserById(appUser.getUserId(),token);
         assertTrue(responce.getUserId()==userModel.getUserId());
-
     }
 
     @Test
     public void createLeague() throws Exception {
-        LeagueModel response = parksRecServiceImpl.addLeague(leagueModel);
+        LeagueModel response = parksRecServiceImpl.addLeague(leagueModel,token);
         assertTrue(response.getLeagueId()==leagueModel.getLeagueId());
     }
 
     @Test
     public void getLeagueById() throws Exception {
-        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId());
+        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId(),token);
         assertTrue(response.getLeagueId()==league.getLeagueId());
     }
 

@@ -32,8 +32,6 @@ public class UserService {
     public List<AppUser> findAll() {
         java.util.List<AppUser> result = entityManager.createQuery("select t from AppUser t" ).getResultList();
         return result;
-        //Query query = entityManager.createNamedQuery("query_find_all_users", AppUser.class);
-        //return query.getResultList();
     }
 
     public void delete(AppUser user){
@@ -48,7 +46,7 @@ public class UserService {
     public void update(AppUser user){
         List<AppUser> appUsers = findAll();
         for (AppUser tempuser : appUsers) {
-            if (tempuser.getName().equalsIgnoreCase(user.getUsername()) && tempuser.getPassword().equals(user.getPassword())) {
+            if (tempuser.getName().equalsIgnoreCase(user.getUsername())) {
                 //user match the update
                 tempuser.setPassword(user.getPassword());
                 tempuser.setRoles(user.getRoles());

@@ -9,12 +9,12 @@ import java.util.List;
  *  Entity to manage user accounts
  */
 @Entity
-@SequenceGenerator(name="AppUser_SEQ", sequenceName="AppUser_Seq")
+@SequenceGenerator(name="app_user_seq", sequenceName="app_user_seq")
 @NamedQuery(query = "select u from AppUser u", name = "query_find_all_users")
 public class AppUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator="AppUser_SEQ")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator="app_user_seq")
     Long id;
 
     @Column(name="userId", unique=true)

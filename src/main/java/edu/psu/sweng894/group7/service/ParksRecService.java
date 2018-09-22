@@ -23,7 +23,7 @@ public interface ParksRecService {
      * These services are examples to follow.
      *
      */
-    @RequestMapping(path="/get", method=RequestMethod.GET, produces=MediaType.TEXT_HTML_VALUE)
+    @RequestMapping(path="/get", method=RequestMethod.GET, produces= MediaType.TEXT_HTML_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public String get() throws Exception;
 
@@ -49,7 +49,7 @@ public interface ParksRecService {
      */
     @RequestMapping(path="/getUserById", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public UserModel getUserById(@RequestParam(name="userId", required=true) long id, @RequestHeader HttpHeaders headers) throws Exception;
+    public UserModel getUserById(@RequestParam(name="userId", required=true) long id, @RequestHeader("token") String token) throws Exception;
 
 
     /**
@@ -60,7 +60,7 @@ public interface ParksRecService {
      */
     @RequestMapping(path="/getUserByName", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<UserModel> getUserByName(@RequestParam(name="userName", required=true) String userName,  @RequestHeader HttpHeaders headers) throws Exception;
+    public List<UserModel> getUserByName(@RequestParam(name="userName", required=true) String userName,  @RequestHeader("token") String token) throws Exception;
 
 
 
@@ -71,7 +71,7 @@ public interface ParksRecService {
      * @throws Exception
      */
     @RequestMapping(path="/createUser", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public UserModel addUser(@RequestBody UserModel userModel,  @RequestHeader HttpHeaders headers) throws Exception;
+    public UserModel addUser(@RequestBody UserModel userModel,  @RequestHeader("token") String token) throws Exception;
 
 
     /**
@@ -84,20 +84,20 @@ public interface ParksRecService {
     public String login(@RequestBody UserModel signedUser) throws Exception;
 
 
-    @RequestMapping(path="/updateUser", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public UserModel updateUser(@RequestBody UserModel userModel,  @RequestHeader HttpHeaders headers) throws Exception;
+    @RequestMapping(path="/updateUser", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public UserModel updateUser(@RequestBody UserModel userModel,  @RequestHeader("token") String token) throws Exception;
 
 
     @RequestMapping(path="/getRoles", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-    public  List<Roles> getRoles( @RequestHeader HttpHeaders headers) throws Exception;
+    public  List<Roles> getRoles( @RequestHeader("token") String token) throws Exception;
 
 
     @RequestMapping(path="/getLeagueById", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public LeagueModel getLeagueById(@RequestParam(name="leagueId", required=true) long id) throws Exception;
+    public LeagueModel getLeagueById(@RequestParam(name="leagueId", required=true) long id, @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/createLeague", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public LeagueModel addLeague(@RequestBody LeagueModel leagueModel) throws Exception;
+    public LeagueModel addLeague(@RequestBody LeagueModel leagueModel, @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/createSport", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public SportModel addSport(@RequestBody SportModel sportModel) throws Exception;
