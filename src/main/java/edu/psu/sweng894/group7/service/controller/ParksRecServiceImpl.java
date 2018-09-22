@@ -1,7 +1,6 @@
 package edu.psu.sweng894.group7.service.controller;
 
 
-
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.service.controller.model.Roles;
 import edu.psu.sweng894.group7.service.controller.model.TestModel;
@@ -14,12 +13,16 @@ import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.service.ParksRecService;
 import edu.psu.sweng894.group7.service.exception.AppUserException;
 import edu.psu.sweng894.group7.service.exception.LeagueException;
+import edu.psu.sweng894.group7.service.exception.LoginException;
+import edu.psu.sweng894.group7.service.exception.RoleException;
+import edu.psu.sweng894.group7.service.util.SecureAPI;
 import edu.psu.sweng894.group7.service.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,129 +62,99 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     //start of use cases
     @Override
-    public UserModel getUserById(long id, @RequestHeader HttpHeaders headers) {
+    @SecureAPI
+    public UserModel getUserById(long id, @RequestHeader("token") String token) {
         UserModel userModel = new UserModel();
-        List<UserModel> users = new ArrayList<>();
-        java.util.List<java.lang.String> headersList = headers.get("token");
-        String authToken="";
-        if(headersList != null)
-            authToken = headersList.get(0);
-        if (!authToken.equals("") && securityService.validate(authToken)) {
-            try {
-                AppUser appUser = userService.find(id);
-                userModel.setUserId(appUser.getUserId());
-                userModel.setRoles(appUser.getRoles());
-                userModel.setUsername(appUser.getUsername());
-            } catch (Exception ex) {
-                throw new AppUserException("user not found." + ex.getMessage());
-            }
+        try {
+            AppUser appUser = userService.find(id);
+            userModel.setUserId(appUser.getUserId());
+            userModel.setRoles(appUser.getRoles());
+            userModel.setUsername(appUser.getUsername());
+        } catch (Exception ex) {
+            throw new AppUserException("User not found." + ex.getMessage());
         }
         return userModel;
     }
 
     @Override
-    public List<UserModel> getUserByName(String userName, @RequestHeader HttpHeaders headers) {
+    @SecureAPI
+    public List<UserModel> getUserByName(String userName, @RequestHeader("token") String token) {
         List<UserModel> users = new ArrayList<>();
-        java.util.List<java.lang.String> headersList = headers.get("token");
-        String authToken="";
-        if(headersList != null)
-            authToken = headersList.get(0);
-        if (!authToken.equals("") && securityService.validate(authToken)) {
-            try {
-                List<AppUser> appUsers = userService.findAll();
-                for (AppUser tempuser : appUsers) {
-                    if (tempuser.getName().equalsIgnoreCase(userName)) {
-                        UserModel user = new UserModel();
-                        user.setUserId(tempuser.getUserId());
-                        user.setUsername(tempuser.getName());
-                        String roleNames = "";
-                        user.setRoles(tempuser.getRoles());
-                        users.add(user);
-                    }
+        try {
+            List<AppUser> appUsers = userService.findAll();
+            for (AppUser tempuser : appUsers) {
+                if (tempuser.getName().equalsIgnoreCase(userName)) {
+                    UserModel user = new UserModel();
+                    user.setUserId(tempuser.getUserId());
+                    user.setUsername(tempuser.getName());
+                    String roleNames = "";
+                    user.setRoles(tempuser.getRoles());
+                    users.add(user);
                 }
-            } catch (Exception ex) {
-                throw new AppUserException("User not found. " + ex.getMessage());
             }
+        } catch (Exception ex) {
+            throw new AppUserException("User not found. " + ex.getMessage());
         }
         return users;
     }
 
     @Override
-    public UserModel addUser(@RequestBody UserModel userModel, @RequestHeader HttpHeaders headers) {
+    @SecureAPI
+    public UserModel addUser(@RequestBody UserModel userModel, @RequestHeader("token") String token) {
         AppUser user = new AppUser();
         long id = 0l;
-        java.util.List<java.lang.String> headersList = headers.get("token");
-        String authToken="";
-        if(headersList != null)
-             authToken = headersList.get(0);
-        if (!authToken.equals("") && securityService.validate(authToken)) {
-            try {
-                Validator.validateUserModel(userModel);
-                user.setPassword(userModel.getPassword());
-                user.setRoles(userModel.getRoles());
-                user.setUsername(userModel.getUsername());
-                user.setUserId(userModel.getUserId());
-                id = userService.insert(user);
-                userModel=getUserById(id, headers);
-            }catch(org.springframework.dao.DataIntegrityViolationException iex){
-                throw new AppUserException("Duplicate date");
-            }
-            catch (Exception ex) {
-                throw new AppUserException(ex.getMessage());
-            }
-        }else{
-            userModel = new UserModel();
+        UserModel newUser = new UserModel();
+        try {
+            Validator.validateUserModel(userModel);
+            user.setPassword(userModel.getPassword());
+            user.setRoles(userModel.getRoles());
+            user.setUsername(userModel.getUsername());
+            user.setUserId(userModel.getUserId());
+            id = userService.insert(user);
+            newUser = getUserById(id, token);
+        } catch (org.springframework.dao.DataIntegrityViolationException iex) {
+            throw new AppUserException("Duplicate Data");
+        } catch (Exception ex) {
+            throw new AppUserException(ex.getMessage());
         }
-        return userModel;
+        return newUser;
     }
 
-
     @Override
-    public UserModel updateUser(@RequestBody UserModel userModel, @RequestHeader HttpHeaders headers) {
+    @SecureAPI
+    public UserModel updateUser(@RequestBody UserModel userModel, @RequestHeader("token") String token) {
         AppUser appUser = new AppUser();
-        java.util.List<java.lang.String> headersList = headers.get("token");
-        String authToken="";
-        if(headersList != null)
-            authToken = headersList.get(0);
-        List<edu.psu.sweng894.group7.service.controller.model.Roles> userRoles = new ArrayList<>();
-        if (!authToken.equals("")  && securityService.validate(authToken)) {
-            try {
-                Validator.validateUserModel(userModel);
-                appUser.setUserId(userModel.getUserId());
-                appUser.setPassword(userModel.getPassword());
-                appUser.setRoles(userModel.getRoles());
-                appUser.setUsername(userModel.getUsername());
-                userService.update(appUser);
-                userModel=getUserById(userModel.getUserId(), headers);
-            } catch (Exception ex) {
-                throw new AppUserException(ex.getMessage());
-            }
-        }else{
-            userModel = new UserModel();
-        }
-        return userModel;
-    }
-
-    @Override
-    public List<Roles> getRoles(@RequestHeader HttpHeaders headers) throws Exception {
-        java.util.List<java.lang.String> headersList = headers.get("token");
-        String authToken="";
-        if(headersList != null)
-            authToken = headersList.get(0);
+        UserModel updatedUser = new UserModel();
         List<edu.psu.sweng894.group7.service.controller.model.Roles> userRoles = new ArrayList<>();
         try {
-            if (!authToken.equals("") && securityService.validate(authToken)) {
-                List<edu.psu.sweng894.group7.datastore.entity.Roles> roles = userService.findAllRoles();
-                for (edu.psu.sweng894.group7.datastore.entity.Roles role : roles) {
-                    Roles temprole = new Roles();
-                    temprole.setDescription(role.getDescription());
-                    temprole.setRoleId(role.getRoleId());
-                    temprole.setRolename(role.getRolename());
-                    userRoles.add(temprole);
-                }
+            Validator.validateUserModel(userModel);
+            appUser.setUserId(userModel.getUserId());
+            appUser.setPassword(userModel.getPassword());
+            appUser.setRoles(userModel.getRoles());
+            appUser.setUsername(userModel.getUsername());
+            userService.update(appUser);
+            updatedUser = getUserById(userModel.getUserId(), token);
+        } catch (Exception ex) {
+            throw new AppUserException("User update Failed");
+        }
+        return updatedUser;
+    }
+
+    @Override
+    @SecureAPI
+    public List<Roles> getRoles(@RequestHeader("token") String token) throws Exception {
+        List<edu.psu.sweng894.group7.service.controller.model.Roles> userRoles = new ArrayList<>();
+        try {
+            List<edu.psu.sweng894.group7.datastore.entity.Roles> roles = userService.findAllRoles();
+            for (edu.psu.sweng894.group7.datastore.entity.Roles role : roles) {
+                Roles temprole = new Roles();
+                temprole.setDescription(role.getDescription());
+                temprole.setRoleId(role.getRoleId());
+                temprole.setRolename(role.getRolename());
+                userRoles.add(temprole);
             }
         } catch (Exception ex) {
-            throw ex;
+            throw new RoleException(ex.getMessage());
         }
         return userRoles;
     }
@@ -193,19 +166,20 @@ public class ParksRecServiceImpl implements ParksRecService {
             List<AppUser> appUsers = userService.findAll();
             for (AppUser appUser : appUsers) {
                 if (appUser.getName().equalsIgnoreCase(signedUser.getUsername()) && appUser.getPassword().equals(signedUser.getPassword())) {
-                    token = securityService.generateToken();
+                    token = securityService.generateToken(signedUser.getUsername());
                     ;
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            throw new LoginException(ex.getMessage());
         }
         return token;
     }
 
 
     @Override
-    public LeagueModel getLeagueById(long id)  {
+    @SecureAPI
+    public LeagueModel getLeagueById(long id, @RequestHeader("token") String token) {
         LeagueModel leagueModel = new LeagueModel();
         try {
             Leagues league = leagueService.find(id);
@@ -213,30 +187,31 @@ public class ParksRecServiceImpl implements ParksRecService {
             leagueModel.setLeagueName(league.getLeagueName());
             leagueModel.setDescription(league.getDescription());
             leagueModel.setSportId(league.getSportId());
-        }catch(Exception ex){
-            throw new LeagueException("league not found." + ex.getMessage());
+        } catch (Exception ex) {
+            throw new LeagueException("League not found." + ex.getMessage());
         }
         return leagueModel;
     }
 
 
     @Override
-    public LeagueModel addLeague(@RequestBody LeagueModel leagueModel){
+    @SecureAPI
+    public LeagueModel addLeague(@RequestBody LeagueModel leagueModel, @RequestHeader("token") String token) {
         Leagues league = new Leagues();
-        long id=0l;
+        long id = 0l;
         try {
             Validator.validateLeagueModel(leagueModel);
             //league.setLeagueId(leagueModel.getLeagueId());
             league.setLeagueName(leagueModel.getLeagueName());
             league.setDescription(leagueModel.getDescription());
             id = leagueService.insert(league);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             throw new LeagueException(ex.getMessage());
         }
-        return getLeagueById(id);
+        return getLeagueById(id, token);
     }
 
-   //end  of use cases
+    //end  of use cases
 
 
     //health check

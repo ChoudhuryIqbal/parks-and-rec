@@ -7,12 +7,25 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@SequenceGenerator(name="Token_Seq", sequenceName="Token_Seq")
+@SequenceGenerator(name="token_seq", sequenceName="token_seq")
 public class Tokens {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator="Token_Seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator="token_seq")
     Long id;
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @NotNull
+    @Column(name="username", unique=true)
+    private String username;
 
     @NotNull
     String token;

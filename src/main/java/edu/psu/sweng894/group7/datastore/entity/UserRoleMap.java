@@ -4,10 +4,10 @@ import javax.persistence.*;
 
 @Entity
 @NamedQuery(query = "select r from UserRoleMap r", name = "query_find_all_roles")
-@SequenceGenerator(name="UserRole_SEQ", sequenceName="UserRole_Seq")
+@SequenceGenerator(name="user_role_seq", sequenceName="user_role_seq")
 public class UserRoleMap {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator="UserRole_SEQ")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator="user_role_seq")
     Long id;
     private Long roleId;
     private Long userId;
