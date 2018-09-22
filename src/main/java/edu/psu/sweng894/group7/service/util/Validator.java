@@ -1,6 +1,7 @@
 package edu.psu.sweng894.group7.service.util;
 
 import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
+import edu.psu.sweng894.group7.service.controller.model.SportModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
 
 public class Validator {
@@ -31,6 +32,19 @@ public class Validator {
         }
         if (leagueModel.getSportId() == null) {
             throw new Exception("SportId is required");
+        }
+    }
+
+    static public void validateSportModel(SportModel sportModel) throws Exception {
+        String msg = "";
+        if (sportModel.getId() == null) {
+            throw new Exception("ID is required");
+        }
+        if (sportModel.getName() == null) {
+            throw new Exception("Name is required");
+        }
+        if (sportModel.getDescription() == null) {
+            throw new Exception("Description is required");
         }
     }
 }

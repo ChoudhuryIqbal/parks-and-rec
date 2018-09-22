@@ -7,13 +7,17 @@ import edu.psu.sweng894.group7.service.controller.model.Roles;
 import edu.psu.sweng894.group7.service.controller.model.TestModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
+import edu.psu.sweng894.group7.service.controller.model.SportModel;
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.Leagues;
+import edu.psu.sweng894.group7.datastore.entity.Sport;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
+import edu.psu.sweng894.group7.datastore.service.SportService;
 import edu.psu.sweng894.group7.service.ParksRecService;
 import edu.psu.sweng894.group7.service.exception.AppUserException;
 import edu.psu.sweng894.group7.service.exception.LeagueException;
+import edu.psu.sweng894.group7.service.exception.SportException;
 import edu.psu.sweng894.group7.service.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +37,9 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Autowired
     SecurityServices securityService;
+
+    @Autowired
+    SportService sportService;
 
     //start of example services
     @Override
@@ -234,6 +241,36 @@ public class ParksRecServiceImpl implements ParksRecService {
             throw new LeagueException(ex.getMessage());
         }
         return getLeagueById(id);
+    }
+
+    @Override
+    public  SportModel getSportById(long id){
+        SportModel sportModel = new SportModel();
+        try {
+            Sport sport = sportService.find(id);
+            sportModel.setId(sport.getId());
+            sportModel.setName(sport.getName());
+            sportModel.setDescription(sport.getDescription());
+        }catch(Exception ex){
+            throw new SportException("sport not found." + ex.getMessage());
+        }
+        return sportModel;
+    }
+
+    @Override
+    public SportModel addSport(@RequestBody SportModel sportModel){
+        Sport sport = new Sport();
+        long id = 0l;
+        try {
+            Validator.validateSportModel(sportModel);
+            sport.setName(sportModel.getName());
+            sport.setDescription(sportModel.getDescription());
+            id = sportService.insert(sport);
+        }
+        catch(Exception e){
+            throw new SportException(e.getMessage());
+        }
+        return getSportById(id);
     }
 
    //end  of use cases

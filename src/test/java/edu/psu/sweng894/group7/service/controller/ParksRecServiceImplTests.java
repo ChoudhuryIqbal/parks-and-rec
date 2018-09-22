@@ -2,14 +2,18 @@ package edu.psu.sweng894.group7.service.controller;
 
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.Leagues;
+import edu.psu.sweng894.group7.datastore.entity.Sport;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
+import edu.psu.sweng894.group7.datastore.service.SportService;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
+import edu.psu.sweng894.group7.service.controller.model.SportModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -49,6 +53,13 @@ public class ParksRecServiceImplTests {
     @Autowired
     HttpHeaders headers;
 
+    private Sport sport;
+    @Autowired
+    SportModel sportModel;
+    @Autowired
+    SportService sportService;
+
+
 
     //mock all database calls for unit testing.
     @Before
@@ -61,6 +72,9 @@ public class ParksRecServiceImplTests {
 
         Mockito.when(leagueService.find(0l)).thenReturn(league);
         Mockito.when(leagueService.insert(league)).thenReturn(league.getLeagueId());
+
+        Mockito.when(sportService.find(0l)).thenReturn(sport);
+        Mockito.when(sportService.insert(sport)).thenReturn(sport.getId());
 
         java.util.List<java.lang.String> headersList = new ArrayList<>();
         headersList.add(0, "ADMIN-TOKEN");
@@ -95,4 +109,15 @@ public class ParksRecServiceImplTests {
         assertTrue(response.getLeagueId()==league.getLeagueId());
     }
 
+    @Test
+    public void createSport() throws Exception{
+        SportModel response = parksRecServiceImpl.addSport(sportModel);
+        assertTrue(response.getId()==sport.getId());
+    }
+
+    @Test
+    public void getSportById() throws  Exception{
+        SportModel response = parksRecServiceImpl.getSportById(sport.getId());
+        assertTrue((response.getId()==sport.getId()));
+    }
 }
