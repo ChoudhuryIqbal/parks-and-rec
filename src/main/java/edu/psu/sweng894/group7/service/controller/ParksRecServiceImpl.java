@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/services/v1")
 public class ParksRecServiceImpl implements ParksRecService {
