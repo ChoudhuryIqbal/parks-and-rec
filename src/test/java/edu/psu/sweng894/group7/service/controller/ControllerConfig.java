@@ -25,7 +25,6 @@ public class ControllerConfig {
     UserService userService;
 
     @MockBean
-
     LeagueService leagueService;
     
     @MockBean

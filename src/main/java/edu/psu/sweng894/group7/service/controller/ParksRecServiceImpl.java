@@ -220,6 +220,7 @@ public class ParksRecServiceImpl implements ParksRecService {
     }
 
     @Override
+    @SecureAPI
     public  SportModel getSportById(long id){
         SportModel sportModel = new SportModel();
         try {
@@ -234,6 +235,7 @@ public class ParksRecServiceImpl implements ParksRecService {
     }
 
     @Override
+    @SecureAPI
     public SportModel addSport(@RequestBody SportModel sportModel){
         Sport sport = new Sport();
         long id = 0l;

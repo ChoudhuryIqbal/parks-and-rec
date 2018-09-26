@@ -44,16 +44,20 @@ public class ParksRecServiceImplTests {
     UserService userService;
 
     @Autowired
-
     private Leagues league;
+
     @Autowired
     LeagueModel leagueModel;
+
     @Autowired
     LeagueService leagueService;
 
+    @Autowired
     private Sport sport;
+
     @Autowired
     SportModel sportModel;
+
     @Autowired
     SportService sportService;
 
@@ -70,12 +74,14 @@ public class ParksRecServiceImplTests {
         Mockito.when(userService.findAll()).thenReturn(appUserList);
         Mockito.when(leagueService.find(0l)).thenReturn(league);
         Mockito.when(leagueService.insert(league)).thenReturn(league.getLeagueId());
+        Mockito.when( securityService.validate("ADMIN-TOKEN")).thenReturn(Boolean.TRUE);
 
         Mockito.when(sportService.find(0l)).thenReturn(sport);
         Mockito.when(sportService.insert(sport)).thenReturn(sport.getId());
 
         java.util.List<java.lang.String> headersList = new ArrayList<>();
-        Mockito.when( securityService.validate("ADMIN-TOKEN")).thenReturn(Boolean.TRUE);
+
+
     }
 
     @Test
@@ -84,6 +90,7 @@ public class ParksRecServiceImplTests {
         assertTrue(responce.getUserId()==userModel.getUserId());
 
     }
+
 
     @Test
     public void getUserById() throws Exception{
@@ -97,11 +104,13 @@ public class ParksRecServiceImplTests {
         assertTrue(response.getLeagueId()==leagueModel.getLeagueId());
     }
 
+
     @Test
     public void getLeagueById() throws Exception {
         LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId(),token);
         assertTrue(response.getLeagueId()==league.getLeagueId());
     }
+
 
     @Test
     public void createSport() throws Exception{
@@ -109,9 +118,11 @@ public class ParksRecServiceImplTests {
         assertTrue(response.getId()==sport.getId());
     }
 
+
     @Test
     public void getSportById() throws  Exception{
         SportModel response = parksRecServiceImpl.getSportById(sport.getId());
         assertTrue((response.getId()==sport.getId()));
     }
+
 }
