@@ -195,6 +195,13 @@ public class ParksRecServiceImpl implements ParksRecService {
             leagueModel.setLeagueName(league.getLeagueName());
             leagueModel.setDescription(league.getDescription());
             leagueModel.setSportId(league.getSportId());
+            leagueModel.setAgeMin(league.getAgeMin());
+            leagueModel.setAgeMax(league.getAgeMax());
+            leagueModel.setCoed(league.getCoed());
+            leagueModel.setTeamMin(league.getTeamMin());
+            leagueModel.setTeamMax(league.getTeamMax());
+            leagueModel.setLeagueSchedule(league.getLeagueSchedule());
+            leagueModel.setLeagueRules(league.getLeagueRules());
         } catch (Exception ex) {
             throw new LeagueException("League not found." + ex.getMessage());
         }
@@ -209,9 +216,16 @@ public class ParksRecServiceImpl implements ParksRecService {
         long id = 0l;
         try {
             Validator.validateLeagueModel(leagueModel);
-            //league.setLeagueId(leagueModel.getLeagueId());
             league.setLeagueName(leagueModel.getLeagueName());
             league.setDescription(leagueModel.getDescription());
+            league.setSportId(leagueModel.getSportId());
+            league.setAgeMin(leagueModel.getAgeMin());
+            league.setAgeMax(leagueModel.getAgeMax());
+            league.setCoed(leagueModel.getCoed());
+            league.setTeamMin(leagueModel.getTeamMin());
+            league.setTeamMax(leagueModel.getTeamMax());
+            league.setLeagueSchedule(leagueModel.getLeagueSchedule());
+            league.setLeagueRules(leagueModel.getLeagueRules());
             id = leagueService.insert(league);
         } catch (Exception ex) {
             throw new LeagueException(ex.getMessage());
