@@ -51,10 +51,9 @@ CREATE SEQUENCE public.sport_seq
 CREATE TABLE public.app_user (
 	id int8 NOT NULL,
 	"password" varchar(255) NULL,
-	user_id int8 NULL,
 	username varchar(255) NULL,
-	CONSTRAINT app_user_pkey PRIMARY KEY (id),
-	CONSTRAINT uk_qjho89hmbuv32f9a8tbocpr0i UNIQUE (user_id)
+	CONSTRAINT app_user_pkey PRIMARY KEY (id)
+
 );
 
 
@@ -64,7 +63,7 @@ CREATE TABLE public.user_role_map (
 	role_id int8 NULL,
 	user_id int8 NULL,
 	CONSTRAINT user_role_map_pkey PRIMARY KEY (id),
-	CONSTRAINT fktjg3yvrylq5a4xbhjvjwhi2a5 FOREIGN KEY (user_id) REFERENCES app_user(user_id)
+	CONSTRAINT fktjg3yvrylq5a4xbhjvjwhi2a5 FOREIGN KEY (user_id) REFERENCES app_user(id)
 );
 
 

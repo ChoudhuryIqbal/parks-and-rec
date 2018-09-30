@@ -22,7 +22,7 @@ public class UserService {
     public long insert(AppUser user) {
             entityManager.persist(user);
             entityManager.flush();
-            return user.getUserId();
+            return user.getId();
     }
 
     public AppUser find(long id) {
