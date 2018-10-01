@@ -29,11 +29,15 @@ public class SecureAPIAspect {
         long executionTime = System.currentTimeMillis();
         Object[] args = joinPoint.getArgs();
         String authToken="";
+
         if(Objects.nonNull(args))
           authToken = (String) args[args.length-1]; //token is the last parameter
+
         if (!authToken.equals("") && securityService.validate(authToken)) {
             return joinPoint.proceed();
-        } else
+        } else {
             throw new UnAuthorizedUser("Un-Authorized");
+        }
+
     }
 }

@@ -50,8 +50,8 @@ CREATE SEQUENCE public.sport_seq
 
 CREATE TABLE public.app_user (
 	id int8 NOT NULL,
-	"password" varchar(255) NULL,
-	username varchar(255) NULL,
+	"password" varchar(255) NOT NULL,
+	username varchar(255) UNIQUE NOT NULL,
 	CONSTRAINT app_user_pkey PRIMARY KEY (id)
 
 );

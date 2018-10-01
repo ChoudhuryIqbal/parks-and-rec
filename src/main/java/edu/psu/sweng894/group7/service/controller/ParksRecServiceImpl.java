@@ -14,11 +14,7 @@ import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.datastore.service.SportService;
 import edu.psu.sweng894.group7.service.ParksRecService;
-import edu.psu.sweng894.group7.service.exception.AppUserException;
-import edu.psu.sweng894.group7.service.exception.LeagueException;
-import edu.psu.sweng894.group7.service.exception.SportException;
-import edu.psu.sweng894.group7.service.exception.LoginException;
-import edu.psu.sweng894.group7.service.exception.RoleException;
+import edu.psu.sweng894.group7.service.exception.*;
 import edu.psu.sweng894.group7.service.util.SecureAPI;
 import edu.psu.sweng894.group7.service.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,8 +139,9 @@ public class ParksRecServiceImpl implements ParksRecService {
             appUser.setUsername(userModel.getUsername());
             userService.update(appUser);
             updatedUser = getUserById(userModel.getUserId(), token);
-        } catch (Exception ex) {
-            throw new AppUserException("User update Failed");
+        }
+        catch (Exception ex) {
+            throw new AppUserException("User update Failed:"+ ex.getMessage());
         }
         return updatedUser;
     }

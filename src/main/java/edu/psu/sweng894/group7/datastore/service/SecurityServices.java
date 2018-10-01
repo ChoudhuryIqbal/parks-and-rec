@@ -37,6 +37,9 @@ public class SecurityServices {
          if(toUpdate ==null) {
              entityManager.persist(token);
          }else{
+             long currentTime = System.currentTimeMillis();
+             Timestamp ts = new Timestamp(currentTime);
+             toUpdate.setCreatedTime(ts);
              toUpdate.setToken(token.getToken());
              entityManager.merge(toUpdate);
          }
@@ -60,16 +63,23 @@ public class SecurityServices {
     }
 
     public boolean validate(String token) {
+        System.out.println("Validating user token");
+        System.out.println("user supplied authToken="+ token);
         Tokens tokens = findToken(token);
         if(tokens!=null) {
+            System.out.println("Token in the system="+ tokens.getToken());
             long currentTime = System.currentTimeMillis();
             long tokencreatedTime = tokens.getCreatedTime().getTime();
+            // tokencreatedTime=tokencreatedTime*1000;
             long elapsed = (currentTime - tokencreatedTime);
             elapsed = elapsed / (1000 * 60);
+            System.out.println("Token elapsed in minutes"+ elapsed);
             if (elapsed <= 10) {
+                System.out.println("End of Validationg user token: Authorized");
                 return true;
             }
         }
+        System.out.println("End of Validationg user token: Un-Authorized");
         return false;
     }
 
