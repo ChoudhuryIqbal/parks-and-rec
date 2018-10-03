@@ -78,12 +78,19 @@ curl -X POST \
   http://localhost:8080/parksrec/services/v1/createLeague \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
+  -H 'token: e871211e-b60f-44f5-af09-966353b940be' \
   -d '{
     "leagueId": 1,
     "leagueName": "TestLeague",
     "description": "TestLeagueDescription",
-    "sportId": 1
-
+    "sportId": 1,
+    "ageMin": 5,
+    "ageMax": 17,
+    "coed": 0,
+    "teamMin": 0,
+    "teamMax": 5,
+    "leagueSchedule": "TestLeagueSchedule",
+    "leagueRules": "TestLeagueRules"
 }'
 
 
