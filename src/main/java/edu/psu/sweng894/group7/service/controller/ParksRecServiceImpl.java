@@ -235,6 +235,32 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
+    public LeagueModel updateLeague(@RequestBody LeagueModel leagueModel, @RequestHeader("token") String token) {
+        Leagues league = new Leagues();
+        LeagueModel updatedLeague = new LeagueModel();
+        try {
+            Validator.validateLeagueModel(leagueModel);
+            league.setLeagueId(leagueModel.getLeagueId());
+            league.setLeagueName(leagueModel.getLeagueName());
+            league.setDescription(leagueModel.getDescription());
+            league.setSportId(leagueModel.getSportId());
+            league.setAgeMin(leagueModel.getAgeMin());
+            league.setAgeMax(leagueModel.getAgeMax());
+            league.setCoed(leagueModel.getCoed());
+            league.setTeamMin(leagueModel.getTeamMin());
+            league.setTeamMax(leagueModel.getTeamMax());
+            league.setLeagueSchedule(leagueModel.getLeagueSchedule());
+            league.setLeagueRules(leagueModel.getLeagueRules());
+            leagueService.update(league);
+            updatedLeague = getLeagueById(leagueModel.getLeagueId(), token);
+        } catch (Exception ex) {
+            throw new LeagueException("League update Failed");
+        }
+        return updatedLeague;
+    }
+
+    @Override
+    @SecureAPI
     public  SportModel getSportById(long id){
         SportModel sportModel = new SportModel();
         try {
