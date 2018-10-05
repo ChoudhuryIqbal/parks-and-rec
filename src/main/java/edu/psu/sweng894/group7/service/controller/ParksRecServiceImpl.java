@@ -1,6 +1,7 @@
 package edu.psu.sweng894.group7.service.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.service.controller.model.Roles;
 import edu.psu.sweng894.group7.service.controller.model.TestModel;
@@ -17,6 +18,8 @@ import edu.psu.sweng894.group7.service.ParksRecService;
 import edu.psu.sweng894.group7.service.exception.*;
 import edu.psu.sweng894.group7.service.util.SecureAPI;
 import edu.psu.sweng894.group7.service.util.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpHeaders;
@@ -24,12 +27,15 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/services/v1")
 public class ParksRecServiceImpl implements ParksRecService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     UserService userService;
     @Autowired
@@ -77,6 +83,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new AppUserException("User not found." + ex.getMessage());
         }
+
         return userModel;
     }
 
@@ -99,6 +106,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new AppUserException("User not found. " + ex.getMessage());
         }
+        printResponce(users);
         return users;
     }
 
@@ -122,6 +130,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new AppUserException(ex.getMessage());
         }
+        printResponce(newUser);
         return newUser;
     }
 
@@ -143,6 +152,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         catch (Exception ex) {
             throw new AppUserException("User update Failed:"+ ex.getMessage());
         }
+        printResponce(updatedUser);
         return updatedUser;
     }
 
@@ -162,6 +172,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new RoleException(ex.getMessage());
         }
+        printResponce(userRoles);
         return userRoles;
     }
 
@@ -169,6 +180,9 @@ public class ParksRecServiceImpl implements ParksRecService {
     public String login(@RequestBody UserModel signedUser) throws Exception {
         String token = "";
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonInString = mapper.writeValueAsString(signedUser);
+            logger.info("Request:"+ jsonInString);
             List<AppUser> appUsers = userService.findAll();
             for (AppUser appUser : appUsers) {
                 if (appUser.getName().equalsIgnoreCase(signedUser.getUsername()) && appUser.getPassword().equals(signedUser.getPassword())) {
@@ -179,6 +193,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new LoginException(ex.getMessage());
         }
+        printResponce(token);
         return token;
     }
 
@@ -203,6 +218,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new LeagueException("League not found." + ex.getMessage());
         }
+        printResponce(leagueModel);
         return leagueModel;
     }
 
@@ -228,7 +244,9 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new LeagueException(ex.getMessage());
         }
-        return getLeagueById(id, token);
+        LeagueModel model=getLeagueById(id, token);
+        printResponce(model);
+        return model;
     }
 
     @Override
@@ -254,6 +272,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new LeagueException("League update Failed");
         }
+        printResponce(updatedLeague);
         return updatedLeague;
     }
 
@@ -269,6 +288,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         }catch(Exception ex){
             throw new SportException("sport not found." + ex.getMessage());
         }
+        printResponce(sportModel);
         return sportModel;
     }
 
@@ -286,7 +306,9 @@ public class ParksRecServiceImpl implements ParksRecService {
         catch(Exception e){
             throw new SportException(e.getMessage());
         }
-        return getSportById(id);
+        SportModel model=getSportById(id);
+        printResponce(model);
+        return model;
     }
 
    //end  of use cases
@@ -296,6 +318,19 @@ public class ParksRecServiceImpl implements ParksRecService {
     @RequestMapping(path = "", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String healthCheck() {
         return "I am alive";
+    }
+
+    void printResponce(Object object){
+        try {
+            String jsonInString= new ObjectMapper()
+                    .writer()
+                    .withDefaultPrettyPrinter()
+                    .writeValueAsString(object);
+           logger.info("Responce from method: "+ jsonInString);
+        }catch(Exception ex){
+           //ignore
+        }
+
     }
 
 

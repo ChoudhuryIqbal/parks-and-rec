@@ -3,6 +3,8 @@ package edu.psu.sweng894.group7.datastore.service;
 
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.Tokens;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -19,6 +21,9 @@ import java.util.UUID;
 public class SecurityServices {
     @PersistenceContext
     private EntityManager entityManager;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     public String generateToken(String user) {
         UUID uuid = UUID.randomUUID();
@@ -63,23 +68,23 @@ public class SecurityServices {
     }
 
     public boolean validate(String token) {
-        System.out.println("Validating user token");
-        System.out.println("user supplied authToken="+ token);
+        logger.info("Validating user supplied token");
+        logger.info("User supplied authToken="+ token);
         Tokens tokens = findToken(token);
         if(tokens!=null) {
-            System.out.println("Token in the system="+ tokens.getToken());
+            logger.info("Token in the system="+ tokens.getToken());
             long currentTime = System.currentTimeMillis();
             long tokencreatedTime = tokens.getCreatedTime().getTime();
             // tokencreatedTime=tokencreatedTime*1000;
             long elapsed = (currentTime - tokencreatedTime);
             elapsed = elapsed / (1000 * 60);
-            System.out.println("Token elapsed in minutes"+ elapsed);
+            logger.info("Token elapsed in minutes"+ elapsed);
             if (elapsed <= 10) {
-                System.out.println("End of Validationg user token: Authorized");
+                logger.info("End of Validationg user token: Authorized");
                 return true;
             }
         }
-        System.out.println("End of Validationg user token: Un-Authorized");
+        logger.info("End of Validating user token: Un-Authorized");
         return false;
     }
 
