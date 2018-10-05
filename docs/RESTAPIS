@@ -109,3 +109,27 @@ curl -X POST \
 }'
 
 
+
+6.  Update league
+
+curl -X PUT \
+  http://localhost:8080/parksrec/services/v1/updateLeague \
+  -H 'Cache-Control: no-cache' \
+  -H 'token: 587d0e16-f464-48c9-bf2f-19ca89a18c9d' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "leagueId": 1,
+    "leagueName": "UpdatedLeagueName",
+    "description": "UpdatedLeagueDescription",
+    "sportId": 3,
+    "ageMin": 15,
+    "ageMax": 16,
+    "coed": 1,
+    "teamMin": 2,
+    "teamMax": 4,
+    "leagueSchedule": "UpdatedLeagueSchedule",
+    "leagueRules": "UpdatedLeagueRules"
+}'
+
+
+

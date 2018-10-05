@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 
+import java.awt.*;
 import java.util.List;
 
 public interface ParksRecService {
@@ -98,6 +99,9 @@ public interface ParksRecService {
 
     @RequestMapping(path="/createLeague", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public LeagueModel addLeague(@RequestBody LeagueModel leagueModel, @RequestHeader("token") String token) throws Exception;
+
+    @RequestMapping(path="/updateLeague", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public LeagueModel updateLeague(@RequestBody LeagueModel leagueModel, @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/createSport", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public SportModel addSport(@RequestBody SportModel sportModel) throws Exception;
