@@ -60,7 +60,7 @@ public class UserModel {
     public String toString() {
         String roleNames="";
         for(UserRoleMap role: roles)
-            roleNames=roleNames+","+role.getRoleId();
+            roleNames=roleNames+","+role.getRole_id();
         roleNames=roleNames.substring(0,roleNames.length());
         return String.format("AppUser [name=%s, role=%s]", username, roleNames);
     }
