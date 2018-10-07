@@ -36,12 +36,12 @@ public class UserServiceTests {
     @Before
     public void setUp() {
         Mockito.when(userService.find(1l)).thenReturn(appUser);
-        Mockito.when(userService.insert(appUser)).thenReturn(appUser.getUserId());
+        Mockito.when(userService.insert(appUser)).thenReturn(appUser.getId());
     }
     @Test
     public void findTest() {
         AppUser appUser=userService.find(1l);
-        assertTrue(appUser.getUserId()==appUser.getUserId());
+        assertTrue(appUser.getId()==appUser.getId());
     }
     @Test
     public void insertTest() {

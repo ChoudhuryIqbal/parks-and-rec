@@ -13,13 +13,20 @@ import java.util.List;
 @NamedQuery(query = "select u from AppUser u", name = "query_find_all_users")
 public class AppUser {
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator="app_user_seq")
     Long id;
 
-    @Column(name="userId", unique=true)
-    @NotNull
-    private Long userId;
+
+
     @NotNull
     private String username;
     @NotNull
@@ -27,7 +34,7 @@ public class AppUser {
 
 
     @OneToMany (cascade=CascadeType.ALL)
-    @JoinColumn(name="userId")
+    @JoinColumn(name="user_id")
     private List<UserRoleMap> roles;
 
     public List<UserRoleMap> getRoles() {
@@ -55,13 +62,14 @@ public class AppUser {
         this.password = password;
     }
 
+    /*
     public Long getUserId() {
         return userId;
     }
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
+    }*/
 
 
     public String getName() {
@@ -72,10 +80,10 @@ public class AppUser {
     public String toString() {
         String roleNames="";
         for(UserRoleMap role: roles)
-            roleNames=roleNames+","+role.getRoleId();
+            roleNames=roleNames+","+role.getRole_id();
 
         roleNames=roleNames.substring(0,roleNames.length());
-        return String.format("AppUser [id=%s, name=%s, role=%s]", userId, username, roleNames);
+        return String.format("AppUser [id=%s, name=%s, role=%s]", username, roleNames);
     }
 
 }

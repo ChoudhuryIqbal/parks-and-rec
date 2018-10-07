@@ -2,10 +2,11 @@
 1. Login
 
 curl -X POST \
-  http://localhost:8080/parksrec/services/v1/login \
+  https://parks-and-rec-app.herokuapp.com/parksrec/services/v1/login \
   -H 'Cache-Control: no-cache' \
-  -H 'token: f88352c5-60c5-4ae1-a7a0-fc60fe93fead' \
   -H 'Content-Type: application/json' \
+  -H 'Postman-Token: cacc889d-5cb4-47f8-8e17-3c7b47fe4e07' \
+  -H 'token: test' \
   -d '{
     "id": null,
     "username": "Admin",
@@ -13,62 +14,77 @@ curl -X POST \
 
 }'
 
+
 2. Create user
 
 curl -X POST \
-  http://localhost:8080/parksrec/services/v1/createUser \
+  https://parks-and-rec-app.herokuapp.com/parksrec/services/v1/createUser \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
-  -H 'token: f88352c5-60c5-4ae1-a7a0-fc60fe93fead' \
+  -H 'Postman-Token: a7486f78-c4f6-468d-8f05-54d049be47c0' \
+  -H 'token: 5b0d7678-1b91-47ab-82f4-e7f113aeba4c' \
   -d '{
-    "id": null,
-    "userId": 1,
-    "username": "TestUser",
-    "password": "TestUser",
-     "roles": [
-        {
-            "roleId": 1,
-             "userId": 1
-        },
-        {
-            "roleId": 2,
-            "userId": 1
-        }
-    ]
+   "id": null,
+   "username": "TestUserE7",
+   "password": "TestUserE7",
+    "roles": [
+       {
+    	    "id": null,
+           "role_id": 1,
+           "user_id":null
 
-}'
+       },
+       {
+           "id": null,
+           "role_id": 2,
+           "user_id":null
+       }
+   ]}'
+
 
 3. Update user
-curl -X POST \
-  http://localhost:8080/parksrec/services/v1/updateUser \
+
+curl -X PUT \
+  https://parks-and-rec-app.herokuapp.com/parksrec/services/v1/updateUser \
   -H 'Cache-Control: no-cache' \
-  -H 'token: f88352c5-60c5-4ae1-a7a0-fc60fe93fead' \
   -H 'Content-Type: application/json' \
+  -H 'Postman-Token: a7d03d69-a5e3-4832-8538-dd70dc9c15f3' \
+  -H 'token: 5b0d7678-1b91-47ab-82f4-e7f113aeba4c' \
   -d '{
-    "userId": 1,
-    "username": "TestUser",
-    "password": "TestUser",
-    "roles": [
-        {
-            "id": 1,
-            "roleId": 5,
-            "userId": 1
-        },
-        {
-            "id": 2,
-            "roleId": 6,
-            "userId": 1
-        }
-    ]
-}'
+        "userId": 2,
+        "username": "TestUserE7",
+        "password": "TestUserE7-updated",
+        "roles": [
+            {
+                "id": 3,
+                "role_id": 1,
+                "user_id": 2
+            },
+            {
+                "id": 4,
+                "role_id": 2,
+                "user_id": 2
+            }
+        ]
+    }'
+
+4. Get user by name
+curl -X GET \
+  'https://parks-and-rec-app.herokuapp.com/parksrec/services/v1/getUserByName?userName=TestUserE7' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Postman-Token: 38c97cd6-d1f0-4780-a1f1-dc3716a8b242' \
+  -H 'token: 5b0d7678-1b91-47ab-82f4-e7f113aeba4c'
 
 
-4. Get Roles
+
+
+5. Get Roles
 
 curl -X GET \
   http://localhost:8080/parksrec/services/v1/getRoles \
   -H 'token: f88352c5-60c5-4ae1-a7a0-fc60fe93fead' \
   -H 'Cache-Control: no-cache' \
+
 
 
 
@@ -85,7 +101,7 @@ curl -X GET \
 # leagueRules is a string, keep it under 255 characters
 ### All fields not specified as required are optional
 
-5. Create league
+6. Create league
 
 curl -X POST \
   http://localhost:8080/parksrec/services/v1/createLeague \
