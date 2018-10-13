@@ -19,7 +19,7 @@ A league is an entity created by a user to manage a single league that is associ
 * leagueSchedule is a string, keep it under 255 characters
 * leagueRules is a string, keep it under 255 characters
 
-### Create League Request
+## Create League Request
 
 Request Type: POST
 Request Format: application/json
@@ -38,7 +38,7 @@ curl -X POST \
 }'
 ```
 
-### Update league
+## Update league
 
 Request Type: POST
 Request Format: application/json
