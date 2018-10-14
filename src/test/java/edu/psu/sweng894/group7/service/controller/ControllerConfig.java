@@ -53,7 +53,7 @@ public class ControllerConfig {
         List<UserRoleMap> roles = new ArrayList<>();
         UserRoleMap role = new UserRoleMap();
         //role.setDescription("Test Role Description");
-        role.setRoleId(0l);
+        role.setRole_id(0l);
         //role.setRolename("TestRole");
         roles.add(role);
         userModel.setRoles(roles);
@@ -63,13 +63,13 @@ public class ControllerConfig {
     @Bean
     public AppUser appUsers() {
         AppUser appUser = new AppUser();
-        appUser.setUserId(0l);
+        appUser.setId(0l);
         appUser.setUsername("TestUser");
         appUser.setPassword("TestPassword");
         List<UserRoleMap> roles = new ArrayList<>();
         UserRoleMap role = new UserRoleMap();
         //role.setDescription("Test Role Description");
-        role.setRoleId(0l);
+        role.setRole_id(0l);
         //role.setRolename("TestRole");
         roles.add(role);
         appUser.setRoles(roles);

@@ -3,6 +3,8 @@ package edu.psu.sweng894.group7.datastore.service;
 
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.Tokens;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -19,6 +21,9 @@ import java.util.UUID;
 public class SecurityServices {
     @PersistenceContext
     private EntityManager entityManager;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     public String generateToken(String user) {
         UUID uuid = UUID.randomUUID();
@@ -37,6 +42,9 @@ public class SecurityServices {
          if(toUpdate ==null) {
              entityManager.persist(token);
          }else{
+             long currentTime = System.currentTimeMillis();
+             Timestamp ts = new Timestamp(currentTime);
+             toUpdate.setCreatedTime(ts);
              toUpdate.setToken(token.getToken());
              entityManager.merge(toUpdate);
          }
@@ -60,16 +68,23 @@ public class SecurityServices {
     }
 
     public boolean validate(String token) {
+        logger.info("Validating user supplied token");
+        logger.info("User supplied authToken="+ token);
         Tokens tokens = findToken(token);
         if(tokens!=null) {
+            logger.info("Token in the system="+ tokens.getToken());
             long currentTime = System.currentTimeMillis();
             long tokencreatedTime = tokens.getCreatedTime().getTime();
+            // tokencreatedTime=tokencreatedTime*1000;
             long elapsed = (currentTime - tokencreatedTime);
             elapsed = elapsed / (1000 * 60);
+            logger.info("Token elapsed in minutes"+ elapsed);
             if (elapsed <= 10) {
+                logger.info("End of Validationg user token: Authorized");
                 return true;
             }
         }
+        logger.info("End of Validating user token: Un-Authorized");
         return false;
     }
 

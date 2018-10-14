@@ -27,8 +27,10 @@ public class LeagueService {
     }
 
     public List<Leagues> findAll() {
-        Query query = entityManager.createNamedQuery("query_find_all_leagues", Leagues.class);
-        return query.getResultList();
+        //Query query = entityManager.createNamedQuery("query_find_all_leagues", Leagues.class);
+        //return query.getResultList();
+        java.util.List<Leagues> result = entityManager.createQuery("select l from Leagues l").getResultList();
+        return result;
     }
 
     public void delete(Leagues league){
@@ -43,9 +45,9 @@ public class LeagueService {
     public void update(Leagues league){
         List<Leagues> leagues = findAll();
         for (Leagues tempLeague : leagues) {
-            if (tempLeague.getLeagueName().equalsIgnoreCase(league.getLeagueName()) &&
-                    tempLeague.getLeagueId().equals(league.getLeagueId())) {
-                //user match the update
+            if (tempLeague.getLeagueId().equals(league.getLeagueId())) {
+                //league match the update
+                tempLeague.setLeagueName(league.getLeagueName());
                 tempLeague.setDescription(league.getDescription());
                 tempLeague.setSportId(league.getSportId());
                 tempLeague.setAgeMin(league.getAgeMin());

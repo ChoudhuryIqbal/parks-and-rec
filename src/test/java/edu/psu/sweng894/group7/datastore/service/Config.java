@@ -26,13 +26,13 @@ public class Config {
     @Bean
     public AppUser appUsers() {
         AppUser appUser = new AppUser();
-        appUser.setUserId(1l);
+        appUser.setId(1l);
         appUser.setUsername("TestUser");
         appUser.setPassword("TestPassword");
         List<UserRoleMap> roles = new ArrayList<>();
         UserRoleMap role = new UserRoleMap();
         //role.setDescription("Test Role Description");
-        role.setRoleId(1l);
+        role.setRole_id(1l);
         //role.setRolename("TestRole");
         roles.add(role);
         appUser.setRoles(roles);

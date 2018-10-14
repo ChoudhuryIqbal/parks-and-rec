@@ -1,6 +1,7 @@
 package edu.psu.sweng894.group7.service.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.service.controller.model.Roles;
 import edu.psu.sweng894.group7.service.controller.model.TestModel;
@@ -14,13 +15,11 @@ import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.datastore.service.SportService;
 import edu.psu.sweng894.group7.service.ParksRecService;
-import edu.psu.sweng894.group7.service.exception.AppUserException;
-import edu.psu.sweng894.group7.service.exception.LeagueException;
-import edu.psu.sweng894.group7.service.exception.SportException;
-import edu.psu.sweng894.group7.service.exception.LoginException;
-import edu.psu.sweng894.group7.service.exception.RoleException;
+import edu.psu.sweng894.group7.service.exception.*;
 import edu.psu.sweng894.group7.service.util.SecureAPI;
 import edu.psu.sweng894.group7.service.util.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpHeaders;
@@ -28,12 +27,15 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/services/v1")
 public class ParksRecServiceImpl implements ParksRecService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     UserService userService;
     @Autowired
@@ -75,12 +77,13 @@ public class ParksRecServiceImpl implements ParksRecService {
         UserModel userModel = new UserModel();
         try {
             AppUser appUser = userService.find(id);
-            userModel.setUserId(appUser.getUserId());
+            userModel.setUserId(appUser.getId());
             userModel.setRoles(appUser.getRoles());
             userModel.setUsername(appUser.getUsername());
         } catch (Exception ex) {
             throw new AppUserException("User not found." + ex.getMessage());
         }
+
         return userModel;
     }
 
@@ -93,7 +96,7 @@ public class ParksRecServiceImpl implements ParksRecService {
             for (AppUser tempuser : appUsers) {
                 if (tempuser.getName().equalsIgnoreCase(userName)) {
                     UserModel user = new UserModel();
-                    user.setUserId(tempuser.getUserId());
+                    user.setUserId(tempuser.getId());
                     user.setUsername(tempuser.getName());
                     String roleNames = "";
                     user.setRoles(tempuser.getRoles());
@@ -103,6 +106,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new AppUserException("User not found. " + ex.getMessage());
         }
+        printResponce(users);
         return users;
     }
 
@@ -117,14 +121,16 @@ public class ParksRecServiceImpl implements ParksRecService {
             user.setPassword(userModel.getPassword());
             user.setRoles(userModel.getRoles());
             user.setUsername(userModel.getUsername());
-            user.setUserId(userModel.getUserId());
+            //user.setUserId(userModel.getUserId());
             id = userService.insert(user);
             newUser = getUserById(id, token);
         } catch (org.springframework.dao.DataIntegrityViolationException iex) {
+            iex.printStackTrace();
             throw new AppUserException("Duplicate Data");
         } catch (Exception ex) {
             throw new AppUserException(ex.getMessage());
         }
+        printResponce(newUser);
         return newUser;
     }
 
@@ -136,15 +142,17 @@ public class ParksRecServiceImpl implements ParksRecService {
         List<edu.psu.sweng894.group7.service.controller.model.Roles> userRoles = new ArrayList<>();
         try {
             Validator.validateUserModel(userModel);
-            appUser.setUserId(userModel.getUserId());
+            //appUser.setUserId(userModel.getUserId());
             appUser.setPassword(userModel.getPassword());
             appUser.setRoles(userModel.getRoles());
             appUser.setUsername(userModel.getUsername());
             userService.update(appUser);
             updatedUser = getUserById(userModel.getUserId(), token);
-        } catch (Exception ex) {
-            throw new AppUserException("User update Failed");
         }
+        catch (Exception ex) {
+            throw new AppUserException("User update Failed:"+ ex.getMessage());
+        }
+        printResponce(updatedUser);
         return updatedUser;
     }
 
@@ -164,6 +172,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new RoleException(ex.getMessage());
         }
+        printResponce(userRoles);
         return userRoles;
     }
 
@@ -171,6 +180,9 @@ public class ParksRecServiceImpl implements ParksRecService {
     public String login(@RequestBody UserModel signedUser) throws Exception {
         String token = "";
         try {
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonInString = mapper.writeValueAsString(signedUser);
+            logger.info("Request:"+ jsonInString);
             List<AppUser> appUsers = userService.findAll();
             for (AppUser appUser : appUsers) {
                 if (appUser.getName().equalsIgnoreCase(signedUser.getUsername()) && appUser.getPassword().equals(signedUser.getPassword())) {
@@ -181,6 +193,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         } catch (Exception ex) {
             throw new LoginException(ex.getMessage());
         }
+        printResponce(token);
         return token;
     }
 
@@ -195,9 +208,17 @@ public class ParksRecServiceImpl implements ParksRecService {
             leagueModel.setLeagueName(league.getLeagueName());
             leagueModel.setDescription(league.getDescription());
             leagueModel.setSportId(league.getSportId());
+            leagueModel.setAgeMin(league.getAgeMin());
+            leagueModel.setAgeMax(league.getAgeMax());
+            leagueModel.setCoed(league.getCoed());
+            leagueModel.setTeamMin(league.getTeamMin());
+            leagueModel.setTeamMax(league.getTeamMax());
+            leagueModel.setLeagueSchedule(league.getLeagueSchedule());
+            leagueModel.setLeagueRules(league.getLeagueRules());
         } catch (Exception ex) {
             throw new LeagueException("League not found." + ex.getMessage());
         }
+        printResponce(leagueModel);
         return leagueModel;
     }
 
@@ -209,19 +230,55 @@ public class ParksRecServiceImpl implements ParksRecService {
         long id = 0l;
         try {
             Validator.validateLeagueModel(leagueModel);
-            //league.setLeagueId(leagueModel.getLeagueId());
             league.setLeagueName(leagueModel.getLeagueName());
             league.setDescription(leagueModel.getDescription());
+            league.setSportId(leagueModel.getSportId());
+            league.setAgeMin(leagueModel.getAgeMin());
+            league.setAgeMax(leagueModel.getAgeMax());
+            league.setCoed(leagueModel.getCoed());
+            league.setTeamMin(leagueModel.getTeamMin());
+            league.setTeamMax(leagueModel.getTeamMax());
+            league.setLeagueSchedule(leagueModel.getLeagueSchedule());
+            league.setLeagueRules(leagueModel.getLeagueRules());
             id = leagueService.insert(league);
         } catch (Exception ex) {
             throw new LeagueException(ex.getMessage());
         }
-        return getLeagueById(id, token);
+        LeagueModel model=getLeagueById(id, token);
+        printResponce(model);
+        return model;
     }
 
     @Override
     @SecureAPI
-    public  SportModel getSportById(long id){
+    public LeagueModel updateLeague(@RequestBody LeagueModel leagueModel, @RequestHeader("token") String token) {
+        Leagues league = new Leagues();
+        LeagueModel updatedLeague = new LeagueModel();
+        try {
+            Validator.validateLeagueModel(leagueModel);
+            league.setLeagueId(leagueModel.getLeagueId());
+            league.setLeagueName(leagueModel.getLeagueName());
+            league.setDescription(leagueModel.getDescription());
+            league.setSportId(leagueModel.getSportId());
+            league.setAgeMin(leagueModel.getAgeMin());
+            league.setAgeMax(leagueModel.getAgeMax());
+            league.setCoed(leagueModel.getCoed());
+            league.setTeamMin(leagueModel.getTeamMin());
+            league.setTeamMax(leagueModel.getTeamMax());
+            league.setLeagueSchedule(leagueModel.getLeagueSchedule());
+            league.setLeagueRules(leagueModel.getLeagueRules());
+            leagueService.update(league);
+            updatedLeague = getLeagueById(leagueModel.getLeagueId(), token);
+        } catch (Exception ex) {
+            throw new LeagueException("League update Failed");
+        }
+        printResponce(updatedLeague);
+        return updatedLeague;
+    }
+
+    @Override
+    @SecureAPI
+    public  SportModel getSportById(long id,  @RequestHeader("token") String token){
         SportModel sportModel = new SportModel();
         try {
             Sport sport = sportService.find(id);
@@ -231,12 +288,13 @@ public class ParksRecServiceImpl implements ParksRecService {
         }catch(Exception ex){
             throw new SportException("sport not found." + ex.getMessage());
         }
+        printResponce(sportModel);
         return sportModel;
     }
 
     @Override
     @SecureAPI
-    public SportModel addSport(@RequestBody SportModel sportModel){
+    public SportModel addSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token){
         Sport sport = new Sport();
         long id = 0l;
         try {
@@ -248,7 +306,9 @@ public class ParksRecServiceImpl implements ParksRecService {
         catch(Exception e){
             throw new SportException(e.getMessage());
         }
-        return getSportById(id);
+        SportModel model=getSportById(id, token);
+        printResponce(model);
+        return model;
     }
 
    //end  of use cases
@@ -258,6 +318,19 @@ public class ParksRecServiceImpl implements ParksRecService {
     @RequestMapping(path = "", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String healthCheck() {
         return "I am alive";
+    }
+
+    void printResponce(Object object){
+        try {
+            String jsonInString= new ObjectMapper()
+                    .writer()
+                    .withDefaultPrettyPrinter()
+                    .writeValueAsString(object);
+           logger.info("Responce from method: "+ jsonInString);
+        }catch(Exception ex){
+           //ignore
+        }
+
     }
 
 

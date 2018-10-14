@@ -68,7 +68,7 @@ public class ParksRecServiceImplTests {
     @Before
     public void setUp() {
         Mockito.when(userService.find(0l)).thenReturn(appUser);
-        Mockito.when(userService.insert(appUser)).thenReturn(appUser.getUserId());
+        Mockito.when(userService.insert(appUser)).thenReturn(appUser.getId());
         List<AppUser> appUserList = new ArrayList<>();
         appUserList.add(appUser);
         Mockito.when(userService.findAll()).thenReturn(appUserList);
@@ -94,7 +94,7 @@ public class ParksRecServiceImplTests {
 
     @Test
     public void getUserById() throws Exception{
-        UserModel responce= parksRecServiceImpl.getUserById(appUser.getUserId(),token);
+        UserModel responce= parksRecServiceImpl.getUserById(appUser.getId(),token);
         assertTrue(responce.getUserId()==userModel.getUserId());
     }
 
@@ -114,14 +114,14 @@ public class ParksRecServiceImplTests {
 
     @Test
     public void createSport() throws Exception{
-        SportModel response = parksRecServiceImpl.addSport(sportModel);
+        SportModel response = parksRecServiceImpl.addSport(sportModel, token);
         assertTrue(response.getId()==sport.getId());
     }
 
 
     @Test
     public void getSportById() throws  Exception{
-        SportModel response = parksRecServiceImpl.getSportById(sport.getId());
+        SportModel response = parksRecServiceImpl.getSportById(sport.getId(), token);
         assertTrue((response.getId()==sport.getId()));
     }
 
