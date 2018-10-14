@@ -278,7 +278,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public  SportModel getSportById(long id){
+    public  SportModel getSportById(long id,  @RequestHeader("token") String token){
         SportModel sportModel = new SportModel();
         try {
             Sport sport = sportService.find(id);
@@ -294,7 +294,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public SportModel addSport(@RequestBody SportModel sportModel){
+    public SportModel addSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token){
         Sport sport = new Sport();
         long id = 0l;
         try {
@@ -306,7 +306,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         catch(Exception e){
             throw new SportException(e.getMessage());
         }
-        SportModel model=getSportById(id);
+        SportModel model=getSportById(id, token);
         printResponce(model);
         return model;
     }
