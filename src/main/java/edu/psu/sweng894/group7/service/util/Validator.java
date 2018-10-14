@@ -39,12 +39,17 @@ public class Validator {
 
     static public void validateSportModel(SportModel sportModel) throws ValidationException {
         String msg = "";
-
-        if (sportModel.getName() == null) {
+        if (sportModel.getSportId() == null) {
+            throw new ValidationException("sportID is required");
+        }
+        if (sportModel.getSportName() == null) {
             throw new ValidationException("Name is required");
         }
-        if (sportModel.getDescription() == null) {
+        if (sportModel.getSportDescription() == null) {
             throw new ValidationException("Description is required");
+        }
+        if (sportModel.getDepartmentId() == null){
+            throw new ValidationException("departmentId is required");
         }
     }
 }

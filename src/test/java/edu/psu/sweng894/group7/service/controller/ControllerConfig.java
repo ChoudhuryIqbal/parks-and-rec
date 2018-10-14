@@ -99,18 +99,20 @@ public class ControllerConfig {
     @Bean
     public Sport sport(){
         Sport sport = new Sport();
-        sport.setId(0l);
-        sport.setName("Test Sport Name");
-        sport.setDescription("test description");
+        sport.setSportId(0l);
+        sport.setSportName("Test Sport Name");
+        sport.setSportDescription("test description");
+        sport.setDepartmentId(5l);
         return sport;
     }
 
     @Bean
     public SportModel sportModel(){
         SportModel sportModel = new SportModel();
-        sportModel.setId(0l);
-        sportModel.setName("Test Sport Name");
-        sportModel.setDescription("test description");
+        sportModel.setSportId(0l);
+        sportModel.setSportName("Test Sport Name");
+        sportModel.setSportDescription("test description");
+        sportModel.setDepartmentId(5l);
         return sportModel;
     }
 

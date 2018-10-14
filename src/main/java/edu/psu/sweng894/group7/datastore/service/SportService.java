@@ -19,10 +19,11 @@ public class SportService {
     public long insert(Sport sport) {
         entityManager.persist(sport);
         entityManager.flush();
-        return sport.getId();
+        return sport.getSportId();
     }
 
     public Sport find(long id) {
+
         return entityManager.find(Sport.class, id);
     }
 
@@ -43,10 +44,10 @@ public class SportService {
     public void update(Sport sport){
         List<Sport> sports = findAll();
         for (Sport tempSport : sports) {
-            if (tempSport.getName().equalsIgnoreCase(sport.getName()) &&
-                    tempSport.getId().equals(sport.getId())) {
-                //user match the update
-                tempSport.setDescription(sport.getDescription());
+            if (tempSport.getSportId().equals(sport.getSportId()) &&
+                tempSport.getDepartmentId().equals(sport.getDepartmentId())) {
+                tempSport.setSportName(sport.getSportName());
+                tempSport.setSportDescription(sport.getSportDescription());
                 entityManager.merge(tempSport);
                 flush();
                 break;

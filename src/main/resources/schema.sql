@@ -104,5 +104,6 @@ CREATE TABLE public.sport (
   id int8 NOT NULL,
   name varchar(255) NULL,
   description varchar(255) NULL,
+  department_id int8 NULL,
   CONSTRAINT sport_Pkey PRIMARY KEY (id)
 );

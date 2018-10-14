@@ -104,10 +104,18 @@ public interface ParksRecService {
     public LeagueModel updateLeague(@RequestBody LeagueModel leagueModel, @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/createSport", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public SportModel addSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token) throws Exception;
+    public SportModel addSport(@RequestBody SportModel sportModel, @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/getSportById", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-    public SportModel getSportById(@RequestParam(name="sportId", required=true) long id,  @RequestHeader("token") String token) throws Exception;
+    @ResponseStatus(HttpStatus.OK)
+    public SportModel getSportById(@RequestParam(name="sportId", required=true) long id, @RequestHeader("token") String token) throws Exception;
+
+    @RequestMapping(path="/deleteSport", method=RequestMethod.DELETE,   produces=MediaType.TEXT_HTML_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteSport(@RequestParam(name="sportId", required=true, defaultValue="") long id, @RequestHeader("token") String token);
+
+    @RequestMapping(path="/updateSport", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public SportModel updateSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token) throws Exception;
 
 }
 

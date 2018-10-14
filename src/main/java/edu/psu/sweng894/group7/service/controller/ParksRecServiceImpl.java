@@ -282,11 +282,11 @@ public class ParksRecServiceImpl implements ParksRecService {
         SportModel sportModel = new SportModel();
         try {
             Sport sport = sportService.find(id);
-            sportModel.setId(sport.getId());
-            sportModel.setName(sport.getName());
-            sportModel.setDescription(sport.getDescription());
+            sportModel.setSportId(sport.getSportId());
+            sportModel.setSportName(sport.getSportName());
+            sportModel.setSportDescription(sport.getSportDescription());
         }catch(Exception ex){
-            throw new SportException("sport not found." + ex.getMessage());
+            throw new SportException("sport not found. " + ex.getMessage());
         }
         printResponce(sportModel);
         return sportModel;
@@ -295,13 +295,13 @@ public class ParksRecServiceImpl implements ParksRecService {
     @Override
     @SecureAPI
     public SportModel addSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token){
-        Sport sport = new Sport();
+        Sport newSport = new Sport();
         long id = 0l;
         try {
             Validator.validateSportModel(sportModel);
-            sport.setName(sportModel.getName());
-            sport.setDescription(sportModel.getDescription());
-            id = sportService.insert(sport);
+            newSport.setSportName(sportModel.getSportName());
+            newSport.setSportDescription(sportModel.getSportDescription());
+            id = sportService.insert(newSport);
         }
         catch(Exception e){
             throw new SportException(e.getMessage());
@@ -309,6 +309,40 @@ public class ParksRecServiceImpl implements ParksRecService {
         SportModel model=getSportById(id, token);
         printResponce(model);
         return model;
+    }
+
+    @Override
+    @SecureAPI
+    public SportModel updateSport(@RequestBody SportModel sportModel, @RequestHeader("token") String token) {
+        Sport sport = new Sport();
+        SportModel updatedSport = new SportModel();
+        try {
+            Validator.validateSportModel(sportModel);
+            sport.setSportId(sportModel.getSportId());
+            sport.setSportName(sportModel.getSportName());
+            sport.setSportDescription(sportModel.getSportDescription());
+            sport.setDepartmentId(sportModel.getDepartmentId());
+            sportService.update(sport);
+            updatedSport = getSportById(sportModel.getSportId(), token);
+        } catch (Exception ex) {
+            throw new SportException("Sport update Failed. "+ ex.getMessage());
+        }
+        return updatedSport;
+    }
+
+    @Override
+    @SecureAPI
+    public String deleteSport(long id, @RequestHeader("token") String token){
+        Sport sport = new Sport();
+        try {
+            sport = sportService.find(id);
+        }
+        catch(Exception ex){
+            throw new SportException("Sport update Failed. "+ ex.getMessage());
+        }
+        sportService.delete(sport);
+
+        return "Deleted Sport ID: " + sport.getSportId().toString();
     }
 
    //end  of use cases
