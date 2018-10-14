@@ -104,11 +104,10 @@ public interface ParksRecService {
     public LeagueModel updateLeague(@RequestBody LeagueModel leagueModel, @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/createSport", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public SportModel addSport(@RequestBody SportModel sportModel) throws Exception;
+    public SportModel addSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/getSportById", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public SportModel getSportById(@RequestParam(name="sportId", required=true) long id) throws Exception;
+    public SportModel getSportById(@RequestParam(name="sportId", required=true) long id,  @RequestHeader("token") String token) throws Exception;
 
 }
 

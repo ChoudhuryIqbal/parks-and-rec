@@ -114,14 +114,14 @@ public class ParksRecServiceImplTests {
 
     @Test
     public void createSport() throws Exception{
-        SportModel response = parksRecServiceImpl.addSport(sportModel);
+        SportModel response = parksRecServiceImpl.addSport(sportModel, token);
         assertTrue(response.getId()==sport.getId());
     }
 
 
     @Test
     public void getSportById() throws  Exception{
-        SportModel response = parksRecServiceImpl.getSportById(sport.getId());
+        SportModel response = parksRecServiceImpl.getSportById(sport.getId(), token);
         assertTrue((response.getId()==sport.getId()));
     }
 

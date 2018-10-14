@@ -146,4 +146,17 @@ curl -X PUT \
 }'
 
 
+7. addSport
+
+curl -X POST \
+  http://localhost:8080/parksrec/services/v1/createSport \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: af7dee4c-c29b-454b-8d42-43ce7214c295' \
+  -H 'token: 8fc9095f-d91e-41fd-8d3e-38410c9fe3be' \
+  -d '{
+   "id": null,
+   "name": "Soccer",
+   "description": "Played by Teams"
+}'
 
