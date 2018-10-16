@@ -134,6 +134,8 @@ public class ParksRecServiceImpl implements ParksRecService {
         return newUser;
     }
 
+    @Override
+    @SecureAPI
     public String deleteUser(@RequestParam(name="id", required=false) long id, @RequestHeader("token") String token){
         try{
             AppUser appUser = userService.find(id);
