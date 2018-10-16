@@ -104,7 +104,7 @@ curl -X GET \
 6. Create league
 
 curl -X POST \
-  http://localhost:8080/parksrec/services/v1/createLeague \
+  https://parks-and-rec-app.herokuapp.com/parksrec/services/v1/createLeague \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
   -H 'token: e871211e-b60f-44f5-af09-966353b940be' \
@@ -127,7 +127,7 @@ curl -X POST \
 6.  Update league
 
 curl -X PUT \
-  http://localhost:8080/parksrec/services/v1/updateLeague \
+  https://parks-and-rec-app.herokuapp.com/parksrec/services/v1/updateLeague \
   -H 'Cache-Control: no-cache' \
   -H 'token: 587d0e16-f464-48c9-bf2f-19ca89a18c9d' \
   -H 'Content-Type: application/json' \
@@ -149,7 +149,7 @@ curl -X PUT \
 7. addSport
 
 curl -X POST \
-  http://localhost:8080/parksrec/services/v1/createSport \
+  https://parks-and-rec-app.herokuapp.com/parksrec/services/v1/createSport \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
   -H 'Postman-Token: af7dee4c-c29b-454b-8d42-43ce7214c295' \
