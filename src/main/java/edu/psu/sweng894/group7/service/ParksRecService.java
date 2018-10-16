@@ -75,6 +75,11 @@ public interface ParksRecService {
     public UserModel addUser(@RequestBody UserModel userModel,  @RequestHeader("token") String token) throws Exception;
 
 
+    @RequestMapping(path="/deleteUser", method=RequestMethod.DELETE,  produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteUser(@RequestParam(name="id", required=false) long id,@RequestHeader("token") String token);
+
+
     /**
      * This validates user and authenticates.
      * @param signedUser
