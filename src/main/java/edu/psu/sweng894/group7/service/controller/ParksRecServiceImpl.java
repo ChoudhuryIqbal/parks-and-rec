@@ -80,6 +80,11 @@ public class ParksRecServiceImpl implements ParksRecService {
             userModel.setUserId(appUser.getId());
             userModel.setRoles(appUser.getRoles());
             userModel.setUsername(appUser.getUsername());
+            userModel.setAddress(appUser.getAddress());
+            userModel.setEmail(appUser.getEmail());
+            userModel.setOrgid(appUser.getOrgid());
+            userModel.setOrgname(appUser.getOrgname());
+            userModel.setPhone(appUser.getPhone());
         } catch (Exception ex) {
             throw new AppUserException("User not found." + ex.getMessage());
         }
@@ -95,12 +100,17 @@ public class ParksRecServiceImpl implements ParksRecService {
             List<AppUser> appUsers = userService.findAll();
             for (AppUser tempuser : appUsers) {
                 if (tempuser.getName().equalsIgnoreCase(userName)) {
-                    UserModel user = new UserModel();
-                    user.setUserId(tempuser.getId());
-                    user.setUsername(tempuser.getName());
+                    UserModel userModel = new UserModel();
+                    userModel.setUserId(tempuser.getId());
+                    userModel.setUsername(tempuser.getName());
+                    userModel.setAddress(tempuser.getAddress());
+                    userModel.setEmail(tempuser.getEmail());
+                    userModel.setOrgid(tempuser.getOrgid());
+                    userModel.setOrgname(tempuser.getOrgname());
+                    userModel.setPhone(tempuser.getPhone());
                     String roleNames = "";
-                    user.setRoles(tempuser.getRoles());
-                    users.add(user);
+                    userModel.setRoles(tempuser.getRoles());
+                    users.add(userModel);
                 }
             }
         } catch (Exception ex) {
@@ -121,7 +131,10 @@ public class ParksRecServiceImpl implements ParksRecService {
             user.setPassword(userModel.getPassword());
             user.setRoles(userModel.getRoles());
             user.setUsername(userModel.getUsername());
-            //user.setUserId(userModel.getUserId());
+            user.setAddress(userModel.getUsername());
+            user.setEmail(userModel.getEmail());
+            user.setPhone(userModel.getPhone());
+            user.setOrgname(userModel.getOrgname());
             id = userService.insert(user);
             newUser = getUserById(id, token);
         } catch (org.springframework.dao.DataIntegrityViolationException iex) {
@@ -161,6 +174,12 @@ public class ParksRecServiceImpl implements ParksRecService {
             appUser.setPassword(userModel.getPassword());
             appUser.setRoles(userModel.getRoles());
             appUser.setUsername(userModel.getUsername());
+
+            appUser.setAddress(userModel.getUsername());
+            appUser.setEmail(userModel.getEmail());
+            appUser.setPhone(userModel.getPhone());
+            appUser.setOrgname(userModel.getOrgname());
+
             userService.update(appUser);
             updatedUser = getUserById(userModel.getUserId(), token);
         }
@@ -215,7 +234,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public LeagueModel getLeagueById(long id, @RequestHeader("token") String token) {
+    public LeagueModel getLeagueById(long id, String orgid, @RequestHeader("token") String token) {
         LeagueModel leagueModel = new LeagueModel();
         try {
             Leagues league = leagueService.find(id);
@@ -255,11 +274,12 @@ public class ParksRecServiceImpl implements ParksRecService {
             league.setTeamMax(leagueModel.getTeamMax());
             league.setLeagueSchedule(leagueModel.getLeagueSchedule());
             league.setLeagueRules(leagueModel.getLeagueRules());
+            league.setOrgid(leagueModel.getOrgid());
             id = leagueService.insert(league);
         } catch (Exception ex) {
             throw new LeagueException(ex.getMessage());
         }
-        LeagueModel model=getLeagueById(id, token);
+        LeagueModel model=getLeagueById(id, leagueModel.getOrgid(),token);
         printResponce(model);
         return model;
     }
@@ -282,8 +302,9 @@ public class ParksRecServiceImpl implements ParksRecService {
             league.setTeamMax(leagueModel.getTeamMax());
             league.setLeagueSchedule(leagueModel.getLeagueSchedule());
             league.setLeagueRules(leagueModel.getLeagueRules());
+            league.setOrgid(leagueModel.getOrgid());
             leagueService.update(league);
-            updatedLeague = getLeagueById(leagueModel.getLeagueId(), token);
+            updatedLeague = getLeagueById(leagueModel.getLeagueId(), leagueModel.getOrgid(),token);
         } catch (Exception ex) {
             throw new LeagueException("League update Failed");
         }
@@ -316,6 +337,7 @@ public class ParksRecServiceImpl implements ParksRecService {
             Validator.validateSportModel(sportModel);
             sport.setName(sportModel.getName());
             sport.setDescription(sportModel.getDescription());
+            sport.setOrgid(sportModel.getOrgid());
             id = sportService.insert(sport);
         }
         catch(Exception e){

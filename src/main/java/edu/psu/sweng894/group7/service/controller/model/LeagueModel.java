@@ -23,6 +23,17 @@ public class LeagueModel {
     private Integer teamMax;
     private String leagueSchedule;
     private String leagueRules;
+    private String  orgid;
+
+    public String getOrgid() {
+        return orgid;
+    }
+
+    public void setOrgid(String orgid) {
+        this.orgid = orgid;
+    }
+
+
 
 
     public Long getLeagueId() {
