@@ -136,6 +136,21 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
+    public String deleteUser(@RequestParam(name="id", required=false) long id, @RequestHeader("token") String token){
+        try{
+            AppUser appUser = userService.find(id);
+            if(appUser != null)
+                 userService.delete(appUser);
+            else
+                throw new Exception("User not found");
+        }catch(Exception ex){
+            throw new AppUserException(ex.getMessage());
+        }
+        return "{ \"status\":\"success\" }";
+    }
+
+    @Override
+    @SecureAPI
     public UserModel updateUser(@RequestBody UserModel userModel, @RequestHeader("token") String token) {
         AppUser appUser = new AppUser();
         UserModel updatedUser = new UserModel();
