@@ -1,15 +1,16 @@
 
 DROP TABLE IF EXISTS public.user_role_map;
-DROP TABLE IF EXISTS public.app_user;
 DROP TABLE IF EXISTS public.roles;
 DROP TABLE IF EXISTS public.leagues;
 DROP TABLE IF EXISTS public.tokens;
 DROP TABLE IF EXISTS public.sport;
+DROP TABLE IF EXISTS public.app_user;
 DROP SEQUENCE IF EXISTS public.app_user_seq;
 DROP SEQUENCE IF EXISTS public.user_role_seq;
 DROP SEQUENCE IF EXISTS public.league_seq;
 DROP SEQUENCE IF EXISTS public.token_seq;
 DROP SEQUENCE IF EXISTS public.sport_seq;
+DROP SEQUENCE IF EXISTS public.app_user_org_seq;
 
 
 CREATE SEQUENCE public.token_seq

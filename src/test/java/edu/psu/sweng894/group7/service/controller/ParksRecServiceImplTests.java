@@ -107,7 +107,7 @@ public class ParksRecServiceImplTests {
 
     @Test
     public void getLeagueById() throws Exception {
-        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId(),token);
+        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId(),leagueModel.getOrgid(),token);
         assertTrue(response.getLeagueId()==league.getLeagueId());
     }
 

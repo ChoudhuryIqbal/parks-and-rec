@@ -8,23 +8,29 @@ import java.util.List;
 public class SportModel {
 
     @NotNull
-    private Long sportId;
+    private Long id;
     @NotNull
-    private String sportName;
+    private String name;
     @NotNull
-    private String sportDescription;
-    @NotNull
-    private Long departmentId;
+    private String description;
 
-    public Long getSportId() { return sportId; }
-    public void setSportId(Long id) { this.sportId = id; }
+    private String  orgid;
 
-    public String getSportName() { return sportName; }
-    public void setSportName(String name) { this.sportName = name; }
+    public String getOrgid() {
+        return orgid;
+    }
 
-    public String getSportDescription() { return sportDescription; }
-    public void setSportDescription(String description) { this.sportDescription = description; }
+    public void setOrgid(String orgid) {
+        this.orgid = orgid;
+    }
 
-    public Long getDepartmentId() { return departmentId; }
-    public void setDepartmentId(Long departmentId) { this.departmentId = departmentId; }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 }
