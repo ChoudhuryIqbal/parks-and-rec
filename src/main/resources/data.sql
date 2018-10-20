@@ -1,5 +1,3 @@
-
-
 INSERT INTO public.App_User (id,username,password, orgid, email, phone, address) VALUES (1, 'Admin','Admin', '1', 'test@test.com', '111-222-3333', 'admin address');
 
 
