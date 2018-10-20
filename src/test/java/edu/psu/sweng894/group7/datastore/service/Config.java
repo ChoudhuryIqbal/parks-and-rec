@@ -60,10 +60,9 @@ public class Config {
     @Bean
     public Sport sport() {
         Sport sport = new Sport();
-        sport.setSportId(1l);
-        sport.setSportName("TestSport");
-        sport.setSportDescription("TestSportDescription");
-        sport.setDepartmentId(1l);
+        sport.setId(1l);
+        sport.setName("TestSport");
+        sport.setDescription("TestSportDescription");
         return sport;
     }
 }

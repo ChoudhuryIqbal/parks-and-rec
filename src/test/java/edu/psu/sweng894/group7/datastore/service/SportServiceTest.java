@@ -22,13 +22,13 @@ public class SportServiceTest {
     @Before
     public void setUp() {
         Mockito.when(sportService.find(1l)).thenReturn(sport);
-        Mockito.when(sportService.insert(sport)).thenReturn(sport.getSportId());
+        Mockito.when(sportService.insert(sport)).thenReturn(sport.getId());
     }
 
     @Test
     public void findTest(){
         Sport sportTest = sportService.find(1l);
-        assertTrue(sportTest.getSportId()==sport.getSportId());
+        assertTrue(sportTest.getId()==sport.getId());
     }
 
     @Test

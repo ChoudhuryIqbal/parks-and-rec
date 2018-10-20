@@ -49,9 +49,5 @@ public class Validator {
             throw new ValidationException("Description is required");
         }
 
-        if (sportModel.getOrgid() == null) {
-            throw new ValidationException("Org is required");
-        }
-
     }
 }
