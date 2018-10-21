@@ -329,13 +329,60 @@ public class ParksRecServiceImpl implements ParksRecService {
     }
 
     @Override
-    public String deleteSport(long id, String token) {
-        return null;
+    @SecureAPI
+    public List<SportModel> getSportByName(String sportName, String orgId, @RequestHeader("token") String token) {
+        List<SportModel> sports = new ArrayList<>();
+        try {
+            List<Sport> sportList = sportService.findAll();
+            for (Sport tempSport : sportList) {
+                if (tempSport.getName().equalsIgnoreCase(sportName) && tempSport.getOrgid().equalsIgnoreCase(orgId)) {
+                    SportModel sportModel = new SportModel();
+                    sportModel.setId(tempSport.getId());
+                    sportModel.setName(tempSport.getName());
+                    sportModel.setDescription(tempSport.getDescription());
+                    sportModel.setOrgid(tempSport.getOrgid());
+                    sports.add(sportModel);
+                }
+            }
+        } catch (Exception ex) {
+            throw new SportException("Sport not found. " + ex.getMessage());
+        }
+        printResponce(sports);
+        return sports;
     }
 
     @Override
-    public SportModel updateSport(SportModel sportModel, String token) throws Exception {
-        return null;
+    public String deleteSport(@RequestParam(name="id", required=false) long id, @RequestHeader("token") String token) {
+        try{
+            Sport sport = sportService.find(id);
+            if(sport != null)
+                sportService.delete(sport);
+            else
+                throw new Exception("User not found");
+        }catch(Exception ex){
+            throw new SportException(ex.getMessage());
+        }
+        return "{ \"status\":\"success\" }";
+    }
+
+    @Override
+    public SportModel updateSport(@RequestBody SportModel sportModel, @RequestHeader("token") String token) {
+        Sport sport = new Sport();
+        SportModel updatedSport = new SportModel();
+        try {
+            Validator.validateSportModel(sportModel);
+            sport.setName(sportModel.getName());
+            sport.setDescription(sportModel.getDescription());
+            sport.setOrgid(sportModel.getOrgid());
+
+            sportService.update(sport);
+            updatedSport = getSportById(sportModel.getId(), token);
+        }
+        catch (Exception ex) {
+            throw new SportException("Sport update Failed:"+ ex.getMessage());
+        }
+        printResponce(updatedSport);
+        return updatedSport;
     }
 
     @Override
