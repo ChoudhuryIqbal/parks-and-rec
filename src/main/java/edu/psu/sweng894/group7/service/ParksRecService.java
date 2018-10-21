@@ -100,7 +100,7 @@ public interface ParksRecService {
 
     @RequestMapping(path="/getLeagueById", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public LeagueModel getLeagueById(@RequestParam(name="leagueId", required=true) long id, @RequestHeader("token") String token) throws Exception;
+    public LeagueModel getLeagueById(@RequestParam(name="leagueId", required=true) long id,@RequestParam(name="orgid", required=true) String orgid, @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/createLeague", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public LeagueModel addLeague(@RequestBody LeagueModel leagueModel, @RequestHeader("token") String token) throws Exception;

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Required;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *  Entity to manage user accounts
@@ -26,11 +27,61 @@ public class AppUser {
     Long id;
 
 
-
     @NotNull
     private String username;
     @NotNull
     private String password;
+
+    String orgid= UUID.randomUUID().toString();
+
+    private String orgname;
+    @NotNull
+    private String email;
+    @NotNull
+    private String address;
+    @NotNull
+    private String phone;
+
+
+    public String getOrgid() {
+        return orgid;
+    }
+
+    public void setOrgid(String orgid) {
+        this.orgid = orgid;
+    }
+
+    public String getOrgname() {
+        return orgname;
+    }
+
+    public void setOrgname(String orgname) {
+        this.orgname = orgname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
 
     @OneToMany (cascade=CascadeType.ALL)

@@ -8,38 +8,48 @@ import javax.persistence.*;
 public class Sport {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Sport_SEQ")
-    private Long sportId;
-    private String sportName;
-    private String sportDescription;
-    private Long departmentId;
+    private Long id;
+    private String name;
+    private String description;
 
 //    public Sport(String name, String description) {
 //        this.name = name;
 //        this.description = description;
 //    }
 
-    public Long getSportId() {
-        return sportId;
-    }
-    public void setSportId(Long id) {
-        this.sportId = id;
+
+
+
+    private String  orgid;
+
+    public String getOrgid() {
+        return orgid;
     }
 
-    public Long getDepartmentId() { return departmentId; }
-    public void setDepartmentId(Long departmentId) { this.departmentId = departmentId; }
-
-    public String getSportName() {
-        return sportName;
-    }
-    public void setSportName(String name) {
-        this.sportName = name;
+    public void setOrgid(String orgid) {
+        this.orgid = orgid;
     }
 
-    public String getSportDescription() {
-        return sportDescription;
+
+    public Long getId() {
+        return id;
     }
-    public void setSportDescription(String description) {
-        this.sportDescription = description;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
 

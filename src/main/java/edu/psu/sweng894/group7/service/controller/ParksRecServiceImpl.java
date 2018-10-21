@@ -80,6 +80,11 @@ public class ParksRecServiceImpl implements ParksRecService {
             userModel.setUserId(appUser.getId());
             userModel.setRoles(appUser.getRoles());
             userModel.setUsername(appUser.getUsername());
+            userModel.setAddress(appUser.getAddress());
+            userModel.setEmail(appUser.getEmail());
+            userModel.setOrgid(appUser.getOrgid());
+            userModel.setOrgname(appUser.getOrgname());
+            userModel.setPhone(appUser.getPhone());
         } catch (Exception ex) {
             throw new AppUserException("User not found." + ex.getMessage());
         }
@@ -95,12 +100,17 @@ public class ParksRecServiceImpl implements ParksRecService {
             List<AppUser> appUsers = userService.findAll();
             for (AppUser tempuser : appUsers) {
                 if (tempuser.getName().equalsIgnoreCase(userName)) {
-                    UserModel user = new UserModel();
-                    user.setUserId(tempuser.getId());
-                    user.setUsername(tempuser.getName());
+                    UserModel userModel = new UserModel();
+                    userModel.setUserId(tempuser.getId());
+                    userModel.setUsername(tempuser.getName());
+                    userModel.setAddress(tempuser.getAddress());
+                    userModel.setEmail(tempuser.getEmail());
+                    userModel.setOrgid(tempuser.getOrgid());
+                    userModel.setOrgname(tempuser.getOrgname());
+                    userModel.setPhone(tempuser.getPhone());
                     String roleNames = "";
-                    user.setRoles(tempuser.getRoles());
-                    users.add(user);
+                    userModel.setRoles(tempuser.getRoles());
+                    users.add(userModel);
                 }
             }
         } catch (Exception ex) {
@@ -121,7 +131,10 @@ public class ParksRecServiceImpl implements ParksRecService {
             user.setPassword(userModel.getPassword());
             user.setRoles(userModel.getRoles());
             user.setUsername(userModel.getUsername());
-            //user.setUserId(userModel.getUserId());
+            user.setAddress(userModel.getUsername());
+            user.setEmail(userModel.getEmail());
+            user.setPhone(userModel.getPhone());
+            user.setOrgname(userModel.getOrgname());
             id = userService.insert(user);
             newUser = getUserById(id, token);
         } catch (org.springframework.dao.DataIntegrityViolationException iex) {
@@ -161,6 +174,12 @@ public class ParksRecServiceImpl implements ParksRecService {
             appUser.setPassword(userModel.getPassword());
             appUser.setRoles(userModel.getRoles());
             appUser.setUsername(userModel.getUsername());
+
+            appUser.setAddress(userModel.getUsername());
+            appUser.setEmail(userModel.getEmail());
+            appUser.setPhone(userModel.getPhone());
+            appUser.setOrgname(userModel.getOrgname());
+
             userService.update(appUser);
             updatedUser = getUserById(userModel.getUserId(), token);
         }
@@ -215,7 +234,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public LeagueModel getLeagueById(long id, @RequestHeader("token") String token) {
+    public LeagueModel getLeagueById(long id, String orgid, @RequestHeader("token") String token) {
         LeagueModel leagueModel = new LeagueModel();
         try {
             Leagues league = leagueService.find(id);
@@ -255,11 +274,12 @@ public class ParksRecServiceImpl implements ParksRecService {
             league.setTeamMax(leagueModel.getTeamMax());
             league.setLeagueSchedule(leagueModel.getLeagueSchedule());
             league.setLeagueRules(leagueModel.getLeagueRules());
+            league.setOrgid(leagueModel.getOrgid());
             id = leagueService.insert(league);
         } catch (Exception ex) {
             throw new LeagueException(ex.getMessage());
         }
-        LeagueModel model=getLeagueById(id, token);
+        LeagueModel model=getLeagueById(id, leagueModel.getOrgid(),token);
         printResponce(model);
         return model;
     }
@@ -282,8 +302,9 @@ public class ParksRecServiceImpl implements ParksRecService {
             league.setTeamMax(leagueModel.getTeamMax());
             league.setLeagueSchedule(leagueModel.getLeagueSchedule());
             league.setLeagueRules(leagueModel.getLeagueRules());
+            league.setOrgid(leagueModel.getOrgid());
             leagueService.update(league);
-            updatedLeague = getLeagueById(leagueModel.getLeagueId(), token);
+            updatedLeague = getLeagueById(leagueModel.getLeagueId(), leagueModel.getOrgid(),token);
         } catch (Exception ex) {
             throw new LeagueException("League update Failed");
         }
@@ -297,26 +318,37 @@ public class ParksRecServiceImpl implements ParksRecService {
         SportModel sportModel = new SportModel();
         try {
             Sport sport = sportService.find(id);
-            sportModel.setSportId(sport.getSportId());
-            sportModel.setSportName(sport.getSportName());
-            sportModel.setSportDescription(sport.getSportDescription());
+            sportModel.setId(sport.getId());
+            sportModel.setName(sport.getName());
+            sportModel.setDescription(sport.getDescription());
         }catch(Exception ex){
-            throw new SportException("sport not found. " + ex.getMessage());
+            throw new SportException("sport not found." + ex.getMessage());
         }
         printResponce(sportModel);
         return sportModel;
     }
 
     @Override
+    public String deleteSport(long id, String token) {
+        return null;
+    }
+
+    @Override
+    public SportModel updateSport(SportModel sportModel, String token) throws Exception {
+        return null;
+    }
+
+    @Override
     @SecureAPI
     public SportModel addSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token){
-        Sport newSport = new Sport();
+        Sport sport = new Sport();
         long id = 0l;
         try {
             Validator.validateSportModel(sportModel);
-            newSport.setSportName(sportModel.getSportName());
-            newSport.setSportDescription(sportModel.getSportDescription());
-            id = sportService.insert(newSport);
+            sport.setName(sportModel.getName());
+            sport.setDescription(sportModel.getDescription());
+            sport.setOrgid(sportModel.getOrgid());
+            id = sportService.insert(sport);
         }
         catch(Exception e){
             throw new SportException(e.getMessage());
@@ -324,40 +356,6 @@ public class ParksRecServiceImpl implements ParksRecService {
         SportModel model=getSportById(id, token);
         printResponce(model);
         return model;
-    }
-
-    @Override
-    @SecureAPI
-    public SportModel updateSport(@RequestBody SportModel sportModel, @RequestHeader("token") String token) {
-        Sport sport = new Sport();
-        SportModel updatedSport = new SportModel();
-        try {
-            Validator.validateSportModel(sportModel);
-            sport.setSportId(sportModel.getSportId());
-            sport.setSportName(sportModel.getSportName());
-            sport.setSportDescription(sportModel.getSportDescription());
-            sport.setDepartmentId(sportModel.getDepartmentId());
-            sportService.update(sport);
-            updatedSport = getSportById(sportModel.getSportId(), token);
-        } catch (Exception ex) {
-            throw new SportException("Sport update Failed. "+ ex.getMessage());
-        }
-        return updatedSport;
-    }
-
-    @Override
-    @SecureAPI
-    public String deleteSport(long id, @RequestHeader("token") String token){
-        Sport sport = new Sport();
-        try {
-            sport = sportService.find(id);
-        }
-        catch(Exception ex){
-            throw new SportException("Sport update Failed. "+ ex.getMessage());
-        }
-        sportService.delete(sport);
-
-        return "Deleted Sport ID: " + sport.getSportId().toString();
     }
 
    //end  of use cases

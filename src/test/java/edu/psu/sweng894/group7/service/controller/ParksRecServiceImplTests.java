@@ -77,7 +77,7 @@ public class ParksRecServiceImplTests {
         Mockito.when( securityService.validate("ADMIN-TOKEN")).thenReturn(Boolean.TRUE);
 
         Mockito.when(sportService.find(0l)).thenReturn(sport);
-        Mockito.when(sportService.insert(sport)).thenReturn(sport.getSportId());
+        Mockito.when(sportService.insert(sport)).thenReturn(sport.getId());
 
         java.util.List<java.lang.String> headersList = new ArrayList<>();
 
@@ -107,7 +107,7 @@ public class ParksRecServiceImplTests {
 
     @Test
     public void getLeagueById() throws Exception {
-        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId(),token);
+        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId(),leagueModel.getOrgid(),token);
         assertTrue(response.getLeagueId()==league.getLeagueId());
     }
 
@@ -115,14 +115,14 @@ public class ParksRecServiceImplTests {
     @Test
     public void createSport() throws Exception{
         SportModel response = parksRecServiceImpl.addSport(sportModel, token);
-        assertTrue(response.getSportId()==sport.getSportId());
+        assertTrue(response.getId()==sport.getId());
     }
 
 
     @Test
     public void getSportById() throws  Exception{
-        SportModel response = parksRecServiceImpl.getSportById(sport.getSportId(), token);
-        assertTrue((response.getSportId()==sport.getSportId()));
+        SportModel response = parksRecServiceImpl.getSportById(sport.getId(), token);
+        assertTrue((response.getId()==sport.getId()));
     }
 
 }
