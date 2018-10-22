@@ -98,6 +98,11 @@ public interface ParksRecService {
     public  List<Roles> getRoles( @RequestHeader("token") String token) throws Exception;
 
 
+    @RequestMapping(path="/getLeagueByUserId", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<LeagueModel>  getLeagueByUserId(@RequestHeader("token") String token) throws Exception;
+
+
     @RequestMapping(path="/getLeagueById", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public LeagueModel getLeagueById(@RequestParam(name="leagueId", required=true) long id,@RequestParam(name="orgid", required=true) String orgid, @RequestHeader("token") String token) throws Exception;
@@ -121,6 +126,10 @@ public interface ParksRecService {
 
     @RequestMapping(path="/updateSport", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public SportModel updateSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token) throws Exception;
+
+    @RequestMapping(path="/getSportByUserId", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<SportModel>  getSportByUserId(@RequestHeader("token") String token) throws Exception;
 
 }
 
