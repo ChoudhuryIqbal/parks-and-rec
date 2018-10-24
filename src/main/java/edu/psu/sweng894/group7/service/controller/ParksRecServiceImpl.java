@@ -310,8 +310,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                 leagueModel.setLeagueRules(league.getLeagueRules());
                 leagueModel.setUserId(league.getUserId());
                 leagueModel.setOrgid(league.getOrgid());
-                if (!admin && league.getUserId() != appuserByToken.getId())
-                    throw new LeagueException("Un-authorized");
+
             }
         } catch (Exception ex) {
             throw new LeagueException("League not found." + ex.getMessage());
@@ -348,7 +347,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                 throw new LeagueException("Un-authorized");
             }
         } catch (Exception ex) {
-            throw new LeagueException(ex.getMessage());
+            throw new LeagueException("addLeague failed." + ex.getMessage());
         }
         LeagueModel model=getLeagueById(id, leagueModel.getOrgid(),token);
         printResponce(model);
@@ -380,17 +379,13 @@ public class ParksRecServiceImpl implements ParksRecService {
                 if (admin) {
                     leagueService.update(league);
                     updatedLeague = getLeagueById(leagueModel.getLeagueId(), leagueModel.getOrgid(), token);
-                } else {
-                    if (appuserByToken.getId() == league.getUserId()) {
-                        leagueService.update(league);
-                        updatedLeague = getLeagueById(leagueModel.getLeagueId(), leagueModel.getOrgid(), token);
-                    } else {
-                        throw new LeagueException("Un-authorized");
-                    }
+                }
+                else {
+                    throw new LeagueException("Un-authorized");
                 }
             }
         } catch (Exception ex) {
-            throw new LeagueException("League update Failed");
+            throw new LeagueException("League update Failed. "+ex.getMessage());
         }
         printResponce(updatedLeague);
         return updatedLeague;
@@ -406,7 +401,6 @@ public class ParksRecServiceImpl implements ParksRecService {
 
             List<Leagues> leagues=leagueService.findAll();
             for (Leagues league : leagues) {
-                if(appuserByToken.getId()==league.getUserId()){
                     LeagueModel leagueModel = new LeagueModel();
                     leagueModel.setOrgid(league.getOrgid());
                     leagueModel.setUserId(league.getUserId());
@@ -421,10 +415,9 @@ public class ParksRecServiceImpl implements ParksRecService {
                     leagueModel.setLeagueSchedule(league.getLeagueSchedule());
                     leagueModel.setLeagueRules(league.getLeagueRules());
                     leagueModels.add(leagueModel);
-                }
             }
         }catch (Exception ex){
-            throw new LeagueException("League finding failed");
+            throw new LeagueException("League finding failed" + ex.getMessage());
         }
         return leagueModels;
     }
@@ -438,18 +431,17 @@ public class ParksRecServiceImpl implements ParksRecService {
             boolean admin = isAdmin(appuserByToken);
             List<Sport> sports= sportService.findAll();
             for(Sport sport:sports){
-                if(sport.getUserId()==appuserByToken.getId()) {
                     SportModel model = new SportModel();
                     model.setDescription(sport.getDescription());
                     model.setName(sport.getName());
                     model.setOrgid(sport.getOrgid());
                     model.setUserId(sport.getUserId());
                     sportModels.add(model);
-                }
+
             }
 
         }catch (Exception ex){
-            throw new SportException("Sport finding failed");
+            throw new SportException("Sport finding failed.");
         }
         return sportModels;
     }
@@ -490,33 +482,27 @@ public class ParksRecServiceImpl implements ParksRecService {
             sportModel.setDescription(sport.getDescription());
             sportModel.setOrgid(sport.getOrgid());
             sportModel.setUserId(sport.getUserId());
-            if(admin) {
-                return sportModel;
-            }else{
-                if(appuserByToken.getId()==sport.getUserId()){
-                    return sportModel;
-                }else{
-                    throw new SportException("Un-authorized");
-                }
-            }
         }catch(Exception ex){
             throw new SportException("Sport not found." + ex.getMessage());
         }
+        return sportModel;
     }
 
     @Override
+    @SecureAPI
     public String deleteSport(long id, String token) {
         try{
             AppUser appuserByToken=getUser(token);
             boolean admin=isAdmin(appuserByToken);
             AppUser appUser = userService.find(id);
             Sport sport = sportService.find(id);
-            if(appUser != null){
-                if(admin)
-                    sportService.delete(sport);
-                else
-                    throw new SportException("Un-authorized");
+            if (admin) {
+                sportService.delete(sport);
+
+            } else {
+                throw new SportException("Un-authorized");
             }
+
         }catch(Exception ex){
             throw new SportException(ex.getMessage());
         }
@@ -525,19 +511,27 @@ public class ParksRecServiceImpl implements ParksRecService {
     }
 
     @Override
+    @SecureAPI
     public SportModel updateSport(SportModel sportModel, String token) throws Exception {
         try{
             AppUser appuserByToken=getUser(token);
             boolean admin=isAdmin(appuserByToken);
             Sport sport = sportService.find(sportModel.getId());
-            sport.setDescription(sportModel.getDescription());
-            sport.setName(sportModel.getName());
-            sportService.update(sport);
-            sport=sportService.find(sportModel.getId());
-            sportModel.setUserId(sport.getUserId());
-            sportModel.setOrgid(sport.getOrgid());
-            sportModel.setName(sport.getName());
-            sportModel.setDescription(sport.getDescription());
+                sport.setDescription(sportModel.getDescription());
+                sport.setName(sportModel.getName());
+                sportService.update(sport);
+                sport = sportService.find(sportModel.getId());
+                sportModel.setUserId(sport.getUserId());
+                sportModel.setOrgid(sport.getOrgid());
+                sportModel.setName(sport.getName());
+                sportModel.setDescription(sport.getDescription());
+            if (admin) {
+                sportService.update(sport);
+                sportModel=getSportById(sportModel.getId(), token);
+            } else {
+                throw new SportException("Un-authorized");
+            }
+
         }catch(Exception ex){
             throw new SportException("Updating sport failed." + ex.getMessage());
         }
@@ -548,6 +542,7 @@ public class ParksRecServiceImpl implements ParksRecService {
     @SecureAPI
     public SportModel addSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token){
         Sport sport = new Sport();
+        SportModel model;
         long id = 0l;
         try {
             Validator.validateSportModel(sportModel);
@@ -559,14 +554,14 @@ public class ParksRecServiceImpl implements ParksRecService {
                 sport.setDescription(sportModel.getDescription());
                 sport.setOrgid(appuserByToken.getOrgid());
                 id = sportService.insert(sport);
-            }else{
+            }else
                 throw new SportException("Un-authorized");
-            }
+
         }
         catch(Exception e){
-            throw new SportException(e.getMessage());
+            throw new SportException("add sport failed. " + e.getMessage());
         }
-        SportModel model=getSportById(id, token);
+        model=getSportById(id, token);
         printResponce(model);
         return model;
     }
@@ -587,7 +582,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                     .writer()
                     .withDefaultPrettyPrinter()
                     .writeValueAsString(object);
-            logger.info("Responce from method: "+ jsonInString);
+            logger.info("Response from method: "+ jsonInString);
         }catch(Exception ex){
             //ignore
         }
