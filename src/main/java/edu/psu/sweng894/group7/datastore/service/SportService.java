@@ -1,5 +1,6 @@
 package edu.psu.sweng894.group7.datastore.service;
 
+import edu.psu.sweng894.group7.datastore.entity.Leagues;
 import edu.psu.sweng894.group7.datastore.entity.Sport;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +29,7 @@ public class SportService {
     }
 
     public List<Sport> findAll() {
-        Query query = entityManager.createNamedQuery("query_find_all_sports", Sport.class);
+        Query query = entityManager.createNamedQuery("query_find_sports", Sport.class);
         return query.getResultList();
     }
 
@@ -37,6 +38,15 @@ public class SportService {
         flush();
     }
 
+    public List<Sport>  findUserSport(Long userId, String orgId){
+        java.util.List<Sport> result = null;
+        if(userId==1) {
+            result= entityManager.createQuery("select t from sport t where  t.orgid = :orgid").setParameter("orgid", orgId).getResultList();
+        }else{
+            result=entityManager.createQuery("select t from sport t where  t.user_id = :user_id and orgid = :orgid").setParameter("user_id", userId).setParameter("orgId", orgId).getResultList();
+        }
+        return result;
+    }
     /*
      JPA provider will update the new state upon calling flush method.
      Just update the new values to the entity in persistance context

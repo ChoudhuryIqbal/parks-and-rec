@@ -44,6 +44,9 @@ public class UserService {
      Just update the new values to the entity in persistance context
      */
     public void update(AppUser user){
+        entityManager.merge(user);
+
+        /*
         List<AppUser> appUsers = findAll();
         for (AppUser tempuser : appUsers) {
             if (tempuser.getName().equalsIgnoreCase(user.getUsername())) {
@@ -55,7 +58,7 @@ public class UserService {
                 flush();
                 break;
             }
-        }
+        }*/
     }
 
     public void flush(){

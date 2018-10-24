@@ -27,6 +27,19 @@ public class Tokens {
     @Column(name="username", unique=true)
     private String username;
 
+    public Long getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Long userid) {
+        this.userid = userid;
+    }
+
+    @NotNull
+    @Column(name="user_id", unique=true)
+    private Long userid;
+
+
     @NotNull
     String token;
 
