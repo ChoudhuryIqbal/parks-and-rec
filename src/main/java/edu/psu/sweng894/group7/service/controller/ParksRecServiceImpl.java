@@ -398,7 +398,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public List<LeagueModel> getLeagueByUserId(@RequestHeader("token") String token) throws Exception{
+    public List<LeagueModel> getAllLeagues(@RequestHeader("token") String token) throws Exception{
         List<LeagueModel> leagueModels = new ArrayList<>();
         try {
             AppUser appuserByToken = getUser(token);
@@ -413,9 +413,15 @@ public class ParksRecServiceImpl implements ParksRecService {
                     leagueModel.setDescription(league.getDescription());
                     leagueModel.setLeagueId(league.getLeagueId());
                     leagueModel.setSportId(league.getSportId());
+                    leagueModel.setAgeMin(league.getAgeMin());
+                    leagueModel.setAgeMax(league.getAgeMax());
+                    leagueModel.setCoed(league.getCoed());
+                    leagueModel.setTeamMin(league.getTeamMin());
+                    leagueModel.setTeamMax(league.getTeamMax());
+                    leagueModel.setLeagueSchedule(league.getLeagueSchedule());
+                    leagueModel.setLeagueRules(league.getLeagueRules());
                     leagueModels.add(leagueModel);
                 }
-
             }
         }catch (Exception ex){
             throw new LeagueException("League finding failed");
@@ -425,7 +431,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public List<SportModel>  getSportByUserId(@RequestHeader("token") String token) throws Exception{
+    public List<SportModel>  getAllSports(@RequestHeader("token") String token) throws Exception{
         List<SportModel> sportModels = new ArrayList<>();
         try{
             AppUser appuserByToken = getUser(token);
@@ -446,6 +452,29 @@ public class ParksRecServiceImpl implements ParksRecService {
             throw new SportException("Sport finding failed");
         }
         return sportModels;
+    }
+
+    @Override
+    @SecureAPI
+    public List<SportModel> getSportByName(String sportName, String orgId, @RequestHeader("token") String token) {
+        List<SportModel> sports = new ArrayList<>();
+        try {
+            List<Sport> sportList = sportService.findAll();
+            for (Sport tempSport : sportList) {
+                if (tempSport.getName().equalsIgnoreCase(sportName) && tempSport.getOrgid().equalsIgnoreCase(orgId)) {
+                    SportModel sportModel = new SportModel();
+                    sportModel.setId(tempSport.getId());
+                    sportModel.setName(tempSport.getName());
+                    sportModel.setDescription(tempSport.getDescription());
+                    sportModel.setOrgid(tempSport.getOrgid());
+                    sports.add(sportModel);
+                }
+            }
+        } catch (Exception ex) {
+            throw new SportException("Sport not found. " + ex.getMessage());
+        }
+        printResponce(sports);
+        return sports;
     }
 
     @Override
@@ -542,7 +571,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         return model;
     }
 
-   //end  of use cases
+    //end  of use cases
 
 
 
@@ -558,9 +587,9 @@ public class ParksRecServiceImpl implements ParksRecService {
                     .writer()
                     .withDefaultPrettyPrinter()
                     .writeValueAsString(object);
-           logger.info("Responce from method: "+ jsonInString);
+            logger.info("Responce from method: "+ jsonInString);
         }catch(Exception ex){
-           //ignore
+            //ignore
         }
 
     }
