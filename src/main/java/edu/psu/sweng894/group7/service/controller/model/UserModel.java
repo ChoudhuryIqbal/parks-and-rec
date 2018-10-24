@@ -14,6 +14,7 @@ public class UserModel {
 
     @NotNull
     private Long userId;
+
     @NotNull
     private String username;
     @NotNull
@@ -21,6 +22,52 @@ public class UserModel {
     @NotNull
     private List<UserRoleMap> roles;
 
+
+    private String orgid;
+    private String orgname;
+    private String email;
+    private String address;
+    private String phone;
+
+    public String getOrgid() {
+        return orgid;
+    }
+
+    public void setOrgid(String orgid) {
+        this.orgid = orgid;
+    }
+
+    public String getOrgname() {
+        return orgname;
+    }
+
+    public void setOrgname(String orgname) {
+        this.orgname = orgname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public Long getUserId() {
         return userId;
@@ -62,6 +109,6 @@ public class UserModel {
         for(UserRoleMap role: roles)
             roleNames=roleNames+","+role.getRole_id();
         roleNames=roleNames.substring(0,roleNames.length());
-        return String.format("AppUser [name=%s, role=%s]", username, roleNames);
+        return String.format("AppUser [name=%s, role=%s, orgname=%s]", username, roleNames, orgname);
     }
 }

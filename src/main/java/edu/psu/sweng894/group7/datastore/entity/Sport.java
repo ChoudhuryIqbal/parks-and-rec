@@ -17,6 +17,29 @@ public class Sport {
 //        this.description = description;
 //    }
 
+
+
+
+    private String  orgid;
+    Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getOrgid() {
+        return orgid;
+    }
+
+    public void setOrgid(String orgid) {
+        this.orgid = orgid;
+    }
+
+
     public Long getId() {
         return id;
     }

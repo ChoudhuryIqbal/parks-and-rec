@@ -1,6 +1,7 @@
 package edu.psu.sweng894.group7.datastore.service;
 
 import edu.psu.sweng894.group7.datastore.entity.Leagues;
+import edu.psu.sweng894.group7.datastore.entity.Tokens;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -27,9 +28,17 @@ public class LeagueService {
     }
 
     public List<Leagues> findAll() {
-        //Query query = entityManager.createNamedQuery("query_find_all_leagues", Leagues.class);
-        //return query.getResultList();
         java.util.List<Leagues> result = entityManager.createQuery("select l from Leagues l").getResultList();
+        return result;
+    }
+
+    public List<Leagues>  findUserLeagues(Long userId, String orgId){
+        java.util.List<Leagues> result=null;
+        if(userId==1)
+             result = entityManager.createQuery("select t from leagues t where  t.orgid = :orgid").setParameter("orgid", orgId).getResultList();
+        else{
+            result = entityManager.createQuery("select t from leagues t where  t.user_id = :user_id and orgid = :orgid").setParameter("user_id", userId).setParameter("orgid", orgId).getResultList();
+        }
         return result;
     }
 

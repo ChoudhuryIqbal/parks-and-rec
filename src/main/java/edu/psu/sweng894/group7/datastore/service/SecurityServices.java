@@ -25,7 +25,7 @@ public class SecurityServices {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
-    public String generateToken(String user) {
+    public String generateToken(String user, String userName, Long userid) {
         UUID uuid = UUID.randomUUID();
         Tokens token = new Tokens();
         token.setToken(uuid.toString());
@@ -33,6 +33,8 @@ public class SecurityServices {
         Timestamp ts = new Timestamp(currentTime);
         token.setCreatedTime(ts);
         token.setUsername(user);
+        token.setUsername(userName);
+        token.setUserid(userid);
         insert(token);
         return uuid.toString();
     }
@@ -87,6 +89,9 @@ public class SecurityServices {
         logger.info("End of Validating user token: Un-Authorized");
         return false;
     }
+
+
+
 
 }
 

@@ -24,6 +24,24 @@ public class Leagues {
     private Integer teamMax;
     private String leagueSchedule;
     private String leagueRules;
+    private String  orgid;
+    private Long userId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getOrgid() {
+        return orgid;
+    }
+
+    public void setOrgid(String orgid) {
+        this.orgid = orgid;
+    }
 
     public Long getLeagueId() {
         return leagueId;

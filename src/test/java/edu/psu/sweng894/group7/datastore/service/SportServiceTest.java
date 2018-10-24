@@ -27,14 +27,24 @@ public class SportServiceTest {
 
     @Test
     public void findTest(){
-        Sport league = sportService.find(1l);
-        assertTrue(sport.getId()==sport.getId());
+        Sport sportTest = sportService.find(1l);
+        assertTrue(sportTest.getId()==sport.getId());
     }
 
     @Test
     public void insertTest(){
         long id =sportService.insert(sport);
         assertTrue(id==1l);
+    }
+
+    @Test
+    public void updateTest(){
+
+    }
+
+    @Test
+    public void deleteTest(){
+
     }
 
 }
