@@ -81,7 +81,7 @@ public class SecurityServices {
             long elapsed = (currentTime - tokencreatedTime);
             elapsed = elapsed / (1000 * 60);
             logger.info("Token elapsed in minutes"+ elapsed);
-            if (elapsed <= 10) {
+            if (elapsed <= 180) {
                 logger.info("End of Validationg user token: Authorized");
                 return true;
             }
