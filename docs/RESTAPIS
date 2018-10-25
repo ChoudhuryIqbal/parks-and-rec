@@ -158,7 +158,7 @@ curl -X POST \
   -H 'Cache-Control: no-cache' \
   -H 'Content-Type: application/json' \
   -H 'Postman-Token: 6ac12fa1-14c5-4b50-96d5-415ef8ca9d06' \
-  -H 'token: 7158fe72-b9ee-46b2-80ba-df419578e4fa' \
+  -H 'token: 4bb12348-29b1-4162-bd0d-3314e35bac06' \
   -d '{
     "leagueId": 0,
     "leagueName": "sridhar League2",
@@ -173,6 +173,16 @@ curl -X POST \
     "leagueRules": "TestLeagueRules",
     "orgid": "afac4eb5-0f44-4c0c-b161-de2383906df3"
 }'
+
+
+Delete league
+
+curl -X DELETE \
+  'http://localhost:8080/parksrec/services/v1/deleteLeague?id=152' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: b4b91016-d0c5-4af0-82e5-7a2838bab177' \
+  -H 'cache-control: no-cache' \
+  -H 'token: 4bb12348-29b1-4162-bd0d-3314e35bac06'
 
 
 GetAllLeagues
