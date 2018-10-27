@@ -9,6 +9,7 @@ import edu.psu.sweng894.group7.service.controller.model.TestModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
 import edu.psu.sweng894.group7.service.controller.model.SportModel;
+import edu.psu.sweng894.group7.service.controller.model.TeamModel;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.datastore.service.SportService;
@@ -611,12 +612,20 @@ public class ParksRecServiceImpl implements ParksRecService {
         long id = 0l;
         try {
             Validator.validateTeamModel(teamModel);
-            team.setTeamName(teamModel.getTeamName());
-            team.setDescription(teamModel.getDescription());
-            team.setTeamManager(teamModel.getTeamManager());
-            //team.setPlayerList(teamModel.getPlayerList());
-            team.setLeagueId(teamModel.getLeagueId());
-            id = teamService.insert(team);
+            AppUser appuserByToken=getUser(token);
+            boolean admin=isAdmin(appuserByToken);
+            if (admin){
+                team.setTeamName(teamModel.getTeamName());
+                team.setDescription(teamModel.getDescription());
+                team.setTeamManager(teamModel.getTeamManager());
+                //team.setPlayerList(teamModel.getPlayerList());
+                team.setLeagueId(teamModel.getLeagueId());
+                id = teamService.insert(team);
+            }
+            else {
+                throw new TeamException("Un-authorized");
+            }
+
         }
         catch(Exception e){
             throw new TeamException(e.getMessage());
@@ -628,12 +637,56 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     public String deleteTeam(long id, String token) {
-        return null;
+        try{
+            AppUser appuserByToken=getUser(token);
+            boolean admin=isAdmin(appuserByToken);
+            //AppUser appUser = userService.find(id);
+            Teams team = teamService.find(id);
+            if (team != null){
+                if (admin) {
+                    teamService.delete(team);
+                } else {
+                    throw new TeamException("Un-authorized");
+                }
+            }
+            else {
+                throw new Exception("Team not found");
+            }
+
+        }catch(Exception ex){
+            throw new TeamException(ex.getMessage());
+        }
+        return "{ \"status\":\"success\" }";
     }
 
     @Override
     public TeamModel updateTeam(TeamModel teamModel, String token) throws Exception {
-        return null;
+        Teams team =null;
+        TeamModel updatedTeam = null;
+        try {
+            Validator.validateTeamModel(teamModel);
+            AppUser appuserByToken=getUser(token);
+            boolean admin=isAdmin(appuserByToken);
+            team=teamService.find(teamModel.getTeamId());
+            if(team != null) {
+                team.setTeamId(teamModel.getTeamId());
+                team.setTeamName(teamModel.getTeamName());
+                team.setDescription(teamModel.getDescription());
+                team.setTeamManager(teamModel.getTeamManager());
+                team.setLeagueId(teamModel.getLeagueId());
+                if (admin) {
+                    teamService.update(team);
+                    updatedTeam = getTeamById(teamModel.getTeamId(), token);
+                }
+                else {
+                    throw new TeamException("Un-authorized");
+                }
+            }
+        } catch (Exception ex) {
+            throw new TeamException("Team update Failed. "+ex.getMessage());
+        }
+        printResponce(updatedTeam);
+        return updatedTeam;
     }
 
    //end  of use cases

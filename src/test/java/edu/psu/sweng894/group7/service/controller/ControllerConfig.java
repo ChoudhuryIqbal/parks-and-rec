@@ -4,13 +4,16 @@ import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.Leagues;
 import edu.psu.sweng894.group7.datastore.entity.Sport;
 import edu.psu.sweng894.group7.datastore.entity.UserRoleMap;
+import edu.psu.sweng894.group7.datastore.entity.Teams;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.datastore.service.SportService;
+import edu.psu.sweng894.group7.datastore.service.TeamService;
 import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
 import edu.psu.sweng894.group7.service.controller.model.SportModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
+import edu.psu.sweng894.group7.service.controller.model.TeamModel;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
@@ -35,6 +38,9 @@ public class ControllerConfig {
 
     @MockBean
     SportService sportService;
+
+    @MockBean
+    TeamService teamService;
 
 
     @Bean
@@ -112,6 +118,28 @@ public class ControllerConfig {
         sportModel.setName("Test Sport Name");
         sportModel.setDescription("test description");
         return sportModel;
+    }
+
+    @Bean
+    public Teams team(){
+        Teams team = new Teams();
+        team.setTeamId(0l);
+        team.setTeamName("Test Sport Name");
+        team.setDescription("test description");
+        team.setTeamManager("Joe");
+        team.setLeagueId(0l);
+        return team;
+    }
+
+    @Bean
+    public TeamModel teamModel(){
+        TeamModel teamModel = new TeamModel();
+        teamModel.setTeamId(0l);
+        teamModel.setTeamName("Test Sport Name");
+        teamModel.setDescription("test description");
+        teamModel.setTeamManager("Joe");
+        teamModel.setLeagueId(0l);
+        return teamModel;
     }
 
 }
