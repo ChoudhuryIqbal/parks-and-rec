@@ -1,7 +1,12 @@
 package edu.psu.sweng894.group7.service.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.psu.sweng894.group7.datastore.entity.AppUser;
+import edu.psu.sweng894.group7.datastore.entity.Roles;
+import edu.psu.sweng894.group7.datastore.entity.Tokens;
+import edu.psu.sweng894.group7.datastore.entity.UserRoleMap;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
+import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.service.exception.UnAuthorizedUser;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Objects;
 
 @Aspect
@@ -22,7 +28,11 @@ public class SecureAPIAspect {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     SecurityServices securityService;
+
     @Around("@annotation(SecureAPI)")
     public Object validateToken(ProceedingJoinPoint joinPoint) throws Throwable {
 
@@ -31,6 +41,7 @@ public class SecureAPIAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         logger.info("Executing method: " + method.getName());
+
 
         String jsonInString= new ObjectMapper()
                 .writer()
@@ -44,6 +55,7 @@ public class SecureAPIAspect {
 
         if(Objects.nonNull(args))
           authToken = (String) args[args.length-1]; //token is the last parameter
+
 
        if (!authToken.equals("") && securityService.validate(authToken)) {
             return joinPoint.proceed();
