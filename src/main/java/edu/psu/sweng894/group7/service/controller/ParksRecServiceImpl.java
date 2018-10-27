@@ -3,17 +3,15 @@ package edu.psu.sweng894.group7.service.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
-import edu.psu.sweng894.group7.service.controller.model.Roles;
-import edu.psu.sweng894.group7.service.controller.model.TestModel;
-import edu.psu.sweng894.group7.service.controller.model.UserModel;
-import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
-import edu.psu.sweng894.group7.service.controller.model.SportModel;
+import edu.psu.sweng894.group7.service.controller.model.*;
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.Leagues;
 import edu.psu.sweng894.group7.datastore.entity.Sport;
+import edu.psu.sweng894.group7.datastore.entity.Teams;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.datastore.service.SportService;
+import edu.psu.sweng894.group7.datastore.service.TeamService;
 import edu.psu.sweng894.group7.service.ParksRecService;
 import edu.psu.sweng894.group7.service.exception.*;
 import edu.psu.sweng894.group7.service.util.SecureAPI;
@@ -46,6 +44,9 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Autowired
     SportService sportService;
+
+    @Autowired
+    TeamService teamService;
 
     //start of example services
     @Override
@@ -356,6 +357,57 @@ public class ParksRecServiceImpl implements ParksRecService {
         SportModel model=getSportById(id, token);
         printResponce(model);
         return model;
+    }
+
+    @Override
+    @SecureAPI
+    public  TeamModel getTeamById(long id,  @RequestHeader("token") String token){
+        TeamModel teamModel = new TeamModel();
+        try {
+            Teams team = teamService.find(id);
+            teamModel.setTeamId(team.getTeamId());
+            teamModel.setTeamName(team.getTeamName());
+            teamModel.setDescription(team.getDescription());
+            teamModel.setLeagueId(team.getLeagueId());
+            //teamModel.setPlayerList(team.getPlayerList());
+            teamModel.setTeamManager(team.getTeamManager());
+        }catch(Exception ex){
+            throw new TeamException("team not found." + ex.getMessage());
+        }
+        printResponce(teamModel);
+        return teamModel;
+    }
+
+    @Override
+    @SecureAPI
+    public TeamModel addTeam(@RequestBody TeamModel teamModel, @RequestHeader("token") String token){
+        Teams team = new Teams();
+        long id = 0l;
+        try {
+            Validator.validateTeamModel(teamModel);
+            team.setTeamName(teamModel.getTeamName());
+            team.setDescription(teamModel.getDescription());
+            team.setTeamManager(teamModel.getTeamManager());
+            //team.setPlayerList(teamModel.getPlayerList());
+            team.setLeagueId(teamModel.getLeagueId());
+            id = teamService.insert(team);
+        }
+        catch(Exception e){
+            throw new TeamException(e.getMessage());
+        }
+        TeamModel model=getTeamById(id, token);
+        printResponce(model);
+        return model;
+    }
+
+    @Override
+    public String deleteTeam(long id, String token) {
+        return null;
+    }
+
+    @Override
+    public TeamModel updateTeam(TeamModel teamModel, String token) throws Exception {
+        return null;
     }
 
    //end  of use cases

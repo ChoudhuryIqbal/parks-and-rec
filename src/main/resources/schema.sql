@@ -1,11 +1,13 @@
 DROP TABLE IF EXISTS public.user_role_map;
 DROP TABLE IF EXISTS public.roles;
+DROP TABLE IF EXISTS public.teams;
 DROP TABLE IF EXISTS public.leagues;
 DROP TABLE IF EXISTS public.tokens;
 DROP TABLE IF EXISTS public.sport;
 DROP TABLE IF EXISTS public.app_user;
 DROP SEQUENCE IF EXISTS public.app_user_seq;
 DROP SEQUENCE IF EXISTS public.user_role_seq;
+DROP SEQUENCE IF EXISTS public.team_seq;
 DROP SEQUENCE IF EXISTS public.league_seq;
 DROP SEQUENCE IF EXISTS public.token_seq;
 DROP SEQUENCE IF EXISTS public.sport_seq;
@@ -49,6 +51,13 @@ CREATE SEQUENCE public.league_seq
 	NO CYCLE;
 
 CREATE SEQUENCE public.sport_seq
+  INCREMENT BY 50
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+	CACHE 1
+	NO CYCLE;
+
+CREATE SEQUENCE public.team_seq
   INCREMENT BY 50
   MINVALUE 1
   MAXVALUE 9223372036854775807
@@ -122,4 +131,14 @@ CREATE TABLE public.sport (
   description varchar(255) NULL,
   CONSTRAINT sport_Pkey PRIMARY KEY (id),
   CONSTRAINT orgkey_sport FOREIGN KEY (orgid) REFERENCES app_user(orgid)
+);
+
+CREATE TABLE public.teams (
+  team_id int8 NOT NULL,
+  team_name   varchar(500) NOT NULL,
+  team_manager varchar(255) NULL,
+  description varchar(255) NULL,
+  league_id int8 NOT NULL,
+  CONSTRAINT team_Pkey PRIMARY KEY (team_id),
+  CONSTRAINT league_id FOREIGN KEY (league_id) REFERENCES leagues(league_id)
 );
