@@ -72,7 +72,8 @@ public class ControllerConfig {
         role.setRole_id(0l);
         //role.setRolename("TestRole");
         roles.add(role);
-        appUser.setRoles(roles);
+        //appUser.setRoles(roles);
+        appUser.setRolename("Admin");
         return appUser;
     }
 

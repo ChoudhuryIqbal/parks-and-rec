@@ -35,7 +35,8 @@ public class Config {
         role.setRole_id(1l);
         //role.setRolename("TestRole");
         roles.add(role);
-        appUser.setRoles(roles);
+       // appUser.setRoles(roles);
+        appUser.setRolename("Admin");
         return appUser;
     }
 

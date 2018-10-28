@@ -120,7 +120,7 @@ public interface ParksRecService {
     @ResponseStatus(HttpStatus.OK)
     public SportModel getSportById(@RequestParam(name="sportId", required=true) long id, @RequestHeader("token") String token) throws Exception;
 
-    @RequestMapping(path="/deleteSport", method=RequestMethod.DELETE,   produces=MediaType.TEXT_HTML_VALUE)
+    @RequestMapping(path="/deleteSport", method=RequestMethod.DELETE,   produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public String deleteSport(@RequestParam(name="sportId", required=true, defaultValue="") long id, @RequestHeader("token") String token);
 

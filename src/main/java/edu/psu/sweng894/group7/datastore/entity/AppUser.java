@@ -41,6 +41,17 @@ public class AppUser {
     private String address;
     @NotNull
     private String phone;
+    @NotNull
+    private String rolename;
+
+    public String getRolename() {
+        return rolename;
+    }
+
+    public void setRolename(String rolename) {
+        this.rolename = rolename;
+    }
+
 
 
     public String getOrgid() {
@@ -84,6 +95,7 @@ public class AppUser {
     }
 
 
+    /*
     @OneToMany (cascade=CascadeType.ALL)
     @JoinColumn(name="user_id")
     private List<UserRoleMap> roles;
@@ -94,7 +106,9 @@ public class AppUser {
 
     public void setRoles(List<UserRoleMap> roles) {
         this.roles = roles;
-    }
+    }*/
+
+
     public String getUsername() {
         return username;
     }
@@ -129,12 +143,14 @@ public class AppUser {
 
     @Override
     public String toString() {
+        /*
         String roleNames="";
         for(UserRoleMap role: roles)
             roleNames=roleNames+","+role.getRole_id();
 
         roleNames=roleNames.substring(0,roleNames.length());
-        return String.format("AppUser [id=%s, name=%s, role=%s]", username, roleNames);
+        */
+        return String.format("AppUser [id=%s, name=%s, role=%s]", username, rolename);
     }
 
 }

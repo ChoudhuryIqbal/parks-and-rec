@@ -29,6 +29,16 @@ public class UserModel {
     private String address;
     private String phone;
 
+    public String getRolename() {
+        return rolename;
+    }
+
+    public void setRolename(String rolename) {
+        this.rolename = rolename;
+    }
+
+    private String rolename;
+
     public String getOrgid() {
         return orgid;
     }

@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS public.user_role_map;
+DROP TABLE IF EXISTS public.teams;
 DROP TABLE IF EXISTS public.roles;
 DROP TABLE IF EXISTS public.leagues;
 DROP TABLE IF EXISTS public.tokens;
@@ -58,6 +59,7 @@ CREATE SEQUENCE public.sport_seq
 CREATE TABLE public.app_user (
 	 id int8 NOT NULL,
 	 orgid   varchar(500) UNIQUE,
+	 rolename varchar(255) NULL,
 	 password varchar(255) NOT NULL,
 	 username varchar(255)  NOT NULL,
 	 orgname varchar(500)  NULL,

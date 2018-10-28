@@ -79,7 +79,8 @@ public class ParksRecServiceImpl implements ParksRecService {
             boolean admin=isAdmin(appuserByToken);
             AppUser appUser = userService.find(id);
             userModel.setUserId(appUser.getId());
-            userModel.setRoles(appUser.getRoles());
+            //userModel.setRoles(appUser.getRoles());
+            userModel.setRolename(appUser.getRolename());
             userModel.setUsername(appUser.getUsername());
             userModel.setAddress(appUser.getAddress());
             userModel.setEmail(appUser.getEmail());
@@ -120,7 +121,8 @@ public class ParksRecServiceImpl implements ParksRecService {
                     userModel.setOrgname(tempuser.getOrgname());
                     userModel.setPhone(tempuser.getPhone());
                     String roleNames = "";
-                    userModel.setRoles(tempuser.getRoles());
+                    //userModel.setRoles(tempuser.getRoles());
+                    userModel.setRolename(tempuser.getRolename());
                     users.add(userModel);
                 }
             }
@@ -149,7 +151,8 @@ public class ParksRecServiceImpl implements ParksRecService {
             if(admin) {
                 Validator.validateUserModel(userModel);
                 user.setPassword(userModel.getPassword());
-                user.setRoles(userModel.getRoles());
+                //user.setRoles(userModel.getRoles());
+                user.setRolename(userModel.getRolename());
                 user.setUsername(userModel.getUsername());
                 user.setAddress(userModel.getUsername());
                 user.setEmail(userModel.getEmail());
@@ -209,7 +212,8 @@ public class ParksRecServiceImpl implements ParksRecService {
             appUser=userService.find(userModel.getUserId());
             if(appUser != null) {
                 appUser.setPassword(userModel.getPassword());
-                appUser.setRoles(userModel.getRoles());
+                //appUser.setRoles(userModel.getRoles());
+                appUser.setRolename(userModel.getRolename());
                 appUser.setUsername(userModel.getUsername());
                 appUser.setAddress(userModel.getUsername());
                 appUser.setEmail(userModel.getEmail());
@@ -490,7 +494,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public String deleteSport(long id, String token) {
+    public String deleteSport(long id, @RequestHeader("token") String token) {
         try{
             AppUser appuserByToken=getUser(token);
             boolean admin=isAdmin(appuserByToken);
@@ -512,7 +516,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public SportModel updateSport(SportModel sportModel, String token) throws Exception {
+    public SportModel updateSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token) throws Exception {
         try{
             AppUser appuserByToken=getUser(token);
             boolean admin=isAdmin(appuserByToken);
@@ -594,6 +598,7 @@ public class ParksRecServiceImpl implements ParksRecService {
         AppUser appuser=userService.find(token.getUserid());
         return appuser;
     }
+    /*
     boolean isAdmin(AppUser appUser){
         List<UserRoleMap> roles=appUser.getRoles();
         boolean admin=false;
@@ -603,6 +608,15 @@ public class ParksRecServiceImpl implements ParksRecService {
             if(role.getRole_id()==1)
                 admin=true;
         }
+        return admin;
+    }*/
+
+    boolean isAdmin(AppUser appUser){
+        String roleName=appUser.getRolename();
+        boolean admin=false;
+        if(roleName.equalsIgnoreCase("Admin"))
+            return true;
+
         return admin;
     }
 
