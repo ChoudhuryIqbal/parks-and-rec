@@ -475,6 +475,21 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
+    public String deleteLeague(@RequestParam(name="id", required=false) long id, @RequestHeader("token") String token){
+        try{
+            Leagues league = leagueService.find(id);
+            if(league != null)
+                leagueService.delete(league);
+            else
+                throw new Exception("League not found");
+        }catch(Exception ex){
+            throw new LeagueException(ex.getMessage());
+        }
+        return "{ \"status\":\"success\" }";
+    }
+
+    @Override
+    @SecureAPI
     public  SportModel getSportById(long id,  @RequestHeader("token") String token){
         SportModel sportModel = new SportModel();
         try {
