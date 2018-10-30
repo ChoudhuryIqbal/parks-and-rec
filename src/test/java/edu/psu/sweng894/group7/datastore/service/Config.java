@@ -4,6 +4,7 @@ import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.UserRoleMap;
 import edu.psu.sweng894.group7.datastore.entity.Leagues;
 import edu.psu.sweng894.group7.datastore.entity.Sport;
+import edu.psu.sweng894.group7.datastore.entity.Teams;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import javax.persistence.EntityManager;
@@ -65,5 +66,20 @@ public class Config {
         sport.setName("TestSport");
         sport.setDescription("TestSportDescription");
         return sport;
+    }
+
+    @MockBean
+    TeamService teamService;
+    @Bean
+    public TeamService teamService() { return teamService; }
+    @Bean
+    public Teams team() {
+        Teams team = new Teams();
+        team.setTeamId(1l);
+        team.setTeamName("TestTeam");
+        team.setDescription("TestTeamDescription");
+        team.setTeamManager("Manager");
+        team.setLeagueId(1l);
+        return team;
     }
 }
