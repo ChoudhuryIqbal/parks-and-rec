@@ -2,11 +2,7 @@ package edu.psu.sweng894.group7.service;
 
 
 
-import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
-import edu.psu.sweng894.group7.service.controller.model.SportModel;
-import edu.psu.sweng894.group7.service.controller.model.Roles;
-import edu.psu.sweng894.group7.service.controller.model.TestModel;
-import edu.psu.sweng894.group7.service.controller.model.UserModel;
+import edu.psu.sweng894.group7.service.controller.model.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -130,6 +126,20 @@ public interface ParksRecService {
 
     @RequestMapping(path="/updateSport", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public SportModel updateSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token) throws Exception;
+
+    @RequestMapping(path="/createTeam", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public TeamModel addTeam(@RequestBody TeamModel teamModel, @RequestHeader("token") String token) throws Exception;
+
+    @RequestMapping(path="/getTeamById", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public TeamModel getTeamById(@RequestParam(name="teamId", required=true) long id, @RequestHeader("token") String token) throws Exception;
+
+    @RequestMapping(path="/deleteTeam", method=RequestMethod.DELETE,   produces=MediaType.TEXT_HTML_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteTeam(@RequestParam(name="teamId", required=true, defaultValue="") long id, @RequestHeader("token") String token);
+
+    @RequestMapping(path="/updateTeam", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public TeamModel updateTeam(@RequestBody TeamModel teamModel,  @RequestHeader("token") String token) throws Exception;
 
 
     @RequestMapping(path="/getAllSports", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
