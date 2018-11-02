@@ -3,6 +3,7 @@ package edu.psu.sweng894.group7.service.controller;
 import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.Leagues;
 import edu.psu.sweng894.group7.datastore.entity.Sport;
+import edu.psu.sweng894.group7.datastore.entity.Tokens;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.datastore.service.SportService;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
@@ -37,56 +38,53 @@ public class ParksRecServiceImplTests {
     @Autowired
     ParksRecServiceImpl parksRecServiceImpl;
 
+    //Mocked services
     @Autowired
     SecurityServices securityService;
-
     @Autowired
     UserService userService;
-
-    @Autowired
-    private Leagues league;
-
-    @Autowired
-    LeagueModel leagueModel;
-
     @Autowired
     LeagueService leagueService;
-
-    @Autowired
-    private Sport sport;
-
-    @Autowired
-    SportModel sportModel;
-
     @Autowired
     SportService sportService;
 
+    //Models
+    @Autowired
+    private Leagues league;
+    @Autowired
+    LeagueModel leagueModel;
+    @Autowired
+    private Sport sport;
+    @Autowired
+    SportModel sportModel;
+    @Autowired
+    Tokens token;
 
-
-    String token="ADMIN-TOKEN";
     //mock all database calls for unit testing.
     @Before
     public void setUp() {
+
+        //security service
+        Mockito.when(securityService.findToken(Mockito.any(String.class))).thenReturn(token);
+
         Mockito.when(userService.find(0l)).thenReturn(appUser);
         Mockito.when(userService.insert(appUser)).thenReturn(appUser.getId());
         List<AppUser> appUserList = new ArrayList<>();
         appUserList.add(appUser);
         Mockito.when(userService.findAll()).thenReturn(appUserList);
+
         Mockito.when(leagueService.find(0l)).thenReturn(league);
         Mockito.when(leagueService.insert(league)).thenReturn(league.getLeagueId());
-        Mockito.when( securityService.validate("ADMIN-TOKEN")).thenReturn(Boolean.TRUE);
+
 
         Mockito.when(sportService.find(0l)).thenReturn(sport);
         Mockito.when(sportService.insert(sport)).thenReturn(sport.getId());
-
-        java.util.List<java.lang.String> headersList = new ArrayList<>();
-
 
     }
 
     @Test
     public void createUser() throws Exception{
-        UserModel responce= parksRecServiceImpl.addUser(userModel,token);
+        UserModel responce= parksRecServiceImpl.addUser(userModel,token.getToken());
         assertTrue(responce.getUserId()==userModel.getUserId());
 
     }
@@ -94,34 +92,34 @@ public class ParksRecServiceImplTests {
 
     @Test
     public void getUserById() throws Exception{
-        UserModel responce= parksRecServiceImpl.getUserById(appUser.getId(),token);
+        UserModel responce= parksRecServiceImpl.getUserById(appUser.getId(),token.getToken());
         assertTrue(responce.getUserId()==userModel.getUserId());
     }
 
     @Test
     public void createLeague() throws Exception {
-        LeagueModel response = parksRecServiceImpl.addLeague(leagueModel,token);
+        LeagueModel response = parksRecServiceImpl.addLeague(leagueModel,token.getToken());
         assertTrue(response.getLeagueId()==leagueModel.getLeagueId());
     }
 
 
     @Test
     public void getLeagueById() throws Exception {
-        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId(),leagueModel.getOrgid(),token);
+        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId(),leagueModel.getOrgid(),token.getToken());
         assertTrue(response.getLeagueId()==league.getLeagueId());
     }
 
 
     @Test
     public void createSport() throws Exception{
-        SportModel response = parksRecServiceImpl.addSport(sportModel, token);
+        SportModel response = parksRecServiceImpl.addSport(sportModel, token.getToken());
         assertTrue(response.getId()==sport.getId());
     }
 
 
     @Test
     public void getSportById() throws  Exception{
-        SportModel response = parksRecServiceImpl.getSportById(sport.getId(), token);
+        SportModel response = parksRecServiceImpl.getSportById(sport.getId(), token.getToken());
         assertTrue((response.getId()==sport.getId()));
     }
 

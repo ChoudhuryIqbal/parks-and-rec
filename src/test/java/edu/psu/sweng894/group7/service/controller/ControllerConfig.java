@@ -1,10 +1,6 @@
 package edu.psu.sweng894.group7.service.controller;
 
-import edu.psu.sweng894.group7.datastore.entity.AppUser;
-import edu.psu.sweng894.group7.datastore.entity.Leagues;
-import edu.psu.sweng894.group7.datastore.entity.Sport;
-import edu.psu.sweng894.group7.datastore.entity.UserRoleMap;
-import edu.psu.sweng894.group7.datastore.entity.Teams;
+import edu.psu.sweng894.group7.datastore.entity.*;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.datastore.service.UserService;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
@@ -47,6 +43,10 @@ public class ControllerConfig {
     public ParksRecServiceImpl parksRecServiceImpl()  {
         ParksRecServiceImpl parksRecServiceImpl = new ParksRecServiceImpl();
         parksRecServiceImpl.userService=userService;
+        parksRecServiceImpl.securityService=securityService;
+        parksRecServiceImpl.leagueService=leagueService;
+        parksRecServiceImpl.sportService=sportService;
+        parksRecServiceImpl.teamService=teamService;
         return parksRecServiceImpl;
     }
 
@@ -70,15 +70,10 @@ public class ControllerConfig {
     public AppUser appUsers() {
         AppUser appUser = new AppUser();
         appUser.setId(0l);
-        appUser.setUsername("TestUser");
-        appUser.setPassword("TestPassword");
+        appUser.setUsername("Admin");
+        appUser.setPassword("Admin");
         List<UserRoleMap> roles = new ArrayList<>();
         UserRoleMap role = new UserRoleMap();
-        //role.setDescription("Test Role Description");
-        role.setRole_id(0l);
-        //role.setRolename("TestRole");
-        roles.add(role);
-        //appUser.setRoles(roles);
         appUser.setRolename("Admin");
         return appUser;
     }
@@ -142,5 +137,15 @@ public class ControllerConfig {
         teamModel.setLeagueId(0l);
         return teamModel;
     }
+
+    @Bean
+    public Tokens token(){
+        Tokens token = new Tokens();
+        token.setUserid(0l);
+        token.setUsername("Admin");
+        token.setToken("ADMIN-TOKEN");
+        return token;
+    }
+
 
 }
