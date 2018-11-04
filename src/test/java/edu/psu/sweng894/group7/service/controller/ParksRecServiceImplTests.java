@@ -4,13 +4,17 @@ import edu.psu.sweng894.group7.datastore.entity.AppUser;
 import edu.psu.sweng894.group7.datastore.entity.Leagues;
 import edu.psu.sweng894.group7.datastore.entity.Sport;
 import edu.psu.sweng894.group7.datastore.entity.Tokens;
+import edu.psu.sweng894.group7.datastore.entity.Teams;
+import edu.psu.sweng894.group7.datastore.entity.Roles;
 import edu.psu.sweng894.group7.datastore.service.LeagueService;
 import edu.psu.sweng894.group7.datastore.service.SportService;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.datastore.service.UserService;
+import edu.psu.sweng894.group7.datastore.service.TeamService;
 import edu.psu.sweng894.group7.service.controller.model.LeagueModel;
 import edu.psu.sweng894.group7.service.controller.model.SportModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
+import edu.psu.sweng894.group7.service.controller.model.TeamModel;
 import edu.psu.sweng894.group7.service.exception.*;
 import org.junit.Before;
 import org.junit.Rule;
@@ -35,12 +39,6 @@ import static junit.framework.TestCase.assertTrue;
 public class ParksRecServiceImplTests {
 
     @Autowired
-    private AppUser appUser;
-
-    @Autowired
-    UserModel userModel;
-
-    @Autowired
     ParksRecServiceImpl parksRecServiceImpl;
 
     //Mocked services
@@ -52,8 +50,14 @@ public class ParksRecServiceImplTests {
     LeagueService leagueService;
     @Autowired
     SportService sportService;
+    @Autowired
+    TeamService teamService;
 
     //Models
+    @Autowired
+    private AppUser appUser;
+    @Autowired
+    UserModel userModel;
     @Autowired
     private Leagues league;
     @Autowired
@@ -62,6 +66,10 @@ public class ParksRecServiceImplTests {
     private Sport sport;
     @Autowired
     SportModel sportModel;
+    @Autowired
+    private Teams team;
+    @Autowired
+    TeamModel teamModel;
     @Autowired
     Tokens token;
 
@@ -86,18 +94,22 @@ public class ParksRecServiceImplTests {
         Mockito.when(leagueService.find(-5l)).thenThrow(LeagueException.class);
         Mockito.when(leagueService.insert(league)).thenReturn(league.getLeagueId());
 
-
         Mockito.when(sportService.find(0l)).thenReturn(sport);
         Mockito.when(sportService.find(-5l)).thenThrow(SportException.class);
         Mockito.when(sportService.insert(sport)).thenReturn(sport.getId());
+        List <Sport> sportList = new ArrayList<>();
+        sportList.add(sport);
+        Mockito.when(sportService.findAll()).thenReturn(sportList);
 
+        Mockito.when(teamService.find(0l)).thenReturn(team);
+        Mockito.when(teamService.find(-5l)).thenThrow(TeamException.class);
+        Mockito.when(teamService.insert(team)).thenReturn(team.getTeamId());
     }
 
     @Test
     public void createUser() throws Exception{
         UserModel responce= parksRecServiceImpl.addUser(userModel,token.getToken());
         assertTrue(responce.getUserId()==userModel.getUserId());
-
     }
 
 
@@ -151,6 +163,45 @@ public class ParksRecServiceImplTests {
         SportModel response = parksRecServiceImpl.getSportById(-5l, token.getToken());
     }
 
+    @Test
+    public void getSportByNamePass() throws Exception {
+        List <SportModel> response = parksRecServiceImpl.getSportByName(sport.getName(), sport.getOrgid(), token.getToken());
+        assertTrue((response.get(0).getName()==sport.getName()));
+    }
+
+    // Needs refinement to throw a proper SportException
+    @Test
+    public void getSportByNameFail() {
+        exception.expect(Exception.class);
+        List <SportModel> response = parksRecServiceImpl.getSportByName(null, null, token.getToken());
+        String name = response.get(0).getName();
+    }
+
+    @Test
+    public void getUserByNamePass() throws Exception {
+        List <UserModel> response = parksRecServiceImpl.getUserByName(appUser.getName(), token.getToken());
+        assertTrue((response.get(0).getUsername()==appUser.getUsername()));
+    }
+
+    // Needs refinement to throw a proper AppUser Exception
+    @Test
+    public void getUserByNameFail() {
+        exception.expect(Exception.class);
+        List <UserModel> response = parksRecServiceImpl.getUserByName(null, token.getToken());
+        String name = response.get(0).getUsername();
+    }
+
+    @Test
+    public void getTeamByIdPass() throws Exception {
+        TeamModel response = parksRecServiceImpl.getTeamById(team.getTeamId(), token.getToken());
+        assertTrue((response.getTeamId()==team.getTeamId()));
+    }
+
+    @Test
+    public void getTeamByIdFail() {
+        exception.expect(TeamException.class);
+        TeamModel response = parksRecServiceImpl.getTeamById(-5l, token.getToken());
+    }
 
 
 }
