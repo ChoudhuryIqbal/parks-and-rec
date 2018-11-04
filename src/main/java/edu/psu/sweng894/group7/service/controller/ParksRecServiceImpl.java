@@ -414,11 +414,12 @@ public class ParksRecServiceImpl implements ParksRecService {
     public List<LeagueModel> getAllLeagues(@RequestHeader("token") String token) throws Exception{
         List<LeagueModel> leagueModels = new ArrayList<>();
         try {
-            AppUser appuserByToken = getUser(token);
-            boolean admin = isAdmin(appuserByToken);
+            AppUser appuser = getUser(token);
+            boolean admin = isAdmin(appuser);
 
             List<Leagues> leagues=leagueService.findAll();
             for (Leagues league : leagues) {
+                if (league.getOrgid().equalsIgnoreCase(appuser.getOrgid())) {
                     LeagueModel leagueModel = new LeagueModel();
                     leagueModel.setOrgid(league.getOrgid());
                     leagueModel.setUserId(league.getUserId());
@@ -433,6 +434,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                     leagueModel.setLeagueSchedule(league.getLeagueSchedule());
                     leagueModel.setLeagueRules(league.getLeagueRules());
                     leagueModels.add(leagueModel);
+                }
             }
         }catch (Exception ex){
             logger.error("Exception" , ex);
@@ -446,28 +448,33 @@ public class ParksRecServiceImpl implements ParksRecService {
     public List<SportModel> getAllSports(@RequestHeader("token") String token) throws Exception {
         List<SportModel> sportModels = new ArrayList<>();
         try {
-            AppUser appuserByToken = getUser(token);
-            boolean admin = isAdmin(appuserByToken);
+            AppUser appuser = getUser(token);
+            boolean admin = isAdmin(appuser);
             List<Sport> sports = sportService.findAll();
             for (Sport sport : sports) {
-                SportModel model = new SportModel();
-                model.setId(sport.getId());
-                model.setDescription(sport.getDescription());
-                model.setName(sport.getName());
-                model.setOrgid(sport.getOrgid());
-                model.setUserId(sport.getUserId());
+                if (sport.getOrgid().equalsIgnoreCase(appuser.getOrgid())) {
+                    SportModel model = new SportModel();
+                    model.setId(sport.getId());
+                    model.setDescription(sport.getDescription());
+                    model.setName(sport.getName());
+                    model.setOrgid(sport.getOrgid());
+                    model.setUserId(sport.getUserId());
 
-                ArrayList<LeagueModel> leaguesList = new ArrayList<>();
-                //get all leagues for this sport
-                List<LeagueModel> leagues = getAllLeagues(token);
-                for (LeagueModel lmodel : leagues) {
-                    if (lmodel.getSportId() == sport.getId()) {
-                        leaguesList.add(lmodel);
+                    ArrayList<LeagueModel> leaguesList = new ArrayList<>();
+                    //get all leagues for this sport
+                    List<LeagueModel> leagues = getAllLeagues(token);
+                    for (LeagueModel lmodel : leagues) {
+
+                        System.out.println(lmodel.getSportId());
+                        System.out.println(sport.getId());
+                        if (lmodel.getSportId().equals(sport.getId())) {
+                            leaguesList.add(lmodel);
+                        }
                     }
-                }
-                model.setLeagues(leaguesList);
+                    model.setLeagues(leaguesList);
 
-                sportModels.add(model);
+                    sportModels.add(model);
+                }
             }
 
         } catch (Exception ex) {
