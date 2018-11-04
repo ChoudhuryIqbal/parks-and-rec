@@ -98,6 +98,17 @@ CREATE TABLE public.roles (
 	CONSTRAINT role_pkey PRIMARY KEY (role_id)
 );
 
+CREATE TABLE public.sport (
+  id int8 NOT NULL,
+  orgid   varchar(500) NOT NULL,
+  user_id int8 NOT NULL,
+  name varchar(255) NULL,
+  description varchar(255) NULL,
+  CONSTRAINT sport_Pkey PRIMARY KEY (id),
+  CONSTRAINT orgkey_sport FOREIGN KEY (orgid) REFERENCES app_user(orgid),
+  CONSTRAINT user_id_forkey FOREIGN KEY (user_id) REFERENCES app_user(id),
+  CONSTRAINT sportname UNIQUE  (name)
+);
 
 CREATE TABLE public.leagues (
   league_id int8 NOT NULL,
@@ -115,7 +126,9 @@ CREATE TABLE public.leagues (
   league_rules varchar(255) NULL,
   CONSTRAINT league_pkey PRIMARY KEY (league_id),
   CONSTRAINT orgkey_leagues FOREIGN KEY (orgid) REFERENCES app_user(orgid),
-  CONSTRAINT user_id_forkey FOREIGN KEY (user_id) REFERENCES app_user(id)
+  CONSTRAINT sport_league_uniqukey UNIQUE  (league_id, sport_id),
+  CONSTRAINT user_id_forkey FOREIGN KEY (user_id) REFERENCES app_user(id),
+  CONSTRAINT sport_id_forkey FOREIGN KEY (sport_id) REFERENCES sport(id)
 );
 
 
@@ -130,16 +143,7 @@ CREATE TABLE public.tokens (
 
 );
 
-CREATE TABLE public.sport (
-  id int8 NOT NULL,
-  orgid   varchar(500) NOT NULL,
-  user_id int8 NOT NULL,
-  name varchar(255) NULL,
-  description varchar(255) NULL,
-  CONSTRAINT sport_Pkey PRIMARY KEY (id),
-  CONSTRAINT orgkey_sport FOREIGN KEY (orgid) REFERENCES app_user(orgid),
-  CONSTRAINT user_id_forkey FOREIGN KEY (user_id) REFERENCES app_user(id)
-);
+
 
 CREATE TABLE public.teams (
   team_id int8 NOT NULL,
