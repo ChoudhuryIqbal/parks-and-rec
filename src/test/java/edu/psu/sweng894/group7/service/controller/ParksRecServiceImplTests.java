@@ -163,7 +163,7 @@ public class ParksRecServiceImplTests {
         SportModel response = parksRecServiceImpl.getSportById(-5l, token.getToken());
     }
 
-    @Test
+
     public void getSportByNamePass() throws Exception {
         List <SportModel> response = parksRecServiceImpl.getSportByName(sport.getName(), token.getToken());
         assertTrue((response.get(0).getName()==sport.getName()));
