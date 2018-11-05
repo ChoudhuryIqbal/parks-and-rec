@@ -421,6 +421,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
             List<Leagues> leagues=leagueService.findAll();
             for (Leagues league : leagues) {
+                if (league.getOrgid().equalsIgnoreCase(appuserByToken.getOrgid())) {
                     LeagueModel leagueModel = new LeagueModel();
                     leagueModel.setOrgid(league.getOrgid());
                     leagueModel.setUserId(league.getUserId());
@@ -435,6 +436,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                     leagueModel.setLeagueSchedule(league.getLeagueSchedule());
                     leagueModel.setLeagueRules(league.getLeagueRules());
                     leagueModels.add(leagueModel);
+                }
             }
         }catch (Exception ex){
             logger.error("Exception" , ex);
@@ -452,24 +454,26 @@ public class ParksRecServiceImpl implements ParksRecService {
             boolean admin = isAdmin(appuserByToken);
             List<Sport> sports = sportService.findAll();
             for (Sport sport : sports) {
-                SportModel model = new SportModel();
-                model.setId(sport.getId());
-                model.setDescription(sport.getDescription());
-                model.setName(sport.getName());
-                model.setOrgid(sport.getOrgid());
-                model.setUserId(sport.getUserId());
+                if (sport.getOrgid().equalsIgnoreCase(appuserByToken.getOrgid())) {
+                    SportModel model = new SportModel();
+                    model.setId(sport.getId());
+                    model.setDescription(sport.getDescription());
+                    model.setName(sport.getName());
+                    model.setOrgid(sport.getOrgid());
+                    model.setUserId(sport.getUserId());
 
-                ArrayList<LeagueModel> leaguesList = new ArrayList<>();
-                //get all leagues for this sport
-                List<LeagueModel> leagues = getAllLeagues(token);
-                for (LeagueModel lmodel : leagues) {
-                    if (lmodel.getSportId() == sport.getId()) {
-                        leaguesList.add(lmodel);
+                    ArrayList<LeagueModel> leaguesList = new ArrayList<>();
+                    //get all leagues for this sport
+                    List<LeagueModel> leagues = getAllLeagues(token);
+                    for (LeagueModel lmodel : leagues) {
+                        if (lmodel.getSportId().equals(sport.getId())) {
+                            leaguesList.add(lmodel);
+                        }
                     }
-                }
-                model.setLeagues(leaguesList);
+                    model.setLeagues(leaguesList);
 
-                sportModels.add(model);
+                    sportModels.add(model);
+                }
             }
 
         } catch (Exception ex) {
@@ -498,7 +502,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                     //get all leagues for this sport
                     List<LeagueModel> leagues= getAllLeagues(token);
                     for(LeagueModel lmodel:leagues){
-                        if(lmodel.getSportId()==tempSport.getId()){
+                        if(lmodel.getSportId().equals(tempSport.getId())){
                             leaguesList.add(lmodel);
                         }
                     }
