@@ -50,6 +50,7 @@ public class ParksRecServiceImpl implements ParksRecService {
     @Autowired
     TeamService teamService;
 
+
     //start of example services
     @Override
     public String get() throws Exception {
@@ -72,6 +73,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     }
     //End of example services
+
 
     //start of use cases
     @Override
