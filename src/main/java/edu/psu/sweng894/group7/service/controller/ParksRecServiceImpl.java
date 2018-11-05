@@ -2,6 +2,7 @@ package edu.psu.sweng894.group7.service.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import edu.psu.sweng894.group7.datastore.entity.*;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.service.controller.model.Roles;
@@ -483,6 +484,7 @@ public class ParksRecServiceImpl implements ParksRecService {
             logger.error("Exception", ex);
             throw new SportException("Sport finding failed.");
         }
+        System.out.println("sportModels="+ new Gson().toJson(sportModels));
         return sportModels;
     }
 
@@ -536,6 +538,7 @@ public class ParksRecServiceImpl implements ParksRecService {
             logger.error("Exception" , ex);
             throw new LeagueException("Deleting league failed");
         }
+        System.out.println("deleted league");
         return "{ \"status\":\"success\" }";
     }
 
