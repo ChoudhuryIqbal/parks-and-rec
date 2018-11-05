@@ -50,6 +50,7 @@ public class ParksRecServiceImpl implements ParksRecService {
     @Autowired
     TeamService teamService;
 
+
     //start of example services
     @Override
     public String get() throws Exception {
@@ -72,6 +73,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     }
     //End of example services
+
 
     //start of use cases
     @Override
@@ -419,6 +421,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
             List<Leagues> leagues=leagueService.findAll();
             for (Leagues league : leagues) {
+
                 if (league.getOrgid().equalsIgnoreCase(appuser.getOrgid())) {
                     LeagueModel leagueModel = new LeagueModel();
                     leagueModel.setOrgid(league.getOrgid());
@@ -464,7 +467,6 @@ public class ParksRecServiceImpl implements ParksRecService {
                     //get all leagues for this sport
                     List<LeagueModel> leagues = getAllLeagues(token);
                     for (LeagueModel lmodel : leagues) {
-
                         System.out.println(lmodel.getSportId());
                         System.out.println(sport.getId());
                         if (lmodel.getSportId().equals(sport.getId())) {
@@ -503,7 +505,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                     //get all leagues for this sport
                     List<LeagueModel> leagues= getAllLeagues(token);
                     for(LeagueModel lmodel:leagues){
-                        if(lmodel.getSportId()==tempSport.getId()){
+                        if(lmodel.getSportId().equals(tempSport.getId())){
                             leaguesList.add(lmodel);
                         }
                     }

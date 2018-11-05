@@ -104,6 +104,7 @@ public class ControllerConfig {
         sport.setId(0l);
         sport.setName("Test Sport Name");
         sport.setDescription("test description");
+        sport.setOrgid("Test Org id");
         return sport;
     }
 
@@ -113,6 +114,7 @@ public class ControllerConfig {
         sportModel.setId(0l);
         sportModel.setName("Test Sport Name");
         sportModel.setDescription("test description");
+        sportModel.setOrgid("Test Org id");
         return sportModel;
     }
 
