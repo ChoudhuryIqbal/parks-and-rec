@@ -167,6 +167,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                 user.setEmail(userModel.getEmail());
                 user.setPhone(userModel.getPhone());
                 user.setOrgname(userModel.getOrgname());
+                user.setOrgid(userModel.getOrgid());
                 id = userService.insert(user);
                 newUser = getUserById(id, token);
             }else{
@@ -426,6 +427,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                 if (league.getOrgid().equalsIgnoreCase(appuser.getOrgid())) {
                     LeagueModel leagueModel = new LeagueModel();
                     leagueModel.setOrgid(league.getOrgid());
+                    leagueModel.setLeagueName(league.getLeagueName());
                     leagueModel.setUserId(league.getUserId());
                     leagueModel.setDescription(league.getDescription());
                     leagueModel.setLeagueId(league.getLeagueId());

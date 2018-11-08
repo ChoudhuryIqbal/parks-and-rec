@@ -68,14 +68,15 @@ CREATE SEQUENCE public.team_seq
 CREATE TABLE public.app_user (
 	 id int8 NOT NULL,
 	 orgid   varchar(500) UNIQUE,
-	 rolename varchar(255) NULL,
+	 rolename varchar(255) NOT NULL,
 	 password varchar(255) NOT NULL,
 	 username varchar(255)  NOT NULL,
 	 orgname varchar(500)  NULL,
 	 email  varchar(255) NOT NULL,
 	 address varchar(700) NOT NULL,
 	 phone  varchar(12) NOT NULL,
-	 CONSTRAINT app_user_pkey PRIMARY KEY (id)
+	 CONSTRAINT app_user_pkey PRIMARY KEY (id),
+	 CONSTRAINT  unique_rec UNIQUE(orgid,email,username)
 
 );
 
