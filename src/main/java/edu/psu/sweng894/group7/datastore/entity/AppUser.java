@@ -32,7 +32,9 @@ public class AppUser {
     @NotNull
     private String password;
 
-    String orgid= UUID.randomUUID().toString();
+    //String orgid= UUID.randomUUID().toString();
+
+    String orgid= null;
 
     private String orgname;
     @NotNull
