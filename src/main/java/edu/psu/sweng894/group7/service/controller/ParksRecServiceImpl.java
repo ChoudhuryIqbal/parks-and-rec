@@ -174,7 +174,7 @@ public class ParksRecServiceImpl implements ParksRecService {
             }
         } catch (org.springframework.dao.DataIntegrityViolationException iex) {
             logger.error("Exception" , iex);
-            throw new AppUserException("Duplicate-Data");
+            throw new AppUserException("Duplicate-Data. [orgid,email,username] must be unique");
         } catch (Exception ex) {
             logger.error("Exception" , ex);
             throw new AppUserException(ex.getMessage());
