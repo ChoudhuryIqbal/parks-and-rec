@@ -613,6 +613,55 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
+    public List<TeamModel>  getAllTeams(@RequestHeader("token") String token) throws Exception{
+        List<TeamModel> teamModels = new ArrayList<>();
+        try{
+            AppUser appuserByToken = getUser(token);
+            boolean admin = isAdmin(appuserByToken);
+            List<Teams> teams= teamService.findAll();
+            for(Teams team:teams){
+                TeamModel model = new TeamModel();
+                model.setDescription(team.getDescription());
+                model.setTeamName(team.getTeamName());
+                model.setLeagueId(team.getLeagueId());
+                model.setTeamManager(team.getTeamManager());
+                model.setTeamId(team.getTeamId());
+                teamModels.add(model);
+
+            }
+
+        }catch (Exception ex){
+            throw new TeamException("Team finding failed.");
+        }
+        return teamModels;
+    }
+
+    @Override
+    @SecureAPI
+    public List<TeamModel> getTeamByName(String teamName, String leagueId, @RequestHeader("token") String token) {
+        List<TeamModel> teams = new ArrayList<>();
+        try {
+            List<Teams> teamsList = teamService.findAll();
+            for (Teams tempTeam : teamsList) {
+                if (tempTeam.getTeamName().equalsIgnoreCase(teamName) && tempTeam.getLeagueId().equals(leagueId)) {
+                    TeamModel teamModel = new TeamModel();
+                    teamModel.setTeamId(tempTeam.getTeamId());
+                    teamModel.setTeamName(tempTeam.getTeamName());
+                    teamModel.setDescription(tempTeam.getDescription());
+                    teamModel.setLeagueId(tempTeam.getLeagueId());
+                    teamModel.setTeamManager(tempTeam.getTeamManager());
+                    teams.add(teamModel);
+                }
+            }
+        } catch (Exception ex) {
+            throw new TeamException("Team not found. " + ex.getMessage());
+        }
+        printResponce(teams);
+        return teams;
+    }
+
+    @Override
+    @SecureAPI
     public TeamModel addTeam(@RequestBody TeamModel teamModel, @RequestHeader("token") String token){
         Teams team = new Teams();
         long id = 0l;

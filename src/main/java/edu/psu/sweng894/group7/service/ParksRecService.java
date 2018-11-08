@@ -141,6 +141,13 @@ public interface ParksRecService {
     @RequestMapping(path="/updateTeam", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public TeamModel updateTeam(@RequestBody TeamModel teamModel,  @RequestHeader("token") String token) throws Exception;
 
+    @RequestMapping(path="/getAllTeams", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<TeamModel>  getAllTeams(@RequestHeader("token") String token) throws Exception;
+
+    @RequestMapping(path="/getTeamByName", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<TeamModel> getTeamByName(@RequestParam(name="teamName", required=true) String teamName, String leagueId,  @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/getAllSports", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
