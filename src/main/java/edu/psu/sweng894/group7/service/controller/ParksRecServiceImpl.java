@@ -427,6 +427,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                     leagueModel.setOrgid(league.getOrgid());
                     leagueModel.setLeagueName(league.getLeagueName());
                     leagueModel.setUserId(league.getUserId());
+                    leagueModel.setLeagueName(league.getLeagueName());
                     leagueModel.setDescription(league.getDescription());
                     leagueModel.setLeagueId(league.getLeagueId());
                     leagueModel.setSportId(league.getSportId());

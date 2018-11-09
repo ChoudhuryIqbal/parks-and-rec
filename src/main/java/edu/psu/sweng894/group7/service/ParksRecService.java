@@ -133,6 +133,7 @@ public interface ParksRecService {
     @RequestMapping(path="/getTeamByName", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<TeamModel> getTeamByName(@RequestParam(name="teamName", required=true) String teamName, String leagueId,  @RequestHeader("token") String token) throws Exception;
+
     // sports services
 
     @RequestMapping(path="/createSport", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
