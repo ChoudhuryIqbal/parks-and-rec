@@ -3,6 +3,7 @@ package edu.psu.sweng894.group7.service.controller.model;
 import edu.psu.sweng894.group7.datastore.entity.Sport;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SportModel {
@@ -16,6 +17,17 @@ public class SportModel {
 
     private String  orgid;
     private Long userId;
+
+
+    public ArrayList<LeagueModel> getLeagues() {
+        return leagues;
+    }
+
+    public void setLeagues(ArrayList<LeagueModel> leagues) {
+        this.leagues = leagues;
+    }
+
+    ArrayList<LeagueModel> leagues;
 
     public Long getUserId() {
         return userId;

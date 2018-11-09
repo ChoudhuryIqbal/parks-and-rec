@@ -107,11 +107,16 @@ public class ParksRecServiceImplTests {
     }
 
     @Test
-    public void createUser() throws Exception{
+    public void createUserPass() throws Exception{
         UserModel responce= parksRecServiceImpl.addUser(userModel,token.getToken());
         assertTrue(responce.getUserId()==userModel.getUserId());
     }
 
+    @Test
+    public void createUserFail() {
+        exception.expect(AppUserException.class);
+        UserModel response = parksRecServiceImpl.addUser(null, token.getToken());
+    }
 
     @Test
     public void getUserByIdPass() throws Exception{
@@ -126,30 +131,41 @@ public class ParksRecServiceImplTests {
     }
 
     @Test
-    public void createLeague() throws Exception {
+    public void createLeaguePass() throws Exception {
         LeagueModel response = parksRecServiceImpl.addLeague(leagueModel,token.getToken());
         assertTrue(response.getLeagueId()==leagueModel.getLeagueId());
+    }
+
+    @Test
+    public void createLeagueFail() {
+        exception.expect(LeagueException.class);
+        LeagueModel response = parksRecServiceImpl.addLeague(null, token.getToken());
     }
 
 
     @Test
     public void getLeagueByIdPass() throws Exception {
-        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId(),leagueModel.getOrgid(),token.getToken());
+        LeagueModel response = parksRecServiceImpl.getLeagueById(league.getLeagueId(),token.getToken());
         assertTrue(response.getLeagueId()==league.getLeagueId());
     }
 
     @Test
     public void getLeagueByIdFail() {
         exception.expect(LeagueException.class);
-        LeagueModel response = parksRecServiceImpl.getLeagueById(-5l,"string", token.getToken());
+        LeagueModel response = parksRecServiceImpl.getLeagueById(-5l, token.getToken());
     }
 
     @Test
-    public void createSport() throws Exception{
+    public void createSportPass() throws Exception{
         SportModel response = parksRecServiceImpl.addSport(sportModel, token.getToken());
         assertTrue(response.getId()==sport.getId());
     }
 
+    @Test
+    public void createSportFail() {
+        exception.expect(SportException.class);
+        SportModel response = parksRecServiceImpl.addSport(null, token.getToken());
+    }
 
     @Test
     public void getSportByIdPass() throws  Exception{
@@ -163,9 +179,9 @@ public class ParksRecServiceImplTests {
         SportModel response = parksRecServiceImpl.getSportById(-5l, token.getToken());
     }
 
-    @Test
+
     public void getSportByNamePass() throws Exception {
-        List <SportModel> response = parksRecServiceImpl.getSportByName(sport.getName(), sport.getOrgid(), token.getToken());
+        List <SportModel> response = parksRecServiceImpl.getSportByName(sport.getName(), token.getToken());
         assertTrue((response.get(0).getName()==sport.getName()));
     }
 
@@ -173,7 +189,7 @@ public class ParksRecServiceImplTests {
     @Test
     public void getSportByNameFail() {
         exception.expect(Exception.class);
-        List <SportModel> response = parksRecServiceImpl.getSportByName(null, null, token.getToken());
+        List <SportModel> response = parksRecServiceImpl.getSportByName(null, token.getToken());
         String name = response.get(0).getName();
     }
 
@@ -203,5 +219,16 @@ public class ParksRecServiceImplTests {
         TeamModel response = parksRecServiceImpl.getTeamById(-5l, token.getToken());
     }
 
+    @Test
+    public void createTeamPass() throws Exception {
+        TeamModel response = parksRecServiceImpl.addTeam(teamModel, token.getToken());
+        assertTrue((response.getTeamId()==teamModel.getTeamId()));
+    }
+
+    @Test
+    public void createTeamFail() {
+        exception.expect(TeamException.class);
+        TeamModel response = parksRecServiceImpl.addTeam(null, token.getToken());
+    }
 
 }
