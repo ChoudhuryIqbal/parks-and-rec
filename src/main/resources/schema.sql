@@ -152,6 +152,7 @@ CREATE TABLE public.teams (
   team_manager varchar(255) NULL,
   description varchar(255) NULL,
   league_id int8 NOT NULL,
+  is_champion boolean NULL,
   CONSTRAINT team_Pkey PRIMARY KEY (team_id),
   CONSTRAINT league_id FOREIGN KEY (league_id) REFERENCES leagues(league_id)
 );
