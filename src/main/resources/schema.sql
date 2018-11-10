@@ -67,7 +67,7 @@ CREATE SEQUENCE public.team_seq
 
 CREATE TABLE public.app_user (
 	 id int8 NOT NULL,
-	 orgid   varchar(500) UNIQUE,
+	 orgid   varchar(500) NOT NULL,
 	 rolename varchar(255) NOT NULL,
 	 password varchar(255) NOT NULL,
 	 username varchar(255)  NOT NULL,
@@ -106,7 +106,6 @@ CREATE TABLE public.sport (
   name varchar(255) NULL,
   description varchar(255) NULL,
   CONSTRAINT sport_Pkey PRIMARY KEY (id),
-  CONSTRAINT orgkey_sport FOREIGN KEY (orgid) REFERENCES app_user(orgid),
   CONSTRAINT user_id_forkey FOREIGN KEY (user_id) REFERENCES app_user(id),
   CONSTRAINT sportname UNIQUE  (name)
 );
@@ -126,7 +125,6 @@ CREATE TABLE public.leagues (
   league_schedule varchar(255) NULL,
   league_rules varchar(255) NULL,
   CONSTRAINT league_pkey PRIMARY KEY (league_id),
-  CONSTRAINT orgkey_leagues FOREIGN KEY (orgid) REFERENCES app_user(orgid),
   CONSTRAINT sport_league_uniqukey UNIQUE  (league_id, sport_id),
   CONSTRAINT user_id_forkey FOREIGN KEY (user_id) REFERENCES app_user(id),
   CONSTRAINT sport_id_forkey FOREIGN KEY (sport_id) REFERENCES sport(id)
