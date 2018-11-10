@@ -20,8 +20,9 @@ public class Validator {
         if(UserModel.getPassword() == null){
             throw new ValidationException("passeword is required");
         }
-        if(UserModel.getOrgid() == null || UserModel.getOrgid().equalsIgnoreCase("1")){
-            throw new ValidationException("org id is required and should be greater than 1");
+
+        if(UserModel.getOrgid() == null ){
+            throw new ValidationException("org id is required");
         }
 
         if(UserModel.getEmail() == null){
