@@ -99,9 +99,9 @@ public class ParksRecServiceImpl implements ParksRecService {
                 throw new AppUserException("Un-authorized");
             }
         } catch (Exception ex) {
-            throw new AppUserException("User not found." + ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new AppUserException("User not found.");
         }
-
         return userModel;
     }
 
@@ -134,7 +134,8 @@ public class ParksRecServiceImpl implements ParksRecService {
                 }
             }
         } catch (Exception ex) {
-            throw new AppUserException("User not found. " + ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new AppUserException("User not found.");
         }
         printResponce(users);
         return users;
@@ -165,15 +166,17 @@ public class ParksRecServiceImpl implements ParksRecService {
                 user.setEmail(userModel.getEmail());
                 user.setPhone(userModel.getPhone());
                 user.setOrgname(userModel.getOrgname());
+                user.setOrgid(userModel.getOrgid());
                 id = userService.insert(user);
                 newUser = getUserById(id, token);
             }else{
                 throw new AppUserException("Un-authorized");
             }
         } catch (org.springframework.dao.DataIntegrityViolationException iex) {
-            iex.printStackTrace();
-            throw new AppUserException("Duplicate-Data");
+            logger.error("Exception" , iex);
+            throw new AppUserException("Duplicate-Data. [orgid,email,username] must be unique");
         } catch (Exception ex) {
+            logger.error("Exception" , ex);
             throw new AppUserException(ex.getMessage());
         }
         printResponce(newUser);
@@ -201,7 +204,8 @@ public class ParksRecServiceImpl implements ParksRecService {
             }
 
         }catch(Exception ex){
-            throw new AppUserException(ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new AppUserException("deleting user failed");
         }
         return "{ \"status\":\"success\" }";
     }
@@ -239,7 +243,8 @@ public class ParksRecServiceImpl implements ParksRecService {
             }
         }
         catch (Exception ex) {
-            throw new AppUserException("User update Failed:"+ ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new AppUserException("User update Failed");
         }
         printResponce(updatedUser);
         return updatedUser;
@@ -265,7 +270,8 @@ public class ParksRecServiceImpl implements ParksRecService {
                 userRoles.add(temprole);
             }
         } catch (Exception ex) {
-            throw new RoleException(ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new RoleException("Failed to find roles");
         }
         printResponce(userRoles);
         return userRoles;
@@ -285,7 +291,8 @@ public class ParksRecServiceImpl implements ParksRecService {
                 }
             }
         } catch (Exception ex) {
-            throw new LoginException(ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new LoginException("Loging failed. Verify the username/password");
         }
         printResponce(token);
         return token;
@@ -295,13 +302,12 @@ public class ParksRecServiceImpl implements ParksRecService {
     /**
      * Returns the league by id
      * @param id
-     * @param orgid
      * @param token
      * @return
      */
     @Override
     @SecureAPI
-    public LeagueModel getLeagueById(long id, String orgid, @RequestHeader("token") String token) {
+    public LeagueModel getLeagueById(long id,  @RequestHeader("token") String token) {
         LeagueModel leagueModel = new LeagueModel();
         try {
             AppUser appuserByToken=getUser(token);
@@ -324,7 +330,8 @@ public class ParksRecServiceImpl implements ParksRecService {
 
             }
         } catch (Exception ex) {
-            throw new LeagueException("League not found." + ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new LeagueException("League find failed");
         }
         printResponce(leagueModel);
         return leagueModel;
@@ -358,9 +365,11 @@ public class ParksRecServiceImpl implements ParksRecService {
                 throw new LeagueException("Un-authorized");
             }
         } catch (Exception ex) {
-            throw new LeagueException("addLeague failed." + ex.getMessage());
+            ex.printStackTrace();
+            throw new LeagueException("addLeague failed.");
+
         }
-        LeagueModel model=getLeagueById(id, leagueModel.getOrgid(),token);
+        LeagueModel model=getLeagueById(id,token);
         printResponce(model);
         return model;
     }
@@ -389,14 +398,15 @@ public class ParksRecServiceImpl implements ParksRecService {
                 league.setLeagueRules(leagueModel.getLeagueRules());
                 if (admin) {
                     leagueService.update(league);
-                    updatedLeague = getLeagueById(leagueModel.getLeagueId(), leagueModel.getOrgid(), token);
+                    updatedLeague = getLeagueById(leagueModel.getLeagueId(), token);
                 }
                 else {
                     throw new LeagueException("Un-authorized");
                 }
             }
         } catch (Exception ex) {
-            throw new LeagueException("League update Failed. "+ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new LeagueException("League update Failed");
         }
         printResponce(updatedLeague);
         return updatedLeague;
@@ -412,9 +422,12 @@ public class ParksRecServiceImpl implements ParksRecService {
 
             List<Leagues> leagues=leagueService.findAll();
             for (Leagues league : leagues) {
+                if (league.getOrgid().equalsIgnoreCase(appuserByToken.getOrgid())) {
                     LeagueModel leagueModel = new LeagueModel();
                     leagueModel.setOrgid(league.getOrgid());
+                    leagueModel.setLeagueName(league.getLeagueName());
                     leagueModel.setUserId(league.getUserId());
+                    leagueModel.setLeagueName(league.getLeagueName());
                     leagueModel.setDescription(league.getDescription());
                     leagueModel.setLeagueId(league.getLeagueId());
                     leagueModel.setSportId(league.getSportId());
@@ -426,32 +439,48 @@ public class ParksRecServiceImpl implements ParksRecService {
                     leagueModel.setLeagueSchedule(league.getLeagueSchedule());
                     leagueModel.setLeagueRules(league.getLeagueRules());
                     leagueModels.add(leagueModel);
+                }
             }
         }catch (Exception ex){
-            throw new LeagueException("League finding failed" + ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new LeagueException("League finding failed");
         }
         return leagueModels;
     }
 
     @Override
     @SecureAPI
-    public List<SportModel>  getAllSports(@RequestHeader("token") String token) throws Exception{
+    public List<SportModel> getAllSports(@RequestHeader("token") String token) throws Exception {
         List<SportModel> sportModels = new ArrayList<>();
-        try{
+        try {
             AppUser appuserByToken = getUser(token);
             boolean admin = isAdmin(appuserByToken);
-            List<Sport> sports= sportService.findAll();
-            for(Sport sport:sports){
+            List<Sport> sports = sportService.findAll();
+            for (Sport sport : sports) {
+                if (sport.getOrgid().equalsIgnoreCase(appuserByToken.getOrgid())) {
                     SportModel model = new SportModel();
+                    model.setId(sport.getId());
                     model.setDescription(sport.getDescription());
                     model.setName(sport.getName());
                     model.setOrgid(sport.getOrgid());
                     model.setUserId(sport.getUserId());
-                    sportModels.add(model);
 
+                    ArrayList<LeagueModel> leaguesList = new ArrayList<>();
+                    //get all leagues for this sport
+                    List<LeagueModel> leagues = getAllLeagues(token);
+                    for (LeagueModel lmodel : leagues) {
+                        if (lmodel.getSportId().equals(sport.getId())) {
+                            leaguesList.add(lmodel);
+                        }
+                    }
+                    model.setLeagues(leaguesList);
+
+                    sportModels.add(model);
+                }
             }
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
+            logger.error("Exception", ex);
             throw new SportException("Sport finding failed.");
         }
         return sportModels;
@@ -459,22 +488,36 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public List<SportModel> getSportByName(String sportName, String orgId, @RequestHeader("token") String token) {
+    public List<SportModel> getSportByName(String sportName, @RequestHeader("token") String token) {
         List<SportModel> sports = new ArrayList<>();
         try {
+            AppUser appuserByToken = getUser(token);
+            boolean admin = isAdmin(appuserByToken);
             List<Sport> sportList = sportService.findAll();
             for (Sport tempSport : sportList) {
-                if (tempSport.getName().equalsIgnoreCase(sportName) && tempSport.getOrgid().equalsIgnoreCase(orgId)) {
+                if (tempSport.getName().equalsIgnoreCase(sportName) && tempSport.getOrgid().equalsIgnoreCase(appuserByToken.getOrgid())) {
                     SportModel sportModel = new SportModel();
                     sportModel.setId(tempSport.getId());
                     sportModel.setName(tempSport.getName());
                     sportModel.setDescription(tempSport.getDescription());
                     sportModel.setOrgid(tempSport.getOrgid());
+                    ArrayList<LeagueModel> leaguesList= new ArrayList<>();
+                    //get all leagues for this sport
+                    List<LeagueModel> leagues= getAllLeagues(token);
+                    for(LeagueModel lmodel:leagues){
+                        if(lmodel.getSportId().equals(tempSport.getId())){
+                            leaguesList.add(lmodel);
+                        }
+                    }
+                    sportModel.setLeagues(leaguesList);
+
                     sports.add(sportModel);
                 }
             }
+
         } catch (Exception ex) {
-            throw new SportException("Sport not found. " + ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new SportException("Sport finding failed.");
         }
         printResponce(sports);
         return sports;
@@ -490,7 +533,8 @@ public class ParksRecServiceImpl implements ParksRecService {
             else
                 throw new Exception("League not found");
         }catch(Exception ex){
-            throw new LeagueException(ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new LeagueException("Deleting league failed");
         }
         return "{ \"status\":\"success\" }";
     }
@@ -508,32 +552,50 @@ public class ParksRecServiceImpl implements ParksRecService {
             sportModel.setDescription(sport.getDescription());
             sportModel.setOrgid(sport.getOrgid());
             sportModel.setUserId(sport.getUserId());
+            ArrayList<LeagueModel> leaguesList= new ArrayList<>();
+            //get all leagues for this sport
+            List<LeagueModel> leagues= getAllLeagues(token);
+            for(LeagueModel lmodel:leagues){
+                if(lmodel.getSportId()==id){
+                    leaguesList.add(lmodel);
+                }
+            }
+            sportModel.setLeagues(leaguesList);
         }catch(Exception ex){
-            throw new SportException("Sport not found." + ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new SportException("Sport finding failed.");
         }
         return sportModel;
     }
 
     @Override
     @SecureAPI
-    public String deleteSport(long id, @RequestHeader("token") String token) {
+    public List<SportModel> deleteSport(long id, @RequestHeader("token") String token) {
+        List<SportModel> sModel;
         try{
             AppUser appuserByToken=getUser(token);
             boolean admin=isAdmin(appuserByToken);
             AppUser appUser = userService.find(id);
+            //first delete all leagues with the sport
+            SportModel sportModel=getSportById(id, token);
+            //all leages of the sport
+            List<LeagueModel> leagues=sportModel.getLeagues();
+            for(LeagueModel lmodel:leagues){
+                deleteLeague(lmodel.getLeagueId(),token);
+            }
+            //delete sport
             Sport sport = sportService.find(id);
             if (admin) {
                 sportService.delete(sport);
-
             } else {
                 throw new SportException("Un-authorized");
             }
-
+            sModel= getAllSports(token);
         }catch(Exception ex){
-            throw new SportException(ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new SportException("Deleting sport failed");
         }
-        return "{ \"status\":\"success\" }";
-
+        return sModel;
     }
 
     @Override
@@ -559,7 +621,8 @@ public class ParksRecServiceImpl implements ParksRecService {
             }
 
         }catch(Exception ex){
-            throw new SportException("Updating sport failed." + ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new SportException("Updating sport failed.");
         }
         return sportModel;
     }
@@ -585,7 +648,8 @@ public class ParksRecServiceImpl implements ParksRecService {
 
         }
         catch(Exception e){
-            throw new SportException("add sport failed. " + e.getMessage());
+            logger.error("Exception" , e);
+            throw new SportException("add sport failed");
         }
         model=getSportById(id, token);
         printResponce(model);
@@ -602,13 +666,65 @@ public class ParksRecServiceImpl implements ParksRecService {
             teamModel.setTeamName(team.getTeamName());
             teamModel.setDescription(team.getDescription());
             teamModel.setLeagueId(team.getLeagueId());
-            //teamModel.setPlayerList(team.getPlayerList());
+            teamModel.setIsChampion(team.getIsChampion());
             teamModel.setTeamManager(team.getTeamManager());
         }catch(Exception ex){
-            throw new TeamException("team not found." + ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new TeamException("team finding failed");
         }
         printResponce(teamModel);
         return teamModel;
+    }
+
+    @Override
+    @SecureAPI
+    public List<TeamModel>  getAllTeams(@RequestHeader("token") String token) throws Exception{
+        List<TeamModel> teamModels = new ArrayList<>();
+        try{
+            AppUser appuserByToken = getUser(token);
+            boolean admin = isAdmin(appuserByToken);
+            List<Teams> teams= teamService.findAll();
+            for(Teams team:teams){
+                TeamModel model = new TeamModel();
+                model.setDescription(team.getDescription());
+                model.setTeamName(team.getTeamName());
+                model.setLeagueId(team.getLeagueId());
+                model.setTeamManager(team.getTeamManager());
+                model.setTeamId(team.getTeamId());
+                model.setIsChampion(team.getIsChampion());
+                teamModels.add(model);
+
+            }
+
+        }catch (Exception ex){
+            throw new TeamException("Team finding failed.");
+        }
+        return teamModels;
+    }
+
+    @Override
+    @SecureAPI
+    public List<TeamModel> getTeamByName(String teamName, String leagueId, @RequestHeader("token") String token) {
+        List<TeamModel> teams = new ArrayList<>();
+        try {
+            List<Teams> teamsList = teamService.findAll();
+            for (Teams tempTeam : teamsList) {
+                if (tempTeam.getTeamName().equalsIgnoreCase(teamName) && tempTeam.getLeagueId().equals(leagueId)) {
+                    TeamModel teamModel = new TeamModel();
+                    teamModel.setTeamId(tempTeam.getTeamId());
+                    teamModel.setTeamName(tempTeam.getTeamName());
+                    teamModel.setDescription(tempTeam.getDescription());
+                    teamModel.setLeagueId(tempTeam.getLeagueId());
+                    teamModel.setTeamManager(tempTeam.getTeamManager());
+                    teamModel.setIsChampion(tempTeam.getIsChampion());
+                    teams.add(teamModel);
+                }
+            }
+        } catch (Exception ex) {
+            throw new TeamException("Team not found. " + ex.getMessage());
+        }
+        printResponce(teams);
+        return teams;
     }
 
     @Override
@@ -624,7 +740,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                 team.setTeamName(teamModel.getTeamName());
                 team.setDescription(teamModel.getDescription());
                 team.setTeamManager(teamModel.getTeamManager());
-                //team.setPlayerList(teamModel.getPlayerList());
+                team.setIsChampion(teamModel.getIsChampion());
                 team.setLeagueId(teamModel.getLeagueId());
                 id = teamService.insert(team);
             }
@@ -634,7 +750,8 @@ public class ParksRecServiceImpl implements ParksRecService {
 
         }
         catch(Exception e){
-            throw new TeamException(e.getMessage());
+            logger.error("Exception" , e);
+            throw new TeamException("Adding team failed");
         }
         TeamModel model=getTeamById(id, token);
         printResponce(model);
@@ -660,7 +777,8 @@ public class ParksRecServiceImpl implements ParksRecService {
             }
 
         }catch(Exception ex){
-            throw new TeamException(ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new TeamException("Deleting team failed");
         }
         return "{ \"status\":\"success\" }";
     }
@@ -680,6 +798,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                 team.setDescription(teamModel.getDescription());
                 team.setTeamManager(teamModel.getTeamManager());
                 team.setLeagueId(teamModel.getLeagueId());
+                team.setIsChampion(teamModel.getIsChampion());
                 if (admin) {
                     teamService.update(team);
                     updatedTeam = getTeamById(teamModel.getTeamId(), token);
@@ -689,7 +808,8 @@ public class ParksRecServiceImpl implements ParksRecService {
                 }
             }
         } catch (Exception ex) {
-            throw new TeamException("Team update Failed. "+ex.getMessage());
+            logger.error("Exception" , ex);
+            throw new TeamException("Team update Failed");
         }
         printResponce(updatedTeam);
         return updatedTeam;

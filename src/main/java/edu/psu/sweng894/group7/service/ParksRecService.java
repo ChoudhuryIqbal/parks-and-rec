@@ -85,15 +85,13 @@ public interface ParksRecService {
     @RequestMapping(path="/login", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.TEXT_HTML_VALUE)
     public String login(@RequestBody UserModel signedUser) throws Exception;
 
-
     @RequestMapping(path="/updateUser", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public UserModel updateUser(@RequestBody UserModel userModel,  @RequestHeader("token") String token) throws Exception;
-
 
     @RequestMapping(path="/getRoles", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
     public  List<Roles> getRoles( @RequestHeader("token") String token) throws Exception;
 
-
+    // leagues services
     @RequestMapping(path="/getAllLeagues", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<LeagueModel>  getAllLeagues(@RequestHeader("token") String token) throws Exception;
@@ -101,7 +99,7 @@ public interface ParksRecService {
 
     @RequestMapping(path="/getLeagueById", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public LeagueModel getLeagueById(@RequestParam(name="leagueId", required=true) long id,@RequestParam(name="orgid", required=true) String orgid, @RequestHeader("token") String token) throws Exception;
+    public LeagueModel getLeagueById(@RequestParam(name="leagueId", required=true) long id, @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/createLeague", method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public LeagueModel addLeague(@RequestBody LeagueModel leagueModel, @RequestHeader("token") String token) throws Exception;
@@ -113,20 +111,7 @@ public interface ParksRecService {
     @ResponseStatus(HttpStatus.OK)
     public String deleteLeague(@RequestParam(name="id", required=false) long id,@RequestHeader("token") String token);
 
-    @RequestMapping(path="/createSport", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public SportModel addSport(@RequestBody SportModel sportModel, @RequestHeader("token") String token) throws Exception;
-
-    @RequestMapping(path="/getSportById", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public SportModel getSportById(@RequestParam(name="sportId", required=true) long id, @RequestHeader("token") String token) throws Exception;
-
-    @RequestMapping(path="/deleteSport", method=RequestMethod.DELETE,   produces=MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public String deleteSport(@RequestParam(name="sportId", required=true, defaultValue="") long id, @RequestHeader("token") String token);
-
-    @RequestMapping(path="/updateSport", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
-    public SportModel updateSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token) throws Exception;
-
+    //teams serivces
     @RequestMapping(path="/createTeam", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public TeamModel addTeam(@RequestBody TeamModel teamModel, @RequestHeader("token") String token) throws Exception;
 
@@ -141,6 +126,29 @@ public interface ParksRecService {
     @RequestMapping(path="/updateTeam", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
     public TeamModel updateTeam(@RequestBody TeamModel teamModel,  @RequestHeader("token") String token) throws Exception;
 
+    @RequestMapping(path="/getAllTeams", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<TeamModel>  getAllTeams(@RequestHeader("token") String token) throws Exception;
+
+    @RequestMapping(path="/getTeamByName", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<TeamModel> getTeamByName(@RequestParam(name="teamName", required=true) String teamName, String leagueId,  @RequestHeader("token") String token) throws Exception;
+
+    // sports services
+
+    @RequestMapping(path="/createSport", method=RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public SportModel addSport(@RequestBody SportModel sportModel, @RequestHeader("token") String token) throws Exception;
+
+    @RequestMapping(path="/getSportById", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public SportModel getSportById(@RequestParam(name="sportId", required=true) long id, @RequestHeader("token") String token) throws Exception;
+
+    @RequestMapping(path="/deleteSport", method=RequestMethod.DELETE,   produces=MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<SportModel> deleteSport(@RequestParam(name="sportId", required=true, defaultValue="") long id, @RequestHeader("token") String token);
+
+    @RequestMapping(path="/updateSport", method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    public SportModel updateSport(@RequestBody SportModel sportModel,  @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/getAllSports", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -148,7 +156,7 @@ public interface ParksRecService {
 
     @RequestMapping(path="/getSportByName", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<SportModel> getSportByName(@RequestParam(name="sportName", required=true) String userName, String orgId,  @RequestHeader("token") String token) throws Exception;
+    public List<SportModel> getSportByName(@RequestParam(name="sportName", required=true) String userName,  @RequestHeader("token") String token) throws Exception;
 
 
 }

@@ -67,15 +67,16 @@ CREATE SEQUENCE public.team_seq
 
 CREATE TABLE public.app_user (
 	 id int8 NOT NULL,
-	 orgid   varchar(500) UNIQUE,
-	 rolename varchar(255) NULL,
+	 orgid   varchar(500) NOT NULL,
+	 rolename varchar(255) NOT NULL,
 	 password varchar(255) NOT NULL,
 	 username varchar(255)  NOT NULL,
 	 orgname varchar(500)  NULL,
 	 email  varchar(255) NOT NULL,
 	 address varchar(700) NOT NULL,
 	 phone  varchar(12) NOT NULL,
-	 CONSTRAINT app_user_pkey PRIMARY KEY (id)
+	 CONSTRAINT app_user_pkey PRIMARY KEY (id),
+	 CONSTRAINT  unique_rec UNIQUE(orgid,email,username)
 
 );
 
@@ -98,6 +99,16 @@ CREATE TABLE public.roles (
 	CONSTRAINT role_pkey PRIMARY KEY (role_id)
 );
 
+CREATE TABLE public.sport (
+  id int8 NOT NULL,
+  orgid   varchar(500) NOT NULL,
+  user_id int8 NOT NULL,
+  name varchar(255) NULL,
+  description varchar(255) NULL,
+  CONSTRAINT sport_Pkey PRIMARY KEY (id),
+  CONSTRAINT user_id_forkey FOREIGN KEY (user_id) REFERENCES app_user(id),
+  CONSTRAINT sportname UNIQUE  (name)
+);
 
 CREATE TABLE public.leagues (
   league_id int8 NOT NULL,
@@ -114,8 +125,9 @@ CREATE TABLE public.leagues (
   league_schedule varchar(255) NULL,
   league_rules varchar(255) NULL,
   CONSTRAINT league_pkey PRIMARY KEY (league_id),
-  CONSTRAINT orgkey_leagues FOREIGN KEY (orgid) REFERENCES app_user(orgid),
-  CONSTRAINT user_id_forkey FOREIGN KEY (user_id) REFERENCES app_user(id)
+  CONSTRAINT sport_league_uniqukey UNIQUE  (league_id, sport_id),
+  CONSTRAINT user_id_forkey FOREIGN KEY (user_id) REFERENCES app_user(id),
+  CONSTRAINT sport_id_forkey FOREIGN KEY (sport_id) REFERENCES sport(id)
 );
 
 
@@ -130,16 +142,7 @@ CREATE TABLE public.tokens (
 
 );
 
-CREATE TABLE public.sport (
-  id int8 NOT NULL,
-  orgid   varchar(500) NOT NULL,
-  user_id int8 NOT NULL,
-  name varchar(255) NULL,
-  description varchar(255) NULL,
-  CONSTRAINT sport_Pkey PRIMARY KEY (id),
-  CONSTRAINT orgkey_sport FOREIGN KEY (orgid) REFERENCES app_user(orgid),
-  CONSTRAINT user_id_forkey FOREIGN KEY (user_id) REFERENCES app_user(id)
-);
+
 
 CREATE TABLE public.teams (
   team_id int8 NOT NULL,
@@ -147,6 +150,7 @@ CREATE TABLE public.teams (
   team_manager varchar(255) NULL,
   description varchar(255) NULL,
   league_id int8 NOT NULL,
+  is_champion boolean NULL,
   CONSTRAINT team_Pkey PRIMARY KEY (team_id),
   CONSTRAINT league_id FOREIGN KEY (league_id) REFERENCES leagues(league_id)
 );
