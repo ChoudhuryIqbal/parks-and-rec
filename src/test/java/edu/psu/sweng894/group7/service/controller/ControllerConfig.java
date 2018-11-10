@@ -56,6 +56,10 @@ public class ControllerConfig {
         userModel.setUserId(0l);
         userModel.setUsername("TestUser");
         userModel.setPassword("TestPassword");
+        userModel.setOrgid("2");
+        userModel.setOrgname("Org name");
+        userModel.setEmail("email@email.com");
+        userModel.setPhone("3033033030");
         List<UserRoleMap> roles = new ArrayList<>();
         UserRoleMap role = new UserRoleMap();
         //role.setDescription("Test Role Description");
@@ -137,6 +141,7 @@ public class ControllerConfig {
         teamModel.setDescription("test description");
         teamModel.setTeamManager("Joe");
         teamModel.setLeagueId(0l);
+        teamModel.setIsChampion(true);
         return teamModel;
     }
 
