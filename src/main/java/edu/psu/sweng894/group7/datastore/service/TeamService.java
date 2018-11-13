@@ -28,7 +28,7 @@ public class TeamService {
     }
 
     public List<Teams> findAll() {
-        Query query = entityManager.createNamedQuery("query_find_all_teams", Teams.class);
+        Query query = entityManager.createNamedQuery("query_find_teams", Teams.class);
         return query.getResultList();
     }
 

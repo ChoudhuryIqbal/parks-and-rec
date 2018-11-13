@@ -684,22 +684,24 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public List<TeamModel>  getAllTeams(@RequestHeader("token") String token) throws Exception{
+    public List<TeamModel>  getAllTeams( Long leagueId, @RequestHeader("token") String token) throws Exception{
         List<TeamModel> teamModels = new ArrayList<>();
         try{
             AppUser appuserByToken = getUser(token);
             boolean admin = isAdmin(appuserByToken);
             List<Teams> teams= teamService.findAll();
             for(Teams team:teams){
-                TeamModel model = new TeamModel();
-                model.setDescription(team.getDescription());
-                model.setTeamName(team.getTeamName());
-                model.setLeagueId(team.getLeagueId());
-                model.setTeamManager(team.getTeamManager());
-                model.setTeamId(team.getTeamId());
-                model.setIsChampion(team.getIsChampion());
-                teamModels.add(model);
+                if(team.getLeagueId().equals(leagueId)) {
+                    TeamModel model = new TeamModel();
+                    model.setDescription(team.getDescription());
+                    model.setTeamName(team.getTeamName());
+                    model.setLeagueId(team.getLeagueId());
+                    model.setTeamManager(team.getTeamManager());
+                    model.setTeamId(team.getTeamId());
+                    model.setIsChampion(team.getIsChampion());
+                    teamModels.add(model);
 
+                }
             }
 
         }catch (Exception ex){
