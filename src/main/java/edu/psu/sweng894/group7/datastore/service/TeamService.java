@@ -50,7 +50,7 @@ public class TeamService {
                 tempTeam.setDescription(team.getDescription());
                 tempTeam.setTeamManager(team.getTeamManager());
                 tempTeam.setLeagueId(team.getLeagueId());
-                //tempTeam.setPlayerList(team.getPlayerList());
+                tempTeam.setIsChampion(team.getIsChampion());
                 entityManager.merge(tempTeam);
                 flush();
                 break;

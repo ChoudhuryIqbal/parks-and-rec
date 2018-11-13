@@ -12,9 +12,9 @@ public class TeamModel {
     private String teamName;
     private String description;
     private String teamManager; //Maybe change from String to AppUser?
-    //private List<String> playerList; //Maybe change to list of AppUsers?
     @NotNull
     private Long leagueId;
+    private Boolean isChampion;
 
     public Long getTeamId() {
         return teamId;
@@ -48,14 +48,6 @@ public class TeamModel {
         this.teamManager = teamManager;
     }
 
-//    public List<String> getPlayerList() {
-//        return playerList;
-//    }
-//
-//    public void setPlayerList(List<String> playerList) {
-//        this.playerList = playerList;
-//    }
-
     public Long getLeagueId() {
         return leagueId;
     }
@@ -63,4 +55,8 @@ public class TeamModel {
     public void setLeagueId(Long leagueId) {
         this.leagueId = leagueId;
     }
+
+    public Boolean getIsChampion() { return isChampion; }
+
+    public void setIsChampion(Boolean champion) { isChampion = champion; }
 }

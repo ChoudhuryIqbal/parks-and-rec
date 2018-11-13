@@ -672,7 +672,7 @@ public class ParksRecServiceImpl implements ParksRecService {
             teamModel.setTeamName(team.getTeamName());
             teamModel.setDescription(team.getDescription());
             teamModel.setLeagueId(team.getLeagueId());
-            //teamModel.setPlayerList(team.getPlayerList());
+            teamModel.setIsChampion(team.getIsChampion());
             teamModel.setTeamManager(team.getTeamManager());
         }catch(Exception ex){
             logger.error("Exception" , ex);
@@ -697,6 +697,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                 model.setLeagueId(team.getLeagueId());
                 model.setTeamManager(team.getTeamManager());
                 model.setTeamId(team.getTeamId());
+                model.setIsChampion(team.getIsChampion());
                 teamModels.add(model);
 
             }
@@ -721,6 +722,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                     teamModel.setDescription(tempTeam.getDescription());
                     teamModel.setLeagueId(tempTeam.getLeagueId());
                     teamModel.setTeamManager(tempTeam.getTeamManager());
+                    teamModel.setIsChampion(tempTeam.getIsChampion());
                     teams.add(teamModel);
                 }
             }
@@ -744,7 +746,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                 team.setTeamName(teamModel.getTeamName());
                 team.setDescription(teamModel.getDescription());
                 team.setTeamManager(teamModel.getTeamManager());
-                //team.setPlayerList(teamModel.getPlayerList());
+                team.setIsChampion(teamModel.getIsChampion());
                 team.setLeagueId(teamModel.getLeagueId());
                 id = teamService.insert(team);
             }
@@ -802,6 +804,7 @@ public class ParksRecServiceImpl implements ParksRecService {
                 team.setDescription(teamModel.getDescription());
                 team.setTeamManager(teamModel.getTeamManager());
                 team.setLeagueId(teamModel.getLeagueId());
+                team.setIsChampion(teamModel.getIsChampion());
                 if (admin) {
                     teamService.update(team);
                     updatedTeam = getTeamById(teamModel.getTeamId(), token);
