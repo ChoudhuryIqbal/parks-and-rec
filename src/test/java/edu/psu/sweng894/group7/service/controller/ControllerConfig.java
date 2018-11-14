@@ -56,7 +56,7 @@ public class ControllerConfig {
         userModel.setUserId(0l);
         userModel.setUsername("TestUser");
         userModel.setPassword("TestPassword");
-        userModel.setOrgid("2");
+        userModel.setOrgid("Test Org id");
         userModel.setOrgname("Org name");
         userModel.setEmail("email@email.com");
         userModel.setPhone("3033033030");
@@ -79,6 +79,7 @@ public class ControllerConfig {
         List<UserRoleMap> roles = new ArrayList<>();
         UserRoleMap role = new UserRoleMap();
         appUser.setRolename("Admin");
+        appUser.setOrgid("Test Org id");
         return appUser;
     }
 
@@ -89,6 +90,7 @@ public class ControllerConfig {
         leagueModel.setLeagueName("TestLeagueName");
         leagueModel.setDescription("TestLeagueDescription");
         leagueModel.setSportId(0l);
+        leagueModel.setOrgid("Test Org id");
         return leagueModel;
     }
 
@@ -99,6 +101,7 @@ public class ControllerConfig {
         league.setLeagueName("TestLeagueName");
         league.setDescription("TestLeagueDescription");
         league.setSportId(0l);
+        league.setOrgid("Test Org id");
         return league;
     }
 
@@ -154,5 +157,13 @@ public class ControllerConfig {
         return token;
     }
 
+    @Bean
+    public Tokens tokenWrong() {
+        Tokens token = new Tokens();
+        token.setUserid(-1l);
+        token.setUsername("");
+        token.setToken("");
+        return token;
+    }
 
 }

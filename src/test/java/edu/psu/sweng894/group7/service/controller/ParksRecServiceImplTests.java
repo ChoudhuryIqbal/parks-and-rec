@@ -72,6 +72,8 @@ public class ParksRecServiceImplTests {
     TeamModel teamModel;
     @Autowired
     Tokens token;
+    @Autowired
+    Tokens tokenWrong;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -104,6 +106,9 @@ public class ParksRecServiceImplTests {
         Mockito.when(teamService.find(0l)).thenReturn(team);
         Mockito.when(teamService.find(-5l)).thenThrow(TeamException.class);
         Mockito.when(teamService.insert(team)).thenReturn(team.getTeamId());
+        List <Teams> teamList = new ArrayList<>();
+        teamList.add(team);
+        Mockito.when(teamService.findAll()).thenReturn(teamList);
     }
 
     @Test
@@ -194,6 +199,19 @@ public class ParksRecServiceImplTests {
     }
 
     @Test
+    public void getAllSportsPass() throws Exception {
+        List <SportModel> response = parksRecServiceImpl.getAllSports(token.getToken());
+        assertTrue(!response.isEmpty());
+    }
+
+    @Test
+    public void getAllSportsFail() throws Exception {
+        exception.expect(SportException.class);
+        List <SportModel> response = parksRecServiceImpl.getAllSports(null);
+        String name = response.get(0).getName();
+    }
+
+    @Test
     public void getUserByNamePass() throws Exception {
         List <UserModel> response = parksRecServiceImpl.getUserByName(appUser.getName(), token.getToken());
         assertTrue((response.get(0).getUsername()==appUser.getUsername()));
@@ -229,6 +247,19 @@ public class ParksRecServiceImplTests {
     public void createTeamFail() {
         exception.expect(TeamException.class);
         TeamModel response = parksRecServiceImpl.addTeam(null, token.getToken());
+    }
+
+    @Test
+    public void getAllTeamsPass() throws Exception {
+        List <TeamModel> response = parksRecServiceImpl.getAllTeams(team.getLeagueId(), token.getToken());
+        assertTrue(response.get(0).getTeamName()==team.getTeamName());
+    }
+
+    @Test
+    public void getAllTeamsFail() throws Exception {
+        exception.expect(Exception.class);
+        List <TeamModel> response = parksRecServiceImpl.getAllTeams(null, token.getToken());
+        String name = response.get(0).getTeamName();
     }
 
 }
