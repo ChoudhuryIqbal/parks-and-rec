@@ -124,6 +124,17 @@ public class ParksRecServiceImplTests {
     }
 
     @Test
+    public void deleteUserPass() throws Exception {
+        parksRecServiceImpl.deleteUser(appUser.getId(), token.getToken());
+    }
+
+    @Test
+    public void deleteUserFail() {
+        exception.expect(AppUserException.class);
+        parksRecServiceImpl.deleteUser(-5l, token.getToken());
+    }
+
+    @Test
     public void getUserByIdPass() throws Exception{
         UserModel responce= parksRecServiceImpl.getUserById(appUser.getId(),token.getToken());
         assertTrue(responce.getUserId()==userModel.getUserId());
@@ -147,6 +158,16 @@ public class ParksRecServiceImplTests {
         LeagueModel response = parksRecServiceImpl.addLeague(null, token.getToken());
     }
 
+    @Test
+    public void deleteLeaguePass() throws Exception {
+        parksRecServiceImpl.deleteLeague(league.getLeagueId(), token.getToken());
+    }
+
+    @Test
+    public void deleteLeagueFail() {
+        exception.expect(LeagueException.class);
+        parksRecServiceImpl.deleteLeague(-5l, token.getToken());
+    }
 
     @Test
     public void getLeagueByIdPass() throws Exception {
@@ -170,6 +191,17 @@ public class ParksRecServiceImplTests {
     public void createSportFail() {
         exception.expect(SportException.class);
         SportModel response = parksRecServiceImpl.addSport(null, token.getToken());
+    }
+
+    @Test
+    public void deleteSportPass() throws Exception {
+        parksRecServiceImpl.deleteSport(sport.getId(), token.getToken());
+    }
+
+    @Test
+    public void deleteSportFail() {
+        exception.expect(SportException.class);
+        parksRecServiceImpl.deleteSport(-5l, token.getToken());
     }
 
     @Test
@@ -247,6 +279,17 @@ public class ParksRecServiceImplTests {
     public void createTeamFail() {
         exception.expect(TeamException.class);
         TeamModel response = parksRecServiceImpl.addTeam(null, token.getToken());
+    }
+
+    @Test
+    public void deleteTeamPass() throws Exception {
+        parksRecServiceImpl.deleteTeam(team.getTeamId(), token.getToken());
+    }
+
+    @Test
+    public void deleteTeamFail() {
+        exception.expect(TeamException.class);
+        parksRecServiceImpl.deleteTeam(-5l, token.getToken());
     }
 
     @Test
