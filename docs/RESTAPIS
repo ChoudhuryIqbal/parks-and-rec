@@ -231,3 +231,12 @@ curl -X GET \
   -H 'Content-Type: application/json' \
   -H 'Postman-Token: 0f2fd36e-7c95-49a6-b712-03e8d3d7b8ec' \
   -H 'token: 497eae0d-76bf-4235-8e20-d6fb145b15ac'
+
+Get All Teams by league id
+
+curl -X GET \
+  'http://localhost:8080/parksrec/services/v1/getAllTeams?leagueId=52' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -H 'Postman-Token: 1bf7aa4c-14e1-4384-8e0f-47d659573f27' \
+  -H 'token: 1646f16e-daac-41b5-b8c8-4e97ce8faf81'

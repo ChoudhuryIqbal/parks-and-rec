@@ -2,6 +2,7 @@ package edu.psu.sweng894.group7.service.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import edu.psu.sweng894.group7.datastore.entity.*;
 import edu.psu.sweng894.group7.datastore.service.SecurityServices;
 import edu.psu.sweng894.group7.service.controller.model.Roles;
@@ -417,12 +418,13 @@ public class ParksRecServiceImpl implements ParksRecService {
     public List<LeagueModel> getAllLeagues(@RequestHeader("token") String token) throws Exception{
         List<LeagueModel> leagueModels = new ArrayList<>();
         try {
-            AppUser appuserByToken = getUser(token);
-            boolean admin = isAdmin(appuserByToken);
+            AppUser appuser = getUser(token);
+            boolean admin = isAdmin(appuser);
 
             List<Leagues> leagues=leagueService.findAll();
             for (Leagues league : leagues) {
-                if (league.getOrgid().equalsIgnoreCase(appuserByToken.getOrgid())) {
+
+                if (league.getOrgid().equalsIgnoreCase(appuser.getOrgid())) {
                     LeagueModel leagueModel = new LeagueModel();
                     leagueModel.setOrgid(league.getOrgid());
                     leagueModel.setLeagueName(league.getLeagueName());
@@ -453,11 +455,11 @@ public class ParksRecServiceImpl implements ParksRecService {
     public List<SportModel> getAllSports(@RequestHeader("token") String token) throws Exception {
         List<SportModel> sportModels = new ArrayList<>();
         try {
-            AppUser appuserByToken = getUser(token);
-            boolean admin = isAdmin(appuserByToken);
+            AppUser appuser = getUser(token);
+            boolean admin = isAdmin(appuser);
             List<Sport> sports = sportService.findAll();
             for (Sport sport : sports) {
-                if (sport.getOrgid().equalsIgnoreCase(appuserByToken.getOrgid())) {
+                if (sport.getOrgid().equalsIgnoreCase(appuser.getOrgid())) {
                     SportModel model = new SportModel();
                     model.setId(sport.getId());
                     model.setDescription(sport.getDescription());
@@ -469,6 +471,8 @@ public class ParksRecServiceImpl implements ParksRecService {
                     //get all leagues for this sport
                     List<LeagueModel> leagues = getAllLeagues(token);
                     for (LeagueModel lmodel : leagues) {
+                        System.out.println(lmodel.getSportId());
+                        System.out.println(sport.getId());
                         if (lmodel.getSportId().equals(sport.getId())) {
                             leaguesList.add(lmodel);
                         }
@@ -483,6 +487,7 @@ public class ParksRecServiceImpl implements ParksRecService {
             logger.error("Exception", ex);
             throw new SportException("Sport finding failed.");
         }
+        System.out.println("sportModels="+ new Gson().toJson(sportModels));
         return sportModels;
     }
 
@@ -536,6 +541,7 @@ public class ParksRecServiceImpl implements ParksRecService {
             logger.error("Exception" , ex);
             throw new LeagueException("Deleting league failed");
         }
+        System.out.println("deleted league");
         return "{ \"status\":\"success\" }";
     }
 
@@ -678,22 +684,24 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public List<TeamModel>  getAllTeams(@RequestHeader("token") String token) throws Exception{
+    public List<TeamModel>  getAllTeams( Long leagueId, @RequestHeader("token") String token) throws Exception{
         List<TeamModel> teamModels = new ArrayList<>();
         try{
             AppUser appuserByToken = getUser(token);
             boolean admin = isAdmin(appuserByToken);
             List<Teams> teams= teamService.findAll();
             for(Teams team:teams){
-                TeamModel model = new TeamModel();
-                model.setDescription(team.getDescription());
-                model.setTeamName(team.getTeamName());
-                model.setLeagueId(team.getLeagueId());
-                model.setTeamManager(team.getTeamManager());
-                model.setTeamId(team.getTeamId());
-                model.setIsChampion(team.getIsChampion());
-                teamModels.add(model);
+                if(team.getLeagueId().equals(leagueId)) {
+                    TeamModel model = new TeamModel();
+                    model.setDescription(team.getDescription());
+                    model.setTeamName(team.getTeamName());
+                    model.setLeagueId(team.getLeagueId());
+                    model.setTeamManager(team.getTeamManager());
+                    model.setTeamId(team.getTeamId());
+                    model.setIsChampion(team.getIsChampion());
+                    teamModels.add(model);
 
+                }
             }
 
         }catch (Exception ex){
