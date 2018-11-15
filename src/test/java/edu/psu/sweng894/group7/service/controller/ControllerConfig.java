@@ -84,6 +84,15 @@ public class ControllerConfig {
     }
 
     @Bean
+    public Roles roles() {
+        Roles role = new Roles();
+        role.setRoleId(0l);
+        role.setDescription("Test role");
+        role.setRolename("Role name");
+        return role;
+    }
+
+    @Bean
     public LeagueModel leagueModel() {
         LeagueModel leagueModel = new LeagueModel();
         leagueModel.setLeagueId(0l);
