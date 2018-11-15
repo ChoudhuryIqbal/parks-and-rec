@@ -301,7 +301,7 @@ public class ParksRecServiceImplTests {
     @Test
     public void getAllTeamsFail() throws Exception {
         exception.expect(Exception.class);
-        List <TeamModel> response = parksRecServiceImpl.getAllTeams(null, token.getToken());
+        List <TeamModel> response = parksRecServiceImpl.getAllTeams(-5l, token.getToken());
         String name = response.get(0).getTeamName();
     }
 

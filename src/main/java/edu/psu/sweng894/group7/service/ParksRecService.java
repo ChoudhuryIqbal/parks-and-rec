@@ -128,11 +128,11 @@ public interface ParksRecService {
 
     @RequestMapping(path="/getAllTeams", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<TeamModel>  getAllTeams(Long leagueId, @RequestHeader("token") String token) throws Exception;
+    public List<TeamModel>  getAllTeams(long leagueId, @RequestHeader("token") String token) throws Exception;
 
     @RequestMapping(path="/getTeamByName", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<TeamModel> getTeamByName(@RequestParam(name="teamName", required=true) String teamName, String leagueId,  @RequestHeader("token") String token) throws Exception;
+    public List<TeamModel> getTeamByName(@RequestParam(name="teamName", required=true) String teamName, long leagueId,  @RequestHeader("token") String token) throws Exception;
 
     // sports services
 
