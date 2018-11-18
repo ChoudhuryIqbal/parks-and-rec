@@ -71,11 +71,19 @@ public class ControllerConfig {
     }
 
     @Bean
+    public UserModel userModelWrong () {
+        UserModel userModel = new UserModel();
+        userModel.setUserId(-9l);
+        userModel.setUsername("NotSame");
+        return userModel;
+    }
+
+    @Bean
     public AppUser appUsers() {
         AppUser appUser = new AppUser();
         appUser.setId(0l);
-        appUser.setUsername("Admin");
-        appUser.setPassword("Admin");
+        appUser.setUsername("TestUser");
+        appUser.setPassword("TestPassword");
         List<UserRoleMap> roles = new ArrayList<>();
         UserRoleMap role = new UserRoleMap();
         appUser.setRolename("Admin");
