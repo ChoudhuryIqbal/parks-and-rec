@@ -65,6 +65,7 @@ public class ControllerConfig {
         //role.setDescription("Test Role Description");
         role.setRole_id(0l);
         //role.setRolename("TestRole");
+        userModel.setRolename("Admin");
         roles.add(role);
         userModel.setRoles(roles);
         return userModel;

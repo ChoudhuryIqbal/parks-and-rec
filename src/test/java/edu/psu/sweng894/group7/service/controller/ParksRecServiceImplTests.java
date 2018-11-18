@@ -152,6 +152,18 @@ public class ParksRecServiceImplTests {
     }
 
     @Test
+    public void updateUserPass() throws Exception {
+        UserModel response = parksRecServiceImpl.updateUser(userModel, token.getToken());
+        assertTrue(response.getUsername()==userModel.getUsername());
+    }
+
+    @Test
+    public void updateUserFail() throws Exception {
+        exception.expect(AppUserException.class);
+        UserModel response = parksRecServiceImpl.updateUser(userModelWrong, token.getToken());
+    }
+
+    @Test
     public void loginPass() throws Exception {
         Mockito.when(securityService.generateToken(userModel.getUsername(), appUser.getUsername(),appUser.getId())).thenReturn("token");
         String response = parksRecServiceImpl.login(userModel);
