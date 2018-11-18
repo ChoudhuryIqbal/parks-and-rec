@@ -684,7 +684,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public List<TeamModel>  getAllTeams( Long leagueId, @RequestHeader("token") String token) throws Exception{
+    public List<TeamModel>  getAllTeams(long leagueId, @RequestHeader("token") String token) throws Exception{
         List<TeamModel> teamModels = new ArrayList<>();
         try{
             AppUser appuserByToken = getUser(token);
@@ -712,12 +712,12 @@ public class ParksRecServiceImpl implements ParksRecService {
 
     @Override
     @SecureAPI
-    public List<TeamModel> getTeamByName(String teamName, String leagueId, @RequestHeader("token") String token) {
+    public List<TeamModel> getTeamByName(String teamName, long leagueId, @RequestHeader("token") String token) {
         List<TeamModel> teams = new ArrayList<>();
         try {
             List<Teams> teamsList = teamService.findAll();
             for (Teams tempTeam : teamsList) {
-                if (tempTeam.getTeamName().equalsIgnoreCase(teamName) && tempTeam.getLeagueId().equals(leagueId)) {
+                if (tempTeam.getTeamName().equalsIgnoreCase(teamName) && tempTeam.getLeagueId()==leagueId) {
                     TeamModel teamModel = new TeamModel();
                     teamModel.setTeamId(tempTeam.getTeamId());
                     teamModel.setTeamName(tempTeam.getTeamName());
