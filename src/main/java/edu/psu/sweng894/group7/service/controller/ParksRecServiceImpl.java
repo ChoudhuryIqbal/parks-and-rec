@@ -53,21 +53,25 @@ public class ParksRecServiceImpl implements ParksRecService {
 
 
     //start of example services
+    @lombok.Generated
     @Override
     public String get() throws Exception {
         return "Example of get call";
     }
 
+    @lombok.Generated
     @Override
     public TestModel put(@PathVariable("id") String id, @RequestParam(value = "name", required = false) String name, @RequestBody TestModel model) throws Exception {
         return model;
     }
 
+    @lombok.Generated
     @Override
     public String delete(@RequestParam(name = "name", required = false, defaultValue = "Have a nice Day") String name) {
         return "deleted";
     }
 
+    @lombok.Generated
     @Override
     public TestModel post(@PathVariable("id") String id, @RequestBody TestModel model) {
         return model;
@@ -828,6 +832,7 @@ public class ParksRecServiceImpl implements ParksRecService {
 
 
     //health check
+    @lombok.Generated
     @RequestMapping(path = "", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public String healthCheck() {
         return "I am alive";
