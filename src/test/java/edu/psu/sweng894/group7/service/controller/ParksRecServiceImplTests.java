@@ -16,6 +16,7 @@ import edu.psu.sweng894.group7.service.controller.model.SportModel;
 import edu.psu.sweng894.group7.service.controller.model.UserModel;
 import edu.psu.sweng894.group7.service.controller.model.TeamModel;
 import edu.psu.sweng894.group7.service.exception.*;
+import junit.framework.AssertionFailedError;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,6 +32,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 
@@ -58,6 +60,8 @@ public class ParksRecServiceImplTests {
     private AppUser appUser;
     @Autowired
     UserModel userModel;
+    @Autowired
+    UserModel userModelWrong;
     @Autowired
     private Roles roles;
     @Autowired
@@ -96,6 +100,8 @@ public class ParksRecServiceImplTests {
         List<Roles> rolesList = new ArrayList<>();
         rolesList.add(roles);
         Mockito.when(userService.findAllRoles()).thenReturn(rolesList);
+
+
 
         Mockito.when(leagueService.find(0l)).thenReturn(league);
         Mockito.when(leagueService.find(-5l)).thenThrow(LeagueException.class);
@@ -137,6 +143,21 @@ public class ParksRecServiceImplTests {
     public void deleteUserFail() {
         exception.expect(AppUserException.class);
         parksRecServiceImpl.deleteUser(-5l, token.getToken());
+    }
+
+    @Test
+    public void loginPass() throws Exception {
+        Mockito.when(securityService.generateToken(userModel.getUsername(), appUser.getUsername(),appUser.getId())).thenReturn("token");
+        String response = parksRecServiceImpl.login(userModel);
+        assertTrue(response == "token");
+    }
+
+    @Test
+    public void loginFail() throws Exception {
+        exception.expect(AssertionFailedError.class);
+        Mockito.when(securityService.generateToken(userModelWrong.getUsername(), appUser.getUsername(),appUser.getId())).thenReturn("token");
+        String response = parksRecServiceImpl.login(userModelWrong);
+        assertFalse(response == "");
     }
 
     @Test
