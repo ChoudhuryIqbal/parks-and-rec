@@ -129,6 +129,12 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.2</version>
+                <configuration>
+                    <excludes>
+                        <exclude>edu/psu/sweng894/group7/service/exception/**</exclude>
+                        <exclude>edu/psu/sweng894/group7/service/util/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <!-- prepare agent for measuring integration tests -->
                     <execution>
