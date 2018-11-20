@@ -65,6 +65,7 @@ public class ControllerConfig {
         //role.setDescription("Test Role Description");
         role.setRole_id(0l);
         //role.setRolename("TestRole");
+        userModel.setRolename("Admin");
         roles.add(role);
         userModel.setRoles(roles);
         return userModel;
@@ -112,6 +113,14 @@ public class ControllerConfig {
     }
 
     @Bean
+    public LeagueModel leagueModelWrong() {
+        LeagueModel leagueModel = new LeagueModel();
+        leagueModel.setLeagueId(-5l);
+        leagueModel.setLeagueName("Wrong League Name");
+        return leagueModel;
+    }
+
+    @Bean
     public Leagues league() {
         Leagues league = new Leagues();
         league.setLeagueId(0l);
@@ -143,6 +152,14 @@ public class ControllerConfig {
     }
 
     @Bean
+    public SportModel sportModelWrong() {
+        SportModel sportModel = new SportModel();
+        sportModel.setId(-5l);
+        sportModel.setName("Wrong Sport Name");
+        return sportModel;
+    }
+
+    @Bean
     public Teams team(){
         Teams team = new Teams();
         team.setTeamId(0l);
@@ -162,6 +179,14 @@ public class ControllerConfig {
         teamModel.setTeamManager("Joe");
         teamModel.setLeagueId(0l);
         teamModel.setIsChampion(true);
+        return teamModel;
+    }
+
+    @Bean
+    public TeamModel teamModelWrong() {
+        TeamModel teamModel = new TeamModel();
+        teamModel.setTeamId(-5l);
+        teamModel.setTeamName("Wrong Team Name");
         return teamModel;
     }
 

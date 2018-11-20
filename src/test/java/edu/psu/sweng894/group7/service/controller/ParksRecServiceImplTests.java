@@ -69,13 +69,19 @@ public class ParksRecServiceImplTests {
     @Autowired
     LeagueModel leagueModel;
     @Autowired
+    LeagueModel leagueModelWrong;
+    @Autowired
     private Sport sport;
     @Autowired
     SportModel sportModel;
     @Autowired
+    SportModel sportModelWrong;
+    @Autowired
     private Teams team;
     @Autowired
     TeamModel teamModel;
+    @Autowired
+    TeamModel teamModelWrong;
     @Autowired
     Tokens token;
     @Autowired
@@ -143,6 +149,18 @@ public class ParksRecServiceImplTests {
     public void deleteUserFail() {
         exception.expect(AppUserException.class);
         parksRecServiceImpl.deleteUser(-5l, token.getToken());
+    }
+
+    @Test
+    public void updateUserPass() throws Exception {
+        UserModel response = parksRecServiceImpl.updateUser(userModel, token.getToken());
+        assertTrue(response.getUsername()==userModel.getUsername());
+    }
+
+    @Test
+    public void updateUserFail() throws Exception {
+        exception.expect(AppUserException.class);
+        UserModel response = parksRecServiceImpl.updateUser(userModelWrong, token.getToken());
     }
 
     @Test
@@ -220,6 +238,18 @@ public class ParksRecServiceImplTests {
     }
 
     @Test
+    public void updateLeaguePass() throws Exception {
+        LeagueModel response = parksRecServiceImpl.updateLeague(leagueModel, token.getToken());
+        assertTrue(response.getLeagueName()==leagueModel.getLeagueName());
+    }
+
+    @Test
+    public void updateLeagueFail() throws Exception {
+        exception.expect(LeagueException.class);
+        LeagueModel response = parksRecServiceImpl.updateLeague(leagueModelWrong, token.getToken());
+    }
+
+    @Test
     public void createSportPass() throws Exception{
         SportModel response = parksRecServiceImpl.addSport(sportModel, token.getToken());
         assertTrue(response.getId()==sport.getId());
@@ -279,6 +309,18 @@ public class ParksRecServiceImplTests {
         exception.expect(SportException.class);
         List <SportModel> response = parksRecServiceImpl.getAllSports(null);
         String name = response.get(0).getName();
+    }
+
+    @Test
+    public void updateSportPass() throws Exception {
+        SportModel response = parksRecServiceImpl.updateSport(sportModel, token.getToken());
+        assertTrue(response.getName()==sportModel.getName());
+    }
+
+    @Test
+    public void updateSportFail() throws Exception {
+        exception.expect(SportException.class);
+        SportModel response = parksRecServiceImpl.updateSport(sportModelWrong, token.getToken());
     }
 
     @Test
@@ -354,6 +396,18 @@ public class ParksRecServiceImplTests {
         exception.expect(Exception.class);
         List <TeamModel> response = parksRecServiceImpl.getAllTeams(-5l, token.getToken());
         String name = response.get(0).getTeamName();
+    }
+
+    @Test
+    public void updateTeamPass() throws Exception {
+        TeamModel response = parksRecServiceImpl.updateTeam(teamModel, token.getToken());
+        assertTrue(response.getTeamName()==teamModel.getTeamName());
+    }
+
+    @Test
+    public void updateTeamFail() throws Exception {
+        exception.expect(TeamException.class);
+        TeamModel response = parksRecServiceImpl.updateTeam(teamModelWrong, token.getToken());
     }
 
 }
