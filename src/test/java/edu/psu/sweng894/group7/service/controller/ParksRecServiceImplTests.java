@@ -112,6 +112,9 @@ public class ParksRecServiceImplTests {
         Mockito.when(leagueService.find(0l)).thenReturn(league);
         Mockito.when(leagueService.find(-5l)).thenThrow(LeagueException.class);
         Mockito.when(leagueService.insert(league)).thenReturn(league.getLeagueId());
+        List<Leagues> leaguesList = new ArrayList<>();
+        leaguesList.add(league);
+        Mockito.when(leagueService.findAll()).thenReturn(leaguesList);
 
         Mockito.when(sportService.find(0l)).thenReturn(sport);
         Mockito.when(sportService.find(-5l)).thenThrow(SportException.class);
@@ -223,6 +226,18 @@ public class ParksRecServiceImplTests {
     public void deleteLeagueFail() {
         exception.expect(LeagueException.class);
         parksRecServiceImpl.deleteLeague(-5l, token.getToken());
+    }
+
+    @Test
+    public void getAllLeaguesPass() throws Exception {
+        List<LeagueModel> response = parksRecServiceImpl.getAllLeagues(token.getToken());
+        assertTrue(!response.isEmpty());
+    }
+
+    @Test
+    public void getAllLeaguesFail() throws Exception {
+        exception.expect(LeagueException.class);
+        List<LeagueModel> response = parksRecServiceImpl.getAllLeagues(null);
     }
 
     @Test
