@@ -299,18 +299,16 @@ public class ParksRecServiceImplTests {
         SportModel response = parksRecServiceImpl.getSportById(-5l, token.getToken());
     }
 
-
+    @Test
     public void getSportByNamePass() throws Exception {
         List <SportModel> response = parksRecServiceImpl.getSportByName(sport.getName(), token.getToken());
-        assertTrue((response.get(0).getName()==sport.getName()));
+        assertTrue(!response.isEmpty());
     }
 
-    // Needs refinement to throw a proper SportException
     @Test
     public void getSportByNameFail() {
         exception.expect(Exception.class);
-        List <SportModel> response = parksRecServiceImpl.getSportByName(null, token.getToken());
-        String name = response.get(0).getName();
+        List <SportModel> response = parksRecServiceImpl.getSportByName(null, null);
     }
 
     @Test
