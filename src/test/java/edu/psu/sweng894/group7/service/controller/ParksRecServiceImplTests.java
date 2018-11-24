@@ -226,6 +226,12 @@ public class ParksRecServiceImplTests {
     }
 
     @Test
+    public void getUserByIdUnAuthorized() {
+        exception.expect(AppUserException.class);
+        UserModel response = parksRecServiceImpl.getUserById(-9l, "incorrect");
+    }
+
+    @Test
     public void createLeaguePass() throws Exception {
         LeagueModel response = parksRecServiceImpl.addLeague(leagueModel,token.getToken());
         assertTrue(response.getLeagueId()==leagueModel.getLeagueId());
@@ -416,6 +422,13 @@ public class ParksRecServiceImplTests {
     public void deleteTeamFail() {
         exception.expect(TeamException.class);
         parksRecServiceImpl.deleteTeam(-5l, token.getToken());
+    }
+
+    @Test
+    public void deleteTeamUnAuthorized() {
+        exception.expect(TeamException.class);
+        Mockito.when(securityService.findToken(Mockito.any(String.class))).thenReturn(tokenWrong);
+        parksRecServiceImpl.deleteTeam(team.getTeamId(), "incorrect");
     }
 
     @Test
