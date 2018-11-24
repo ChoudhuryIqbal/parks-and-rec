@@ -144,6 +144,20 @@ public class ParksRecServiceImplTests {
     }
 
     @Test
+    public void createUserUnAuthorizedFail() {
+        exception.expect(AppUserException.class);
+        UserModel response = parksRecServiceImpl.addUser(userModel, null);
+    }
+
+    @Test
+    public void createUserDuplicateFail() {
+        exception.expect(AssertionError.class);
+        UserModel response = parksRecServiceImpl.addUser(userModel, token.getToken());
+        UserModel response2 = parksRecServiceImpl.addUser(userModel, token.getToken());
+        assertFalse(response.getUserId()==response2.getUserId());
+    }
+
+    @Test
     public void deleteUserPass() throws Exception {
         parksRecServiceImpl.deleteUser(appUser.getId(), token.getToken());
     }
@@ -164,6 +178,12 @@ public class ParksRecServiceImplTests {
     public void updateUserFail() throws Exception {
         exception.expect(AppUserException.class);
         UserModel response = parksRecServiceImpl.updateUser(userModelWrong, token.getToken());
+    }
+
+    @Test
+    public void updateUserUnAuthorizedFail() {
+        exception.expect(AppUserException.class);
+        UserModel response = parksRecServiceImpl.updateUser(userModelWrong, tokenWrong.getToken());
     }
 
     @Test
