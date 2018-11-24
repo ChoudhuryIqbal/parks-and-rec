@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Component
 @Getter
 @Setter
-
+@lombok.Generated
 public class TestModel {
     String course=null;
     String cohort=null;

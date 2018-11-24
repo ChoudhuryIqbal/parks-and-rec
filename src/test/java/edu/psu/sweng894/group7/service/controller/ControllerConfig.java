@@ -74,7 +74,7 @@ public class ControllerConfig {
     @Bean
     public UserModel userModelWrong () {
         UserModel userModel = new UserModel();
-        userModel.setUserId(-9l);
+        userModel.setUserId(-1l);
         userModel.setUsername("NotSame");
         return userModel;
     }
@@ -203,8 +203,8 @@ public class ControllerConfig {
     public Tokens tokenWrong() {
         Tokens token = new Tokens();
         token.setUserid(-1l);
-        token.setUsername("");
-        token.setToken("");
+        token.setUsername("Wrong");
+        token.setToken("wrong");
         return token;
     }
 
