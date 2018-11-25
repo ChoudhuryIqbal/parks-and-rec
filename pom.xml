@@ -133,6 +133,7 @@
                     <excludes>
                         <exclude>edu/psu/sweng894/group7/service/exception/**</exclude>
                         <exclude>edu/psu/sweng894/group7/service/util/**</exclude>
+                        <exclude>edu/psu/sweng894/group7/datastore/service/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>

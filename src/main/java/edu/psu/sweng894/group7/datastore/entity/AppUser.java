@@ -143,6 +143,7 @@ public class AppUser {
         return username;
     }
 
+    @lombok.Generated
     @Override
     public String toString() {
         /*

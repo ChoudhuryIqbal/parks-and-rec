@@ -113,6 +113,7 @@ public class UserModel {
         this.password = password;
     }
 
+    @lombok.Generated
     @Override
     public String toString() {
         String roleNames="";
