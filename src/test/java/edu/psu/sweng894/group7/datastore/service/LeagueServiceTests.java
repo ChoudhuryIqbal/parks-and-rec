@@ -44,4 +44,10 @@ public class LeagueServiceTests {
         long id =leagueService.insert(league);
         assertTrue(id==1l);
     }
+
+    @Test
+    public void updateTestPass() {
+        leagueService.update(league);
+        assertTrue(leagueService.find(league.getLeagueId())==league);
+    }
 }

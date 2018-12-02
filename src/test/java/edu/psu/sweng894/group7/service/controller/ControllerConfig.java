@@ -65,8 +65,17 @@ public class ControllerConfig {
         //role.setDescription("Test Role Description");
         role.setRole_id(0l);
         //role.setRolename("TestRole");
+        userModel.setRolename("Admin");
         roles.add(role);
         userModel.setRoles(roles);
+        return userModel;
+    }
+
+    @Bean
+    public UserModel userModelWrong () {
+        UserModel userModel = new UserModel();
+        userModel.setUserId(-1l);
+        userModel.setUsername("NotSame");
         return userModel;
     }
 
@@ -74,8 +83,8 @@ public class ControllerConfig {
     public AppUser appUsers() {
         AppUser appUser = new AppUser();
         appUser.setId(0l);
-        appUser.setUsername("Admin");
-        appUser.setPassword("Admin");
+        appUser.setUsername("TestUser");
+        appUser.setPassword("TestPassword");
         List<UserRoleMap> roles = new ArrayList<>();
         UserRoleMap role = new UserRoleMap();
         appUser.setRolename("Admin");
@@ -100,6 +109,14 @@ public class ControllerConfig {
         leagueModel.setDescription("TestLeagueDescription");
         leagueModel.setSportId(0l);
         leagueModel.setOrgid("Test Org id");
+        return leagueModel;
+    }
+
+    @Bean
+    public LeagueModel leagueModelWrong() {
+        LeagueModel leagueModel = new LeagueModel();
+        leagueModel.setLeagueId(-5l);
+        leagueModel.setLeagueName("Wrong League Name");
         return leagueModel;
     }
 
@@ -135,6 +152,14 @@ public class ControllerConfig {
     }
 
     @Bean
+    public SportModel sportModelWrong() {
+        SportModel sportModel = new SportModel();
+        sportModel.setId(-5l);
+        sportModel.setName("Wrong Sport Name");
+        return sportModel;
+    }
+
+    @Bean
     public Teams team(){
         Teams team = new Teams();
         team.setTeamId(0l);
@@ -158,6 +183,14 @@ public class ControllerConfig {
     }
 
     @Bean
+    public TeamModel teamModelWrong() {
+        TeamModel teamModel = new TeamModel();
+        teamModel.setTeamId(-5l);
+        teamModel.setTeamName("Wrong Team Name");
+        return teamModel;
+    }
+
+    @Bean
     public Tokens token(){
         Tokens token = new Tokens();
         token.setUserid(0l);
@@ -170,8 +203,8 @@ public class ControllerConfig {
     public Tokens tokenWrong() {
         Tokens token = new Tokens();
         token.setUserid(-1l);
-        token.setUsername("");
-        token.setToken("");
+        token.setUsername("Wrong");
+        token.setToken("wrong");
         return token;
     }
 
