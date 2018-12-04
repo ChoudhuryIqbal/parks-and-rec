@@ -17,9 +17,10 @@ public class Validator {
         if(UserModel.getUsername() == null){
             throw  new ValidationException("user name is required");
         }
-        if(UserModel.getPassword() == null){
-            throw new ValidationException("passeword is required");
-        }
+
+//        if(UserModel.getPassword() == null){
+//            throw new ValidationException("passeword is required");
+//        }
 
         if(UserModel.getOrgid() == null ){
             throw new ValidationException("org id is required");
@@ -28,13 +29,14 @@ public class Validator {
         if(UserModel.getEmail() == null){
             throw new ValidationException("email is required");
         }
-        if(UserModel.getOrgname() == null){
-            throw new ValidationException("org name is required");
-        }
+//        if(UserModel.getOrgname() == null){
+//            throw new ValidationException("org name is required");
+//        }
 
         if(UserModel.getPhone() == null){
             throw new ValidationException("phone number is required");
         }
+
     }
 
     static public void validateLeagueModel(LeagueModel leagueModel) throws ValidationException {

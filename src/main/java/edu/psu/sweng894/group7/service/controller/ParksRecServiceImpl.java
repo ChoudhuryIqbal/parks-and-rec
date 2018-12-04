@@ -222,19 +222,33 @@ public class ParksRecServiceImpl implements ParksRecService {
         UserModel updatedUser = new UserModel();
         List<edu.psu.sweng894.group7.service.controller.model.Roles> userRoles = new ArrayList<>();
         try {
-            Validator.validateUserModel(userModel);
+            //Validator.validateUserModel(userModel);
             AppUser appuserByToken=getUser(token);
             boolean admin=isAdmin(appuserByToken);
             appUser=userService.find(userModel.getUserId());
             if(appUser != null) {
-                appUser.setPassword(userModel.getPassword());
-                //appUser.setRoles(userModel.getRoles());
-                appUser.setRolename(userModel.getRolename());
-                appUser.setUsername(userModel.getUsername());
-                appUser.setAddress(userModel.getUsername());
-                appUser.setEmail(userModel.getEmail());
-                appUser.setPhone(userModel.getPhone());
-                appUser.setOrgname(userModel.getOrgname());
+
+                if(userModel.getPassword() != null)
+                 appUser.setPassword(userModel.getPassword());
+
+                if(userModel.getRolename()!= null)
+                    appUser.setRolename(userModel.getRolename());
+
+                if(userModel.getUsername()!= null)
+                     appUser.setUsername(userModel.getUsername());
+
+                if(userModel.getAddress()!= null)
+                    appUser.setAddress(userModel.getAddress());
+
+                if(userModel.getEmail()!= null)
+                    appUser.setEmail(userModel.getEmail());
+
+                if(userModel.getPhone()!= null)
+                      appUser.setPhone(userModel.getPhone());
+
+                if(userModel.getOrgname()!= null)
+                    appUser.setOrgname(userModel.getOrgname());
+
                 if (admin)
                     userService.update(appUser);
                 else {

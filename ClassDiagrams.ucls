@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="edu.psu.sweng894.group7.datastore.entity.AppUser" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/entity/AppUser.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="214" width="210" x="33" y="-310"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="edu.psu.sweng894.group7.datastore.entity.Teams" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/entity/Teams.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="144" width="210" x="285" y="-294"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="edu.psu.sweng894.group7.datastore.entity.Tokens" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/entity/Tokens.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="124" width="210" x="535" y="-294"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="edu.psu.sweng894.group7.datastore.entity.Roles" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/entity/Roles.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="245" width="210" x="785" y="-294"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="edu.psu.sweng894.group7.datastore.entity.Sport" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/entity/Sport.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="242" width="210" x="1035" y="-294"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="edu.psu.sweng894.group7.datastore.entity.Leagues" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/entity/Leagues.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="105" width="210" x="947" y="23"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="edu.psu.sweng894.group7.datastore.service.SportService" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/service/SportService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="128" width="237" x="651" y="344"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="edu.psu.sweng894.group7.datastore.service.TeamService" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/service/TeamService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="110" width="217" x="874" y="510"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="edu.psu.sweng894.group7.datastore.service.UserService" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/service/UserService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="128" width="217" x="337" y="160"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="edu.psu.sweng894.group7.datastore.service.LeagueService" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/service/LeagueService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="128" width="275" x="1179" y="737"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="edu.psu.sweng894.group7.datastore.service.SecurityServices" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/datastore/service/SecurityServices.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="110" width="250" x="326" y="726"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="12" language="java" name="edu.psu.sweng894.group7.service.ParksRecService" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/ParksRecService.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="69" width="250" x="1168" y="647"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="13" language="java" name="edu.psu.sweng894.group7.service.controller.ParksRecServiceImpl" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/controller/ParksRecServiceImpl.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="192" width="332" x="699" y="679"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="edu.psu.sweng894.group7.service.controller.model.SportModel" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/controller/model/SportModel.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="55" width="262" x="417" y="1089"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="edu.psu.sweng894.group7.service.controller.model.TestModel" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/controller/model/TestModel.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="133" y="-15"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="edu.psu.sweng894.group7.service.controller.model.TeamModel" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/controller/model/TeamModel.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="171" width="246" x="5" y="184"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="edu.psu.sweng894.group7.service.controller.model.LeagueModel" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/controller/model/LeagueModel.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="127" width="246" x="425" y="1210"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="edu.psu.sweng894.group7.service.controller.model.Roles" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/controller/model/Roles.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="152" width="246" x="287" y="-104"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="edu.psu.sweng894.group7.service.controller.model.UserModel" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/controller/model/UserModel.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="146" width="246" x="713" y="897"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="edu.psu.sweng894.group7.service.exception.RoleException" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/exception/RoleException.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="162" y="414"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="edu.psu.sweng894.group7.service.exception.LoginException" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/exception/LoginException.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="131" y="108"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="edu.psu.sweng894.group7.service.exception.AppUserException" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/exception/AppUserException.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="390" y="1007"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="edu.psu.sweng894.group7.service.exception.SportException" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/exception/SportException.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="483" y="893"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="edu.psu.sweng894.group7.service.exception.TeamException" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/exception/TeamException.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="722" y="135"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="edu.psu.sweng894.group7.service.exception.CustomExceptionHandler" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/exception/CustomExceptionHandler.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="75" width="304" x="616" y="216"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="edu.psu.sweng894.group7.service.exception.UnAuthorizedUser" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/exception/UnAuthorizedUser.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1060" y="231"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="edu.psu.sweng894.group7.service.exception.LeagueException" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/exception/LeagueException.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1061" y="368"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="edu.psu.sweng894.group7.service.exception.ValidationException" 
+    project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/exception/ValidationException.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1251" y="573"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="edu.psu.sweng894.group7.service.exception.ErrorDetails" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/exception/ErrorDetails.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1305" y="438"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="edu.psu.sweng894.group7.service.util.Validator" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/util/Validator.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="132" y="828"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="edu.psu.sweng894.group7.service.util.SecureAPIAspect" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/util/SecureAPIAspect.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="453" y="578"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <annotation id="32" language="java" name="edu.psu.sweng894.group7.service.util.SecureAPI" project="parks-and-rec" 
+    file="/parks-and-rec/src/main/java/edu/psu/sweng894/group7/service/util/SecureAPI.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="122" y="558"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </annotation>  
+  <association id="33">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="34" name="leagueService"/>      
+      <multiplicity id="35" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="36">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="37" name="leagues"/>      
+      <multiplicity id="38" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="39">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="12"/>  
+  </realization>  
+  <association id="40">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="41" name="teamService"/>      
+      <multiplicity id="42" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="43">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="44" name="userService"/>      
+      <multiplicity id="45" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="46">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="47" name="sportService"/>      
+      <multiplicity id="48" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="49">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="50" name="securityService"/>      
+      <multiplicity id="51" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="52">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="53" name="userService"/>      
+      <multiplicity id="54" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="55">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="56" name="securityService"/>      
+      <multiplicity id="57" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
