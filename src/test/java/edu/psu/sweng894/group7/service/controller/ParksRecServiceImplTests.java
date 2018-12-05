@@ -177,13 +177,13 @@ public class ParksRecServiceImplTests {
     @Test
     public void updateUserFail() throws Exception {
         exception.expect(AppUserException.class);
-        UserModel response = parksRecServiceImpl.updateUser(userModelWrong, token.getToken());
+        UserModel response = parksRecServiceImpl.updateUser(userModelWrong, null);
     }
 
     @Test
     public void updateUserUnAuthorizedFail() {
         exception.expect(AppUserException.class);
-        UserModel response = parksRecServiceImpl.updateUser(userModelWrong, tokenWrong.getToken());
+        UserModel response = parksRecServiceImpl.updateUser(userModelWrong, null);
     }
 
     @Test
